@@ -16,7 +16,6 @@ namespace ProjectGameDev.Characters
         public MovementComponent MyCharacterMovement { get; protected set; }
         public AnimationComponent MyAnimationComponent { get; protected set; }
 
-        private const int fps = 15;
         private const double scale = 0.2;
 
         public Hero(Texture2D texture)
