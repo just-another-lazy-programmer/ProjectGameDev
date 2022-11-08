@@ -33,6 +33,20 @@ namespace ProjectGameDev.Components
             currentTexture = texture;
         }
 
+        public virtual void Draw(SpriteBatch spriteBatch, double scale)
+        {
+            spriteBatch.Draw(
+                currentTexture,
+                new Rectangle(Target.PhysicsComponent.Location.ToPoint(), GetAnimationBoundsScaled(scale)),
+                GetAnimationFrame(),
+                Color.White,
+                0,
+                Vector2.Zero,
+                GetSpriteEffects(),
+                0
+            );
+        }
+
         public virtual void SetAnimation(Animation animation)
         {
             currentAnimation = animation;

@@ -36,16 +36,7 @@ namespace ProjectGameDev.Characters
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(
-                AnimationComponent.GetTexure(),
-                new Rectangle(PhysicsComponent.Location.ToPoint(), AnimationComponent.GetAnimationBoundsScaled(scale)),
-                AnimationComponent.GetAnimationFrame(),
-                Color.White,
-                0,
-                Vector2.Zero,
-                AnimationComponent.GetSpriteEffects(),
-                0
-            );
+            AnimationComponent.Draw(spriteBatch, scale);
         }
 
         public override void Update(GameTime gameTime)
