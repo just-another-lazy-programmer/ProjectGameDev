@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ProjectGameDev.ComponentInterfaces;
+using ProjectGameDev.Engine;
 using ProjectGameDev.Utility;
 using SharpDX.Direct2D1.Effects;
 using System;
@@ -8,22 +10,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectGameDev.Engine
+namespace ProjectGameDev.Components
 {
     internal class AnimationComponent : Component
     {
+        public IPhysics Target { get; protected set; }
+
         protected Animation currentAnimation;
         protected Texture2D currentTexture;
+        protected bool shouldFlip;
 
-        public AnimationComponent()
+        public AnimationComponent(IPhysics target)
         {
             WantsTick = true;
+            shouldFlip = false;
+            Target = target;
         }
 
-        public AnimationComponent(Texture2D texture, Animation animation)
+        public AnimationComponent(IPhysics target, Texture2D texture, Animation animation) : this(target)
         {
-            WantsTick = true;
-
             currentAnimation = animation;
             currentTexture = texture;
         }
@@ -52,7 +57,20 @@ namespace ProjectGameDev.Engine
         public override void Tick(GameTime gameTime)
         {
             currentAnimation.Update(gameTime);
+
+            var velocity = Target.PhysicsComponent.Velocity;
+
+            if (velocity.X > 0 && shouldFlip)
+                shouldFlip = false;
+            else if (velocity.X < 0 && !shouldFlip)
+                shouldFlip = true;
+
             base.Tick(gameTime);
+        }
+
+        public SpriteEffects GetSpriteEffects()
+        {
+            return shouldFlip ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
         }
     }
 }

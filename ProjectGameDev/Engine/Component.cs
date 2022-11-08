@@ -13,11 +13,11 @@ namespace ProjectGameDev.Engine
         public bool WantsTick { get; protected set; }
 
 
-        public virtual void Activate() 
+        public virtual void Activate()
         {
             IsActive = true;
         }
-        public virtual void Deactivate() 
+        public virtual void Deactivate()
         {
             IsActive = false;
         }

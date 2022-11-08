@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Animations.Hero;
+using ProjectGameDev.ComponentInterfaces;
+using ProjectGameDev.Components;
 using ProjectGameDev.Engine;
 using ProjectGameDev.Utility;
 using System;
@@ -11,29 +13,38 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Characters
 {
-    internal class Hero : WorldObject, Engine.IDrawable
+    internal class Hero : WorldObject, Engine.IDrawable, IPhysics
     {
-        public MovementComponent MyCharacterMovement { get; protected set; }
-        public AnimationComponent MyAnimationComponent { get; protected set; }
+        public MovementComponent CharacterMovement { get; protected set; }
+        public AnimationComponent AnimationComponent { get; protected set; }
+        public PhysicsComponent PhysicsComponent { get; protected set; }
 
         private const double scale = 0.2;
 
         public Hero(Texture2D texture)
         {
-            MyCharacterMovement = new MovementComponent();
-            MyAnimationComponent = new AnimationComponent(texture, AnimationBuilder.GetAnimation<HeroIdleAnimation>());
+            CharacterMovement = new MovementComponent(this, 5);
+            AnimationComponent = new AnimationComponent(this, texture, AnimationBuilder.GetAnimation<HeroIdleAnimation>());
+            PhysicsComponent = new PhysicsComponent();
 
-            AddComponent(MyCharacterMovement);
-            AddComponent(MyAnimationComponent);
+            AddComponent(CharacterMovement);
+            AddComponent(AnimationComponent);
+            AddComponent(PhysicsComponent);
+
+            CharacterMovement.Teleport(new Vector2(10, 200));
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                MyAnimationComponent.GetTexure(),
-                new Rectangle(new Point(100, 0), MyAnimationComponent.GetAnimationBoundsScaled(scale)),
-                MyAnimationComponent.GetAnimationFrame(),
-                Color.White
+                AnimationComponent.GetTexure(),
+                new Rectangle(PhysicsComponent.Location.ToPoint(), AnimationComponent.GetAnimationBoundsScaled(scale)),
+                AnimationComponent.GetAnimationFrame(),
+                Color.White,
+                0,
+                Vector2.Zero,
+                AnimationComponent.GetSpriteEffects(),
+                0
             );
         }
 
