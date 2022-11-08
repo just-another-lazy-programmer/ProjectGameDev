@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Utility
 {
-    internal class AnimationFrame
+    internal class Sprite
     {
         public Rectangle SourceRectangle { get; set; }
 
-        public AnimationFrame(Rectangle sourceRectangle)
+        public Sprite(Rectangle sourceRectangle)
         {
             SourceRectangle = sourceRectangle;
         }
 
-        public AnimationFrame(int x, int y, int width, int height)
+        public Sprite(int x, int y, int width, int height)
         {
             SourceRectangle = new Rectangle(x, y, width, height);
         }

@@ -9,8 +9,8 @@ namespace ProjectGameDev.Utility
 {
     internal class Animation
     {
-        public AnimationFrame CurrentFrame { get; set; }
-        private List<AnimationFrame> frames;
+        public Sprite CurrentFrame { get; set; }
+        private List<Sprite> frames;
         private int currentIndex;
         private int fps;
         private double secondsElapsed;
@@ -18,23 +18,23 @@ namespace ProjectGameDev.Utility
         public Animation(int fps)
         {
             this.fps = fps;
-            frames = new List<AnimationFrame>();
+            frames = new List<Sprite>();
             secondsElapsed = 0;
         }
 
-        public void AddFrame(AnimationFrame frame)
+        public void AddFrame(Sprite frame)
         {
             frames.Add(frame);
             CurrentFrame = frames[0];
         }
 
-        public void AddFramesBatch(List<AnimationFrame> frames)
+        public void AddFramesBatch(List<Sprite> frames)
         {
             this.frames.AddRange(frames);
             CurrentFrame = frames[0];
         }
 
-        public void AddFramesBatch(params AnimationFrame[] frames)
+        public void AddFramesBatch(params Sprite[] frames)
         {
             this.frames.AddRange(frames);
             CurrentFrame = frames[0];

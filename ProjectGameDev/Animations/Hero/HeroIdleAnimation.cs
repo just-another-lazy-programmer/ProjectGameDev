@@ -15,20 +15,35 @@ namespace ProjectGameDev.Animations.Hero
         public Animation Build()
         {
             var animation = new Animation(FramesPerSecond);
+            var builder = new Spritesheet();
 
-            animation.AddFramesBatch(new List<AnimationFrame>
+            /*
+            animation.AddFramesBatch(new List<Sprite>
             {
-                new AnimationFrame(2940, 0, 319, 486),
-                new AnimationFrame(2940, 486, 319, 486),
-                new AnimationFrame(2940, 972, 319, 486),
-                new AnimationFrame(0, 1458, 319, 486),
-                new AnimationFrame(319, 1458, 319, 486),
-                new AnimationFrame(638, 1458, 319, 486),
-                new AnimationFrame(957, 1458, 319, 486),
-                new AnimationFrame(1276, 1458, 319, 486),
-                new AnimationFrame(1595, 1458, 319, 486),
-                new AnimationFrame(1914, 1458, 319, 486),
+                new Sprite(2940, 0, 319, 486),
+                new Sprite(2940, 486, 319, 486),
+                new Sprite(2940, 972, 319, 486),
+                new Sprite(0, 1458, 319, 486),
+                new Sprite(319, 1458, 319, 486),
+                new Sprite(638, 1458, 319, 486),
+                new Sprite(957, 1458, 319, 486),
+                new Sprite(1276, 1458, 319, 486),
+                new Sprite(1595, 1458, 319, 486),
+                new Sprite(1914, 1458, 319, 486),
             });
+            */
+
+            animation.AddFramesBatch(builder
+                .SetPosition(2940, 0)
+                .SetSize(319, 486)
+                .Take(3)
+
+                .NextRow()
+                .Take(7)
+
+                .ToList()
+            );
+
 
             return animation;
         }
