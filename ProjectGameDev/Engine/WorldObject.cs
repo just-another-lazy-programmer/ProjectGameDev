@@ -26,7 +26,7 @@ namespace ProjectGameDev.Engine
         {
             foreach (var component in components)
             {
-                if (component.IsActive)
+                if (component.IsActive && component.WantsTick)
                     component.Tick(gameTime);
             }
         }

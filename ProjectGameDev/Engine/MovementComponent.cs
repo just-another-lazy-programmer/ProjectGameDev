@@ -9,6 +9,11 @@ namespace ProjectGameDev.Engine
 {
     internal class MovementComponent : Component
     {
+        public MovementComponent()
+        {
+            WantsTick = true;
+        }
+
         public override void Activate()
         {
             base.Activate();
@@ -16,7 +21,7 @@ namespace ProjectGameDev.Engine
 
         public override void Tick(GameTime gameTime)
         {
-            base.Tick(gameTime);
+            
         }
     }
 }

@@ -10,6 +10,8 @@ namespace ProjectGameDev.Engine
     internal class Component
     {
         public bool IsActive { get; private set; }
+        public bool WantsTick { get; protected set; }
+
 
         public virtual void Activate() 
         {
