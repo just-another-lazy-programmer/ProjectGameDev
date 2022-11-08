@@ -38,10 +38,5 @@ namespace ProjectGameDev.Characters
         {
             AnimationComponent.Draw(spriteBatch, scale);
         }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
     }
 }
