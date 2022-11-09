@@ -13,11 +13,12 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Characters
 {
-    internal class Hero : WorldObject, Engine.IDrawable, IPhysics
+    internal class Hero : WorldObject, Engine.IDrawable, IPhysics, ICollision
     {
         public MovementComponent CharacterMovement { get; protected set; }
         public AnimationComponent AnimationComponent { get; protected set; }
         public PhysicsComponent PhysicsComponent { get; protected set; }
+        public CollisionComponent CollisionComponent { get; protected set; }
 
         private const double scale = 0.2;
 
@@ -26,6 +27,7 @@ namespace ProjectGameDev.Characters
             CharacterMovement = CreateDefaultComponent<MovementComponent>();
             AnimationComponent = CreateDefaultComponent<AnimationComponent>();
             PhysicsComponent = CreateDefaultComponent<PhysicsComponent>();
+
 
             AnimationComponent.SetAnimation(AnimationBuilder.GetAnimation<HeroIdleAnimation>());
             AnimationComponent.SetTexture(texture);

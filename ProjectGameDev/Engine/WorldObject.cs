@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,11 @@ namespace ProjectGameDev.Engine
             components.Add(component);
             component.SetOwner(this);
             //component.Activate();
+        }
+
+        public Texture2D LoadTexture(string texture)
+        {
+
         }
 
         public T CreateDefaultComponent<T>() where T : Component, new()

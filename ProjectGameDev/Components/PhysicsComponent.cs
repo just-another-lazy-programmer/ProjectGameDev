@@ -10,6 +10,8 @@ namespace ProjectGameDev.Components
 {
     internal class PhysicsComponent : Component
     {
+        protected CollisionComponent collisionComponent;
+
         private Vector2 location;
         private Vector2 velocity;
         private Vector2 acceleration;
@@ -23,6 +25,13 @@ namespace ProjectGameDev.Components
         public PhysicsComponent()
         {
             WantsTick = true;
+        }
+
+        public override void Activate()
+        {
+            base.Activate();
+
+            collisionComponent = Owner.GetComponent<CollisionComponent>();
         }
 
         public void Teleport(Vector2 location)
@@ -44,7 +53,11 @@ namespace ProjectGameDev.Components
 
             Decellerate();
 
-            location += velocity;
+            var newLocation = location + velocity;
+
+
+
+            location = newLocation;
         }
 
         private Vector2 ClampVector(ref Vector2 vector, float max)

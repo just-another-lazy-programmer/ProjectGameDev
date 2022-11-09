@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ProjectGameDev.Characters;
+using ProjectGameDev.Engine;
 using ProjectGameDev.Utility;
 
 namespace ProjectGameDev
@@ -34,7 +35,8 @@ namespace ProjectGameDev
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            hero = new Hero(Content.Load<Texture2D>("hero"));
+            //hero = new Hero(Content.Load<Texture2D>("hero"));
+            GlobalEngine.LoadLevel(Content);
         }
 
         protected override void Update(GameTime gameTime)
