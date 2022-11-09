@@ -78,6 +78,12 @@ namespace ProjectGameDev.Utility
             return this;
         }
 
+        public Spritesheet NextDown()
+        {
+            currentPosY += currentHeight + currentRowPadding;
+            return this;
+        }
+
         public Spritesheet NextRow(int startLocationX=0)
         {
             currentPosX = startLocationX;
@@ -91,6 +97,17 @@ namespace ProjectGameDev.Utility
             {
                 Sprites.Add(new Sprite(new Microsoft.Xna.Framework.Rectangle(currentPosX, currentPosY, currentWidth, currentHeight)));
                 Next();
+            }
+
+            return this;
+        }
+
+        public Spritesheet TakeVertically(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Sprites.Add(new Sprite(new Microsoft.Xna.Framework.Rectangle(currentPosX, currentPosY, currentWidth, currentHeight)));
+                NextDown();
             }
 
             return this;

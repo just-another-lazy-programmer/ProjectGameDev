@@ -33,12 +33,13 @@ namespace ProjectGameDev.Animations.Hero
             });
             */
 
+            // 3 vertically then 7 horizontally, wtf?
             animation.AddFramesBatch(builder
                 .SetPosition(2940, 0)
                 .SetSize(319, 486)
-                .Take(3)
+                .TakeVertically(3)
 
-                .NextRow()
+                .SetPosition(0, 1458)
                 .Take(7)
 
                 .ToList()
