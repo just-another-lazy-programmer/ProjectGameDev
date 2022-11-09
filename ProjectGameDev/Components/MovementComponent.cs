@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using ProjectGameDev.Animations.Hero;
 using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Engine;
 using System;
@@ -16,6 +17,9 @@ namespace ProjectGameDev.Components
         public float Speed { get; set; }
 
         protected PhysicsComponent physicsComponent;
+        protected AnimationComponent animationComponent;
+
+        protected bool facingRight = true;
 
         public MovementComponent()
         {
@@ -27,20 +31,17 @@ namespace ProjectGameDev.Components
             base.Activate();
 
             physicsComponent = Owner.GetComponent<PhysicsComponent>();
+            animationComponent = Owner.GetComponent<AnimationComponent>();
         }
 
         public void Teleport(Vector2 location)
         {
-            var physics = physicsComponent;
-
-            physics.Teleport(location);
+            physicsComponent.Teleport(location);
         }
 
         private void UpdatePhysics(Vector2 direction)
         {
-            var physics = physicsComponent;
-
-            physics.SetAcceleration(direction * Speed);
+            physicsComponent.SetAcceleration(direction * Speed);
         }
 
         public override void Tick(GameTime gameTime)
@@ -54,7 +55,32 @@ namespace ProjectGameDev.Components
             if (state.IsKeyDown(Keys.Right))
                 direction.X += 1;
 
+            UpdateFacing(direction);
+            UpdateAnimation(direction);
+
+            animationComponent.SetFlip(!facingRight);
+
             UpdatePhysics(direction);
+        }
+
+        public void UpdateFacing(Vector2 vector)
+        {
+            if (vector.X > 0 && !facingRight)
+                facingRight = true;
+            else if (vector.X < 0 && facingRight)
+                facingRight = false;
+        }
+
+        public void UpdateAnimation(Vector2 vector)
+        {
+            if (vector.Length() > 0.1)
+            {
+                animationComponent.SetAnimation(AnimationBuilder.GetAnimation<HeroWalkingAnimation>());
+            }
+            else
+            {
+                animationComponent.SetAnimation(AnimationBuilder.GetAnimation<HeroIdleAnimation>());
+            }
         }
     }
 }

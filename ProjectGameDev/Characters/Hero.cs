@@ -30,7 +30,7 @@ namespace ProjectGameDev.Characters
             AnimationComponent.SetAnimation(AnimationBuilder.GetAnimation<HeroIdleAnimation>());
             AnimationComponent.SetTexture(texture);
 
-            CharacterMovement.Speed = 2;
+            CharacterMovement.Speed = 10;
 
             ActivateComponents();
 

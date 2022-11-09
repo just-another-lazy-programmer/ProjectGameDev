@@ -40,6 +40,11 @@ namespace ProjectGameDev.Components
             physicsComponent = Owner.GetComponent<PhysicsComponent>();
         }
 
+        public void SetFlip(bool newFlip)
+        {
+            shouldFlip = newFlip;
+        }
+
         public virtual void Draw(SpriteBatch spriteBatch, double scale)
         {
             spriteBatch.Draw(
@@ -83,23 +88,17 @@ namespace ProjectGameDev.Components
         public override void Tick(GameTime gameTime)
         {
             // @TODO: refactor!
-            if (physicsComponent.Velocity.Length() > 0)
-            {
-                SetAnimation(AnimationBuilder.GetAnimation<HeroWalkingAnimation>());
-            }
-            else
-            {
-                SetAnimation(AnimationBuilder.GetAnimation<HeroIdleAnimation>());
-            }
+            
 
             currentAnimation.Update(gameTime);
-
+            /*
             var velocity = physicsComponent.Velocity;
 
             if (velocity.X > 0 && shouldFlip)
                 shouldFlip = false;
             else if (velocity.X < 0 && !shouldFlip)
                 shouldFlip = true;
+            */
 
             base.Tick(gameTime);
         }
