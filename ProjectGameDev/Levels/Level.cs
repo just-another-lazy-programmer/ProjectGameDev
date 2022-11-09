@@ -10,9 +10,11 @@ namespace ProjectGameDev.Levels
 {
     internal class Level
     {
-        protected List<WorldObject> objects;
+        protected List<WorldObject> objects = new();
 
-        public virtual void Load(ContentManager contentManager) { }
+        public virtual void Load(ContentManager contentManager) 
+        {
+        }
 
         public void AddObject(WorldObject worldObject)
         {

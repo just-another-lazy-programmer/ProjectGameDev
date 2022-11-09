@@ -11,7 +11,6 @@ namespace ProjectGameDev
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Hero hero;
 
         public Game1()
         {
@@ -36,7 +35,7 @@ namespace ProjectGameDev
 
             // TODO: use this.Content to load your game content here
             //hero = new Hero(Content.Load<Texture2D>("hero"));
-            GlobalEngine.LoadLevel(Content);
+            GlobalEngine.LoadLevel(Content, GraphicsDevice);
         }
 
         protected override void Update(GameTime gameTime)
@@ -45,7 +44,12 @@ namespace ProjectGameDev
                 Exit();
 
             // TODO: Add your update logic here
-            hero.Update(gameTime);
+            //hero.Update(gameTime);
+
+            foreach (var worldObject in GlobalEngine.LoadedLevel.GetObjects())
+            {
+                worldObject.Update(gameTime);
+            }
 
             base.Update(gameTime);
         }
@@ -62,7 +66,12 @@ namespace ProjectGameDev
             var destination = new Rectangle(0, 0, (int)(319*0.3), (int)(486*0.3));
             _spriteBatch.Draw(hero, destination, source, Color.White);
             */
-            hero.Draw(_spriteBatch);
+
+            foreach (var worldObject in GlobalEngine.LoadedLevel.GetObjects())
+            {
+                if (worldObject is Engine.IDrawable drawable)
+                    drawable.Draw(_spriteBatch);
+            }
 
             _spriteBatch.End();
 

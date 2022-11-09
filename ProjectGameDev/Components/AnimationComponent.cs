@@ -19,7 +19,7 @@ namespace ProjectGameDev.Components
         protected Texture2D currentTexture;
         protected bool shouldFlip;
 
-        protected PhysicsComponent physicsComponent;
+        protected RootComponent rootComponent;
 
         public AnimationComponent()
         {
@@ -37,7 +37,7 @@ namespace ProjectGameDev.Components
         {
             base.Activate();
 
-            physicsComponent = Owner.GetComponent<PhysicsComponent>();
+            rootComponent = Owner.GetComponent<RootComponent>();
         }
 
         public void SetFlip(bool newFlip)
@@ -49,7 +49,7 @@ namespace ProjectGameDev.Components
         {
             spriteBatch.Draw(
                 currentTexture,
-                new Rectangle(physicsComponent.Location.ToPoint(), GetAnimationBoundsScaled(scale)),
+                new Rectangle(rootComponent.Location.ToPoint(), GetAnimationBoundsScaled(scale)),
                 GetAnimationFrame(),
                 Color.White,
                 0,

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Levels;
 
 namespace ProjectGameDev.Engine
@@ -11,11 +12,21 @@ namespace ProjectGameDev.Engine
     internal static class GlobalEngine
     {
         public static Level LoadedLevel { get; private set; }
+        public static ContentManager ContentManager { get; private set; }
+        public static GraphicsDevice GraphicsDevice { get; private set; }
 
-        static public void LoadLevel(ContentManager contentManager)
+        static public void LoadLevel(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
-            LoadedLevel = new Level();
+            ContentManager = contentManager;
+            GraphicsDevice = graphicsDevice;
+
+            LoadedLevel = new TestLevel();
             LoadedLevel.Load(contentManager);
+        }
+
+        static public Texture2D LoadTexture(string name)
+        {
+            return ContentManager.Load<Texture2D>(name);
         }
     }
 }

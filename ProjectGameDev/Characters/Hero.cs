@@ -15,25 +15,33 @@ namespace ProjectGameDev.Characters
 {
     internal class Hero : WorldObject, Engine.IDrawable, IPhysics, ICollision
     {
+        public RootComponent RootComponent { get; protected set; }
         public MovementComponent CharacterMovement { get; protected set; }
         public AnimationComponent AnimationComponent { get; protected set; }
         public PhysicsComponent PhysicsComponent { get; protected set; }
         public CollisionComponent CollisionComponent { get; protected set; }
 
         private const double scale = 0.2;
+        private const string textureAssetName = "hero";
 
-        public Hero(Texture2D texture)
+        public Hero()
         {
+            var loadedTexture = LoadTexture(textureAssetName);
+            RootComponent = CreateDefaultComponent<RootComponent>();
             CharacterMovement = CreateDefaultComponent<MovementComponent>();
             AnimationComponent = CreateDefaultComponent<AnimationComponent>();
             PhysicsComponent = CreateDefaultComponent<PhysicsComponent>();
-
+            CollisionComponent = CreateDefaultComponent<CollisionComponent>();
 
             AnimationComponent.SetAnimation(AnimationBuilder.GetAnimation<HeroIdleAnimation>());
-            AnimationComponent.SetTexture(texture);
+            AnimationComponent.SetTexture(loadedTexture);
 
             CharacterMovement.OnState(MovementState.Idle, AnimationBuilder.GetAnimation<HeroIdleAnimation>());
             CharacterMovement.OnState(MovementState.Running, AnimationBuilder.GetAnimation<HeroWalkingAnimation>());
+
+            //CollisionComponent.AddHitbox(0, 0, (int)(loadedTexture.Bounds.Width * scale), (int)(loadedTexture.Bounds.Height * scale));
+            var source = AnimationBuilder.GetAnimation<HeroWalkingAnimation>().CurrentFrame.SourceRectangle;
+            CollisionComponent.AddHitbox(0, 0, (int)(source.Width*scale), (int)(source.Height*scale));
 
             CharacterMovement.Speed = 10;
 
@@ -45,6 +53,7 @@ namespace ProjectGameDev.Characters
         public void Draw(SpriteBatch spriteBatch)
         {
             AnimationComponent.Draw(spriteBatch, scale);
+            CollisionComponent.DebugDraw(spriteBatch);
         }
     }
 }

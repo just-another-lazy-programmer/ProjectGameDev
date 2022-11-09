@@ -11,7 +11,6 @@ namespace ProjectGameDev.Engine
     internal class WorldObject
     {
         private readonly List<Component> components = new();
-
         public void AddComponent(Component component)
         {
             components.Add(component);
@@ -19,9 +18,10 @@ namespace ProjectGameDev.Engine
             //component.Activate();
         }
 
-        public Texture2D LoadTexture(string texture)
+        protected static Texture2D LoadTexture(string texture)
         {
-
+            // dependency injection? nah..
+            return GlobalEngine.LoadTexture(texture);
         }
 
         public T CreateDefaultComponent<T>() where T : Component, new()
