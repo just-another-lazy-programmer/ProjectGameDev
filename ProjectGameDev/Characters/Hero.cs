@@ -23,15 +23,6 @@ namespace ProjectGameDev.Characters
 
         public Hero(Texture2D texture)
         {
-            /*
-            CharacterMovement = new MovementComponent(this, 5);
-            AnimationComponent = new AnimationComponent(texture, AnimationBuilder.GetAnimation<HeroIdleAnimation>());
-            PhysicsComponent = new PhysicsComponent();
-
-            AddComponent(CharacterMovement);
-            AddComponent(AnimationComponent);
-            AddComponent(PhysicsComponent);
-            */
             CharacterMovement = CreateDefaultComponent<MovementComponent>();
             AnimationComponent = CreateDefaultComponent<AnimationComponent>();
             PhysicsComponent = CreateDefaultComponent<PhysicsComponent>();
