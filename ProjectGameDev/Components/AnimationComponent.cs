@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ProjectGameDev.Animations.Hero;
 using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Engine;
 using ProjectGameDev.Utility;
@@ -81,6 +82,16 @@ namespace ProjectGameDev.Components
 
         public override void Tick(GameTime gameTime)
         {
+            // @TODO: refactor!
+            if (physicsComponent.Velocity.Length() > 0)
+            {
+                SetAnimation(AnimationBuilder.GetAnimation<HeroWalkingAnimation>());
+            }
+            else
+            {
+                SetAnimation(AnimationBuilder.GetAnimation<HeroIdleAnimation>());
+            }
+
             currentAnimation.Update(gameTime);
 
             var velocity = physicsComponent.Velocity;
