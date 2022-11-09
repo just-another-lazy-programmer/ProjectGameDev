@@ -14,30 +14,36 @@ namespace ProjectGameDev.Components
 {
     internal class AnimationComponent : Component
     {
-        public IPhysics Target { get; protected set; }
-
         protected Animation currentAnimation;
         protected Texture2D currentTexture;
         protected bool shouldFlip;
 
-        public AnimationComponent(IPhysics target)
+        protected PhysicsComponent physicsComponent;
+
+        public AnimationComponent()
         {
             WantsTick = true;
             shouldFlip = false;
-            Target = target;
         }
 
-        public AnimationComponent(IPhysics target, Texture2D texture, Animation animation) : this(target)
+        public AnimationComponent(Texture2D texture, Animation animation) : this()
         {
             currentAnimation = animation;
             currentTexture = texture;
+        }
+
+        public override void Activate()
+        {
+            base.Activate();
+
+            physicsComponent = Owner.GetComponent<PhysicsComponent>();
         }
 
         public virtual void Draw(SpriteBatch spriteBatch, double scale)
         {
             spriteBatch.Draw(
                 currentTexture,
-                new Rectangle(Target.PhysicsComponent.Location.ToPoint(), GetAnimationBoundsScaled(scale)),
+                new Rectangle(physicsComponent.Location.ToPoint(), GetAnimationBoundsScaled(scale)),
                 GetAnimationFrame(),
                 Color.White,
                 0,
@@ -50,6 +56,11 @@ namespace ProjectGameDev.Components
         public virtual void SetAnimation(Animation animation)
         {
             currentAnimation = animation;
+        }
+
+        public virtual void SetTexture(Texture2D texture)
+        {
+            currentTexture = texture;
         }
 
         public virtual Rectangle GetAnimationFrame()
@@ -72,7 +83,7 @@ namespace ProjectGameDev.Components
         {
             currentAnimation.Update(gameTime);
 
-            var velocity = Target.PhysicsComponent.Velocity;
+            var velocity = physicsComponent.Velocity;
 
             if (velocity.X > 0 && shouldFlip)
                 shouldFlip = false;

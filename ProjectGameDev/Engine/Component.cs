@@ -11,6 +11,7 @@ namespace ProjectGameDev.Engine
     {
         public bool IsActive { get; private set; }
         public bool WantsTick { get; protected set; }
+        public WorldObject Owner { get; protected set; }
 
 
         public virtual void Activate()
@@ -20,6 +21,11 @@ namespace ProjectGameDev.Engine
         public virtual void Deactivate()
         {
             IsActive = false;
+        }
+
+        public virtual void SetOwner(WorldObject newOwner)
+        {
+            Owner = newOwner;
         }
 
         public virtual void Tick(GameTime gameTime) { }

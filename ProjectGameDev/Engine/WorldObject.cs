@@ -14,7 +14,29 @@ namespace ProjectGameDev.Engine
         public void AddComponent(Component component)
         {
             components.Add(component);
-            component.Activate();
+            component.SetOwner(this);
+            //component.Activate();
+        }
+
+        public T CreateDefaultComponent<T>() where T : Component, new()
+        {
+            var component = new T();
+            component.SetOwner(this);
+            components.Add(component);
+            return component;
+        }
+
+        public void ActivateComponents()
+        {
+            foreach (var component in components)
+            {
+                component.Activate();
+            }
+        }
+
+        public T GetComponent<T>() where T : Component
+        {
+            return components.Find(p => p.GetType() == typeof(T)) as T;
         }
 
         public List<Component> GetComponents()

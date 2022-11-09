@@ -15,23 +15,30 @@ namespace ProjectGameDev.Components
         public IPhysics Target { get; protected set; }
         public float Speed { get; set; }
 
-        public MovementComponent(IPhysics target, float speed=2f)
+        protected PhysicsComponent physicsComponent;
+
+        public MovementComponent()
         {
             WantsTick = true;
-            Target = target;
-            Speed = speed;
+        }
+
+        public override void Activate()
+        {
+            base.Activate();
+
+            physicsComponent = Owner.GetComponent<PhysicsComponent>();
         }
 
         public void Teleport(Vector2 location)
         {
-            var physics = Target.PhysicsComponent;
+            var physics = physicsComponent;
 
             physics.Teleport(location);
         }
 
         private void UpdatePhysics(Vector2 direction)
         {
-            var physics = Target.PhysicsComponent;
+            var physics = physicsComponent;
 
             physics.SetAcceleration(direction * Speed);
         }
