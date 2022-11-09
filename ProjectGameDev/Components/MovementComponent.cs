@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using ProjectGameDev.Animations.Hero;
 using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Engine;
+using ProjectGameDev.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,23 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Components
 {
+    internal enum MovementState
+    {
+        Idle,
+        Running
+    }
+
     internal class MovementComponent : Component
     {
-        public IPhysics Target { get; protected set; }
+        public MovementState MovementState { get; protected set; }
         public float Speed { get; set; }
 
         protected PhysicsComponent physicsComponent;
         protected AnimationComponent animationComponent;
-
         protected bool facingRight = true;
+        protected MovementState lastState;
+
+        public Dictionary<MovementState, Animation> Animations { get; protected set; } = new(); 
 
         public MovementComponent()
         {
@@ -56,7 +65,8 @@ namespace ProjectGameDev.Components
                 direction.X += 1;
 
             UpdateFacing(direction);
-            UpdateAnimation(direction);
+            UpdateState();
+            UpdateAnimation();
 
             animationComponent.SetFlip(!facingRight);
 
@@ -71,15 +81,24 @@ namespace ProjectGameDev.Components
                 facingRight = false;
         }
 
-        public void UpdateAnimation(Vector2 vector)
+        public void UpdateState()
         {
-            if (vector.Length() > 0.1)
+            if (physicsComponent.Velocity.Length() > 0.1)
             {
-                animationComponent.SetAnimation(AnimationBuilder.GetAnimation<HeroWalkingAnimation>());
+                MovementState = MovementState.Running;
             }
             else
             {
-                animationComponent.SetAnimation(AnimationBuilder.GetAnimation<HeroIdleAnimation>());
+                MovementState = MovementState.Idle;
+            }
+        }
+
+        public void UpdateAnimation()
+        {
+            if (lastState != MovementState)
+            {
+                animationComponent.SetAnimation(Animations[MovementState]);
+                lastState = MovementState;
             }
         }
     }
