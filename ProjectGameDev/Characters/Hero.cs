@@ -30,8 +30,8 @@ namespace ProjectGameDev.Characters
             AnimationComponent.SetAnimation(AnimationBuilder.GetAnimation<HeroIdleAnimation>());
             AnimationComponent.SetTexture(texture);
 
-            CharacterMovement.Animations.Add(MovementState.Idle, AnimationBuilder.GetAnimation<HeroIdleAnimation>());
-            CharacterMovement.Animations.Add(MovementState.Running, AnimationBuilder.GetAnimation<HeroWalkingAnimation>());
+            CharacterMovement.OnState(MovementState.Idle, AnimationBuilder.GetAnimation<HeroIdleAnimation>());
+            CharacterMovement.OnState(MovementState.Running, AnimationBuilder.GetAnimation<HeroWalkingAnimation>());
 
             CharacterMovement.Speed = 10;
 

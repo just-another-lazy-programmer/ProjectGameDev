@@ -43,6 +43,11 @@ namespace ProjectGameDev.Components
             animationComponent = Owner.GetComponent<AnimationComponent>();
         }
 
+        public void OnState(MovementState state, Animation animation)
+        {
+            Animations.Add(state, animation);
+        }
+
         public void Teleport(Vector2 location)
         {
             physicsComponent.Teleport(location);
@@ -65,7 +70,7 @@ namespace ProjectGameDev.Components
                 direction.X += 1;
 
             UpdateFacing(direction);
-            UpdateState();
+            UpdateState(direction);
             UpdateAnimation();
 
             animationComponent.SetFlip(!facingRight);
@@ -81,9 +86,9 @@ namespace ProjectGameDev.Components
                 facingRight = false;
         }
 
-        public void UpdateState()
+        public void UpdateState(Vector2 vector)
         {
-            if (physicsComponent.Velocity.Length() > 0.1)
+            if (vector.Length() > 0.1)
             {
                 MovementState = MovementState.Running;
             }
@@ -97,6 +102,7 @@ namespace ProjectGameDev.Components
         {
             if (lastState != MovementState)
             {
+                // @todo: default animation?
                 animationComponent.SetAnimation(Animations[MovementState]);
                 lastState = MovementState;
             }
