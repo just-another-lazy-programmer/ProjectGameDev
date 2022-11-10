@@ -118,6 +118,8 @@ namespace ProjectGameDev.Components
 
     internal struct HitInfo
     {
+        const int collisionMargin = 3;
+
         public WorldObject ObjectHit { get; set; }
         public Component ComponentHit { get; set; }
         public Vector2 ComponentLocation { get; set; }
@@ -130,7 +132,7 @@ namespace ProjectGameDev.Components
         {
             get
             {
-                return Math.Abs(ComponentLocation.Y - ImpactPoint.Y) <= 1;
+                return Math.Abs(ComponentLocation.Y - ImpactPoint.Y + collisionMargin) <= collisionMargin + 1;
             }
         }
 
@@ -138,7 +140,7 @@ namespace ProjectGameDev.Components
         {
             get
             {
-                return Math.Abs(ComponentLocation.X - ImpactPoint.X) <= 1;
+                return Math.Abs(ComponentLocation.X - ImpactPoint.X + collisionMargin) <= collisionMargin + 1;
             }
         }
 
@@ -146,7 +148,7 @@ namespace ProjectGameDev.Components
         {
             get
             {
-                return Math.Abs(ComponentLocation.X - ImpactPoint.X + ComponentSize.X) <= 1;
+                return Math.Abs(ComponentLocation.X - ImpactPoint.X + ComponentSize.X - collisionMargin) <= collisionMargin + 1;
             }
         }
     }

@@ -70,7 +70,7 @@ namespace ProjectGameDev.Components
                 direction.X += 1;
 
             if (state.IsKeyDown(Keys.Space) && physicsComponent.Floor != null)
-                physicsComponent.Impulse(new Vector2(0, -10));
+                physicsComponent.Impulse(new Vector2(0, -5));
 
             UpdateFacing(direction);
             UpdateState(direction);

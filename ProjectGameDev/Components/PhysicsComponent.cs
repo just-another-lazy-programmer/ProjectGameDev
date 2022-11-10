@@ -22,7 +22,7 @@ namespace ProjectGameDev.Components
         public Vector2 Velocity { get { return velocity; } }
         public Vector2 Acceleration { get { return acceleration; } }
 
-        public float MaxVelocity { get; set; } = 3f;
+        public float MaxVelocity { get; set; } = 4f;
 
         public Component Floor { get; protected set; }
 
@@ -53,7 +53,7 @@ namespace ProjectGameDev.Components
         {
             Floor = null;
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            acceleration += new Vector2(0, 8);
+            acceleration += new Vector2(0, 7);
             velocity += acceleration * deltaTime;
 
             ClampVector(ref velocity, MaxVelocity);
