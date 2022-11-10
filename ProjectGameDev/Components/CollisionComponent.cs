@@ -17,6 +17,8 @@ namespace ProjectGameDev.Components
     {
         protected RootComponent rootComponent;
         protected List<Rectangle> collisionRectangles = new();
+        protected Point lastImpactPoint = new Point(-1, -1);
+        protected Rectangle lastIntersectingRect = new Rectangle();
 
         public override void Activate()
         {
@@ -25,7 +27,7 @@ namespace ProjectGameDev.Components
             rootComponent = Owner.GetComponent<RootComponent>();
         }
 
-        public bool TestCollision(CollisionComponent other, out Vector2 outImpactDirection, Vector2? myLocation)
+        public bool TestCollision(CollisionComponent other, out HitInfo hitInfo, Vector2? myLocation)
         {
             foreach (var collisionRectangle in this.GetCollisionRects(myLocation))
             {
@@ -37,14 +39,19 @@ namespace ProjectGameDev.Components
                     var _collisionRectangle = collisionRectangle;
                     var _otherRectangle = otherRectangle;
 
-                    if (TestCollisionSingle(ref _collisionRectangle, ref _otherRectangle, out outImpactDirection))
+                    if (TestCollisionSingle(ref _collisionRectangle, ref _otherRectangle, out hitInfo))
                     {
+                        hitInfo.ObjectHit = other.Owner;
+                        hitInfo.ComponentHit = other;
+                        hitInfo.ComponentLocation = other.Owner.GetComponent<RootComponent>()?.Location ?? Vector2.Zero;
+                        hitInfo.ComponentSize = otherRectangle.Size.ToVector2();
+
                         return true;
                     }
                 }
             }
 
-            outImpactDirection = new Vector2();
+            hitInfo = new HitInfo();
 
             return false;
         }
@@ -59,17 +66,27 @@ namespace ProjectGameDev.Components
             collisionRectangles.Add(rectangle);
         }
 
-        private static bool TestCollisionSingle(ref Rectangle rect1, ref Rectangle rect2, out Vector2 outImpactDirection)
+        private bool TestCollisionSingle(ref Rectangle rect1, ref Rectangle rect2, out HitInfo hitInfo)
         {
+            hitInfo = new HitInfo();
+
             if (rect1.Intersects(rect2))
             {
-                outImpactDirection = (rect1.Location - rect2.Location).ToVector2();
-                outImpactDirection.Normalize();
+                var intersectingRect = Rectangle.Intersect(rect1, rect2);
+                lastIntersectingRect = intersectingRect;
+                var impactNormal = (rect1.Location - rect2.Location).ToVector2();
+
+                Vector2 impactPoint = lastIntersectingRect.Center.ToVector2();
+                lastImpactPoint = lastIntersectingRect.Center;
+
+                impactNormal.Normalize();
+
+                hitInfo.ImpactPoint = impactPoint;
+                hitInfo.ImpactNormal = impactNormal;
+                hitInfo.OverlappingRect = intersectingRect;
 
                 return true;
             }
-
-            outImpactDirection = new Vector2();
 
             return false;
         }
@@ -78,7 +95,16 @@ namespace ProjectGameDev.Components
         {
             foreach (var rectangle in GetCollisionRects(null))
             {
-                RectangleSprite.DrawRectangle(spriteBatch, rectangle, Color.Red, 3);
+                SimpleSprites.DrawRectangleOutline(spriteBatch, rectangle, Color.Red, 3);
+            }
+
+            //if (lastImpactPoint != new Point(-1, -1))
+            //    SimpleSprites.DrawPoint(spriteBatch, lastImpactPoint, Color.Yellow, 3);
+
+            if (lastIntersectingRect != Rectangle.Empty)
+            {
+                //SimpleSprites.DrawRectangle(spriteBatch, lastIntersectingRect, Color.White);
+                SimpleSprites.DrawPoint(spriteBatch, lastIntersectingRect.Center, Color.White, 10);
             }
         }
 
@@ -87,6 +113,41 @@ namespace ProjectGameDev.Components
             var location = myLocation ?? rootComponent.Location;
             return collisionRectangles.Select(r => new Rectangle(
                 r.X+(int)location.X, r.Y+(int)location.Y, r.Width, r.Height));
+        }
+    }
+
+    internal struct HitInfo
+    {
+        public WorldObject ObjectHit { get; set; }
+        public Component ComponentHit { get; set; }
+        public Vector2 ComponentLocation { get; set; }
+        public Vector2 ComponentSize { get; set; }
+        public Vector2 ImpactNormal { get; set; }
+        public Vector2 ImpactPoint { get; set; }
+        public Rectangle OverlappingRect { get; set; }
+
+        public bool TopHit
+        {
+            get
+            {
+                return Math.Abs(ComponentLocation.Y - ImpactPoint.Y) <= 1;
+            }
+        }
+
+        public bool LeftHit
+        {
+            get
+            {
+                return Math.Abs(ComponentLocation.X - ImpactPoint.X) <= 1;
+            }
+        }
+
+        public bool RightHit
+        {
+            get
+            {
+                return Math.Abs(ComponentLocation.X - ImpactPoint.X + ComponentSize.X) <= 1;
+            }
         }
     }
 }

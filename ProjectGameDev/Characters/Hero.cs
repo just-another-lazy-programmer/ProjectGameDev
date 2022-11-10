@@ -21,6 +21,8 @@ namespace ProjectGameDev.Characters
         public PhysicsComponent PhysicsComponent { get; protected set; }
         public CollisionComponent CollisionComponent { get; protected set; }
 
+        public DrawLayer DrawLayer => DrawLayer.DebugTop;
+
         private const double scale = 0.2;
         private const string textureAssetName = "hero";
 

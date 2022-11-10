@@ -4,6 +4,7 @@ using ProjectGameDev.Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +23,8 @@ namespace ProjectGameDev.Components
         public Vector2 Acceleration { get { return acceleration; } }
 
         public float MaxVelocity { get; set; } = 3f;
+
+        public Component Floor { get; protected set; }
 
         public PhysicsComponent()
         {
@@ -48,8 +51,9 @@ namespace ProjectGameDev.Components
 
         public override void Tick(GameTime gameTime)
         {
+            Floor = null;
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            acceleration += new Vector2(0, 1);
+            acceleration += new Vector2(0, 8);
             velocity += acceleration * deltaTime;
 
             ClampVector(ref velocity, MaxVelocity);
@@ -57,14 +61,50 @@ namespace ProjectGameDev.Components
             Decellerate();
 
             var newLocation = rootComponent.Location + velocity;
+            var collidingObjects = GetCollidingObjects();
 
-            if (IsMoveAllowed(out Vector2 impactDirection, out WorldObject obj))
+            foreach (var obj in collidingObjects)
+            {
+                if (obj.TopHit)
+                {
+                    if (velocity.Y > 0)
+                    {
+                        acceleration.Y = 0;
+                        velocity.Y = 0;
+                    }
+
+                    Floor = obj.ComponentHit;
+                }
+                else if (obj.LeftHit)
+                {
+                    if (velocity.X > 0)
+                    {
+                        acceleration.X = 0;
+                        velocity.X = 0;
+                    }
+                }
+
+                else if (obj.RightHit)
+                {
+                    if (velocity.X < 0)
+                    {
+                        acceleration.X = 0;
+                        velocity.X = 0;
+                    }
+                }
+            }
+
+            rootComponent.Location += velocity;
+
+            /*
+            if (IsMoveAllowed(out HitInfo hitInfo))
             {
                 rootComponent.Location = newLocation;
             }
             else
             {
-                if (Math.Abs(impactDirection.X) > Math.Abs(impactDirection.Y))
+                //if (Math.Abs(hitInfo.ImpactNormal.X) > Math.Abs(hitInfo.ImpactNormal.Y))
+                if (!hitInfo.TopHit)
                 {
                     velocity.X = 0;
                     acceleration.X = 0;
@@ -80,9 +120,10 @@ namespace ProjectGameDev.Components
 
                 rootComponent.Location += velocity;
             }
+            */
         }
 
-        bool IsMoveAllowed(out Vector2 outImpactDirection, out WorldObject obj)
+        private bool IsMoveAllowed(out HitInfo hitInfo)
         {
             foreach (var worldObject in GlobalEngine.LoadedLevel.GetObjects())
             {
@@ -90,20 +131,37 @@ namespace ProjectGameDev.Components
                 {
                     var doesCollide = collisionComponent.TestCollision(
                         collision.CollisionComponent, 
-                        out outImpactDirection, 
+                        out hitInfo, 
                         rootComponent.Location);
 
                     if (doesCollide)
                     {
-                        obj = worldObject;
                         return false;
                     }
                 }
             }
 
-            outImpactDirection = new Vector2();
-            obj = null;
+            hitInfo = new HitInfo();
             return true;
+        }
+
+        private List<HitInfo> GetCollidingObjects()
+        {
+            var result = new List<HitInfo>();
+            foreach (var worldObject in GlobalEngine.LoadedLevel.GetObjects())
+            {
+                if (worldObject != Owner && worldObject is ICollision collision)
+                {
+                    var doesCollide = collisionComponent.TestCollision(
+                        collision.CollisionComponent,
+                        out HitInfo hitInfo,
+                        rootComponent.Location);
+
+                    if (doesCollide)
+                        result.Add(hitInfo);
+                }
+            }
+            return result;
         }
 
         private Vector2 ClampVector(ref Vector2 vector, float max)
@@ -127,6 +185,11 @@ namespace ProjectGameDev.Components
 
             if (acceleration.X == 0)
                 velocity.X *= 0.9f;
+        }
+
+        public void Impulse(Vector2 impulse)
+        {
+            velocity += impulse;
         }
     }
 }

@@ -10,10 +10,10 @@ namespace ProjectGameDev.Utility
 {
     // class from https://stackoverflow.com/questions/13893959/how-to-draw-the-border-of-a-square
     // used for debugging
-    class RectangleSprite
+    class SimpleSprites
     {
         static Texture2D _pointTexture;
-        public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color, int lineWidth)
+        public static void DrawRectangleOutline(SpriteBatch spriteBatch, Rectangle rectangle, Color color, int lineWidth)
         {
             if (_pointTexture == null)
             {
@@ -25,6 +25,16 @@ namespace ProjectGameDev.Utility
             spriteBatch.Draw(_pointTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width + lineWidth, lineWidth), color);
             spriteBatch.Draw(_pointTexture, new Rectangle(rectangle.X + rectangle.Width, rectangle.Y, lineWidth, rectangle.Height + lineWidth), color);
             spriteBatch.Draw(_pointTexture, new Rectangle(rectangle.X, rectangle.Y + rectangle.Height, rectangle.Width + lineWidth, lineWidth), color);
+        }
+
+        public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color)
+        {
+            spriteBatch.Draw(_pointTexture, rectangle, color);
+        }
+
+        public static void DrawPoint(SpriteBatch spriteBatch, Point point, Color color, int pointSize)
+        {
+            spriteBatch.Draw(_pointTexture, new Rectangle(point, new Point(pointSize, pointSize)), color);
         }
     }
 }

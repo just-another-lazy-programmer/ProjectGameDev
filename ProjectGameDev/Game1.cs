@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using ProjectGameDev.Characters;
 using ProjectGameDev.Engine;
 using ProjectGameDev.Utility;
+using System.Collections.Generic;
+using System.Security.AccessControl;
 
 namespace ProjectGameDev
 {
@@ -67,11 +69,22 @@ namespace ProjectGameDev
             _spriteBatch.Draw(hero, destination, source, Color.White);
             */
 
+            SortedDictionary<DrawLayer, List<Engine.IDrawable>> objects = new();
+
             foreach (var worldObject in GlobalEngine.LoadedLevel.GetObjects())
             {
                 if (worldObject is Engine.IDrawable drawable)
-                    drawable.Draw(_spriteBatch);
+                {
+                    if (!objects.ContainsKey(drawable.DrawLayer))
+                        objects.Add(drawable.DrawLayer, new());
+
+                    objects[drawable.DrawLayer].Add(drawable);
+                }
             }
+
+            foreach (var layer in objects)
+                foreach (var obj in layer.Value)
+                    obj.Draw(_spriteBatch);
 
             _spriteBatch.End();
 

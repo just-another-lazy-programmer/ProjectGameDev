@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework;
 using ProjectGameDev.Characters;
 using ProjectGameDev.Objects;
 using System;
@@ -14,7 +15,8 @@ namespace ProjectGameDev.Levels
         public override void Load(ContentManager contentManager)
         {
             AddObject(new Hero());
-            AddObject(new DebugRectangle());
+            AddObject(new DebugRectangle(new Vector2(0, 400), new Point(800, 100)));
+            AddObject(new DebugRectangle(new Vector2(500, 350), new Point(50, 50)));
         }
     }
 }

@@ -69,6 +69,9 @@ namespace ProjectGameDev.Components
             if (state.IsKeyDown(Keys.Right))
                 direction.X += 1;
 
+            if (state.IsKeyDown(Keys.Space) && physicsComponent.Floor != null)
+                physicsComponent.Impulse(new Vector2(0, -10));
+
             UpdateFacing(direction);
             UpdateState(direction);
             UpdateAnimation();

@@ -9,6 +9,7 @@ namespace ProjectGameDev.Engine
 {
     internal interface IDrawable
     {
+        public DrawLayer DrawLayer { get; }
         public void Draw(SpriteBatch spriteBatch);
     }
 }
