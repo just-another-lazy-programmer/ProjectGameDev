@@ -58,7 +58,7 @@ namespace ProjectGameDev
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Blue);
+            GraphicsDevice.Clear(GlobalEngine.BackgroundColor);
 
             // TODO: Add your drawing code here
 

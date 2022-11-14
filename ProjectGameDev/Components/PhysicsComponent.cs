@@ -75,6 +75,14 @@ namespace ProjectGameDev.Components
 
                     Floor = obj.ComponentHit;
                 }
+                else if (obj.BottomHit)
+                {
+                    if (velocity.Y < 0)
+                    {
+                        acceleration.Y = 0;
+                        velocity.Y = 0;
+                    }
+                }
                 else if (obj.LeftHit)
                 {
                     if (velocity.X > 0)
@@ -95,54 +103,6 @@ namespace ProjectGameDev.Components
             }
 
             rootComponent.Location += velocity;
-
-            /*
-            if (IsMoveAllowed(out HitInfo hitInfo))
-            {
-                rootComponent.Location = newLocation;
-            }
-            else
-            {
-                //if (Math.Abs(hitInfo.ImpactNormal.X) > Math.Abs(hitInfo.ImpactNormal.Y))
-                if (!hitInfo.TopHit)
-                {
-                    velocity.X = 0;
-                    acceleration.X = 0;
-                }
-                else
-                {
-                    velocity.Y = 0;
-                    acceleration.Y = 0;
-                }
-                //acceleration = Vector2.Zero;
-                //velocity = Vector2.Zero;
-                //velocity = impactDirection*velocity;
-
-                rootComponent.Location += velocity;
-            }
-            */
-        }
-
-        private bool IsMoveAllowed(out HitInfo hitInfo)
-        {
-            foreach (var worldObject in GlobalEngine.LoadedLevel.GetObjects())
-            {
-                if (worldObject != Owner && worldObject is ICollision collision)
-                {
-                    var doesCollide = collisionComponent.TestCollision(
-                        collision.CollisionComponent, 
-                        out hitInfo, 
-                        rootComponent.Location);
-
-                    if (doesCollide)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            hitInfo = new HitInfo();
-            return true;
         }
 
         private List<HitInfo> GetCollidingObjects()

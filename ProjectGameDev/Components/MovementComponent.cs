@@ -15,7 +15,10 @@ namespace ProjectGameDev.Components
     internal enum MovementState
     {
         Idle,
-        Running
+        Running,
+        Jumping,
+        Falling,
+        Sliding
     }
 
     internal class MovementComponent : Component
@@ -70,7 +73,10 @@ namespace ProjectGameDev.Components
                 direction.X += 1;
 
             if (state.IsKeyDown(Keys.Space) && physicsComponent.Floor != null)
+            {
                 physicsComponent.Impulse(new Vector2(0, -5));
+                MovementState = MovementState.Jumping;
+            }
 
             UpdateFacing(direction);
             UpdateState(direction);
@@ -91,13 +97,34 @@ namespace ProjectGameDev.Components
 
         public void UpdateState(Vector2 vector)
         {
-            if (vector.Length() > 0.1)
+            switch (MovementState)
             {
-                MovementState = MovementState.Running;
-            }
-            else
-            {
-                MovementState = MovementState.Idle;
+                case MovementState.Idle:
+                case MovementState.Running:
+                case MovementState.Falling:
+                    {
+                        if (physicsComponent.Velocity.Y > float.Epsilon)
+                            break;
+
+                        if (Math.Abs(vector.X) > 0.1)
+                        {
+                            MovementState = MovementState.Running;
+                        }
+                        else
+                        {
+                            MovementState = MovementState.Idle;
+                        }
+
+                        break;
+                    }
+                case MovementState.Jumping:
+                    {
+                        if (physicsComponent.Velocity.Y > 0)
+                        {
+                            MovementState = MovementState.Falling;
+                        }
+                        break;
+                    }
             }
         }
 

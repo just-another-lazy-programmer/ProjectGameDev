@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Levels;
@@ -14,13 +15,14 @@ namespace ProjectGameDev.Engine
         public static Level LoadedLevel { get; private set; }
         public static ContentManager ContentManager { get; private set; }
         public static GraphicsDevice GraphicsDevice { get; private set; }
+        public static Color BackgroundColor { get; set; }
 
         static public void LoadLevel(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
             ContentManager = contentManager;
             GraphicsDevice = graphicsDevice;
 
-            LoadedLevel = new TestLevel();
+            LoadedLevel = new TestMenuLevel();
             LoadedLevel.Load(contentManager);
         }
 

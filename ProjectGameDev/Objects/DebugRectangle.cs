@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Components;
 using ProjectGameDev.Engine;
+using ProjectGameDev.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,8 @@ namespace ProjectGameDev.Objects
     {
         public RootComponent RootComponent { get; protected set; }
         public CollisionComponent CollisionComponent { get; protected set; }
-        protected Color Color { get; set; }
+        public Color Color { get; set; }
+        public bool IsOutline { get; set; }
 
         public DrawLayer DrawLayer => DrawLayer.Debug;
 
@@ -43,8 +45,19 @@ namespace ProjectGameDev.Objects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)RootComponent.Location.X, (int)RootComponent.Location.Y, size.X, size.Y), Color);
-            CollisionComponent.DebugDraw(spriteBatch);
+            //spriteBatch.Draw(texture, new Rectangle((int)RootComponent.Location.X, (int)RootComponent.Location.Y, size.X, size.Y), Color);
+            //CollisionComponent.DebugDraw(spriteBatch);
+
+            var rectangle = new Rectangle((int)RootComponent.Location.X, (int)RootComponent.Location.Y, size.X, size.Y);
+
+            if (IsOutline)
+            {
+                SimpleSprites.DrawRectangleOutline(spriteBatch, rectangle, Color, 2);
+            }
+            else
+            {
+                SimpleSprites.DrawRectangle(spriteBatch, rectangle, Color);
+            }
         }
     }
 }

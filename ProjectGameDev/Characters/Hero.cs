@@ -42,7 +42,7 @@ namespace ProjectGameDev.Characters
             CharacterMovement.OnState(MovementState.Running, AnimationBuilder.GetAnimation<HeroWalkingAnimation>());
 
             //CollisionComponent.AddHitbox(0, 0, (int)(loadedTexture.Bounds.Width * scale), (int)(loadedTexture.Bounds.Height * scale));
-            var source = AnimationBuilder.GetAnimation<HeroWalkingAnimation>().CurrentFrame.SourceRectangle;
+            var source = AnimationBuilder.GetAnimation<HeroIdleAnimation>().CurrentFrame.SourceRectangle;
             CollisionComponent.AddHitbox(0, 0, (int)(source.Width*scale), (int)(source.Height*scale));
 
             CharacterMovement.Speed = 10;

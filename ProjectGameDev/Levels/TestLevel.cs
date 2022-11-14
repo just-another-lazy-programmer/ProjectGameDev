@@ -17,6 +17,7 @@ namespace ProjectGameDev.Levels
             AddObject(new Hero());
             AddObject(new DebugRectangle(new Vector2(0, 400), new Point(800, 100)));
             AddObject(new DebugRectangle(new Vector2(500, 350), new Point(50, 50)));
+            AddObject(new DebugRectangle(new Vector2(300, 250), new Point(100, 50)));
         }
     }
 }
