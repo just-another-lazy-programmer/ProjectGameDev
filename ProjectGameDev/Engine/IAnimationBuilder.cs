@@ -10,6 +10,7 @@ namespace ProjectGameDev.Engine
     internal interface IAnimationBuilder
     {
         public int FramesPerSecond { get; }
+        public bool Loop { get; }
         public Animation Build();
     }
 }

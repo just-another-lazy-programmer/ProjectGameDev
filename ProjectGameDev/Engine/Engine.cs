@@ -22,7 +22,7 @@ namespace ProjectGameDev.Engine
             ContentManager = contentManager;
             GraphicsDevice = graphicsDevice;
 
-            LoadedLevel = new TestMenuLevel();
+            LoadedLevel = new TestLevel();
             LoadedLevel.Load(contentManager);
         }
 

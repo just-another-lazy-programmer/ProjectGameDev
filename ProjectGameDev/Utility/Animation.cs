@@ -14,12 +14,22 @@ namespace ProjectGameDev.Utility
         private int currentIndex;
         private int fps;
         private double secondsElapsed;
+        private bool loop;
+        private bool finished;
 
-        public Animation(int fps)
+        public Animation(int fps, bool loop)
         {
             this.fps = fps;
+            this.loop = loop;
+            finished = false;
             frames = new List<Sprite>();
             secondsElapsed = 0;
+        }
+
+        public void Play()
+        {
+            currentIndex = 0;
+            finished = false;
         }
 
         public void AddFrame(Sprite frame)
@@ -48,13 +58,22 @@ namespace ProjectGameDev.Utility
 
             if (secondsElapsed >= 1d / fps)
             {
-                currentIndex++;
+                if (!finished)
+                {
+                    currentIndex++;
+                }
                 secondsElapsed = 0;
             }
 
             if (currentIndex >= frames.Count)
             {
-                currentIndex = 0;
+                if (loop)
+                    currentIndex = 0;
+                else
+                {
+                    finished = true;
+                    currentIndex = frames.Count - 1;
+                }
             }
         }
     }

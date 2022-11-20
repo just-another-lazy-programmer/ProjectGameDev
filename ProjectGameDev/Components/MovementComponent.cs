@@ -133,7 +133,8 @@ namespace ProjectGameDev.Components
             if (lastState != MovementState)
             {
                 // @todo: default animation?
-                animationComponent.SetAnimation(Animations[MovementState]);
+                if (Animations.ContainsKey(MovementState))
+                    animationComponent.SetAnimation(Animations[MovementState]);
                 lastState = MovementState;
             }
         }

@@ -12,9 +12,11 @@ namespace ProjectGameDev.Animations.Hero
     {
         public int FramesPerSecond { get; } = 15;
 
+        public bool Loop { get; } = true;
+
         public Animation Build()
         {
-            var animation = new Animation(FramesPerSecond);
+            var animation = new Animation(FramesPerSecond, Loop);
             var builder = new Spritesheet();
 
             /*

@@ -40,6 +40,7 @@ namespace ProjectGameDev.Characters
 
             CharacterMovement.OnState(MovementState.Idle, AnimationBuilder.GetAnimation<HeroIdleAnimation>());
             CharacterMovement.OnState(MovementState.Running, AnimationBuilder.GetAnimation<HeroWalkingAnimation>());
+            CharacterMovement.OnState(MovementState.Jumping, AnimationBuilder.GetAnimation<HeroJumpingAnimation>());
 
             //CollisionComponent.AddHitbox(0, 0, (int)(loadedTexture.Bounds.Width * scale), (int)(loadedTexture.Bounds.Height * scale));
             var source = AnimationBuilder.GetAnimation<HeroIdleAnimation>().CurrentFrame.SourceRectangle;

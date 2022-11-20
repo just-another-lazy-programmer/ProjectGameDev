@@ -62,6 +62,7 @@ namespace ProjectGameDev.Components
         public virtual void SetAnimation(Animation animation)
         {
             currentAnimation = animation;
+            currentAnimation.Play();
         }
 
         public virtual void SetTexture(Texture2D texture)
