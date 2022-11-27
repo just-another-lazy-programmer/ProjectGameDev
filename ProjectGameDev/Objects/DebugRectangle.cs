@@ -16,7 +16,7 @@ namespace ProjectGameDev.Objects
     internal class DebugRectangle : WorldObject, ICollision, Engine.IDrawable
     {
         public RootComponent RootComponent { get; protected set; }
-        public CollisionComponent CollisionComponent { get; protected set; }
+        public CollisionComponent2 CollisionComponent { get; protected set; }
         public Color Color { get; set; }
         public bool IsOutline { get; set; }
 
@@ -28,7 +28,7 @@ namespace ProjectGameDev.Objects
         public DebugRectangle(Vector2 location, Point size)
         {
             RootComponent = CreateDefaultComponent<RootComponent>();
-            CollisionComponent = CreateDefaultComponent<CollisionComponent>();
+            CollisionComponent = CreateDefaultComponent<CollisionComponent2>();
 
             texture = new Texture2D(GlobalEngine.GraphicsDevice, 1, 1);
             texture.SetData(new[] { Color.White });

@@ -19,7 +19,7 @@ namespace ProjectGameDev.Characters
         public MovementComponent CharacterMovement { get; protected set; }
         public AnimationComponent AnimationComponent { get; protected set; }
         public PhysicsComponent PhysicsComponent { get; protected set; }
-        public CollisionComponent CollisionComponent { get; protected set; }
+        public CollisionComponent2 CollisionComponent { get; protected set; }
 
         public DrawLayer DrawLayer => DrawLayer.DebugTop;
 
@@ -33,7 +33,7 @@ namespace ProjectGameDev.Characters
             CharacterMovement = CreateDefaultComponent<MovementComponent>();
             AnimationComponent = CreateDefaultComponent<AnimationComponent>();
             PhysicsComponent = CreateDefaultComponent<PhysicsComponent>();
-            CollisionComponent = CreateDefaultComponent<CollisionComponent>();
+            CollisionComponent = CreateDefaultComponent<CollisionComponent2>();
 
             AnimationComponent.SetAnimation(AnimationBuilder.GetAnimation<HeroIdleAnimation>());
             AnimationComponent.SetTexture(loadedTexture);
@@ -56,7 +56,7 @@ namespace ProjectGameDev.Characters
         public void Draw(SpriteBatch spriteBatch)
         {
             AnimationComponent.Draw(spriteBatch, scale);
-            CollisionComponent.DebugDraw(spriteBatch);
+            //CollisionComponent.DebugDraw(spriteBatch);
         }
     }
 }

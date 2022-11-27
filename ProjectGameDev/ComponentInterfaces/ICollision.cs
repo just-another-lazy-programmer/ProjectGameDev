@@ -9,6 +9,6 @@ namespace ProjectGameDev.ComponentInterfaces
 {
     internal interface ICollision
     {
-        public CollisionComponent CollisionComponent { get; }
+        public CollisionComponent2 CollisionComponent { get; }
     }
 }

@@ -12,7 +12,7 @@ namespace ProjectGameDev.Components
 {
     internal class PhysicsComponent : Component
     {
-        protected CollisionComponent collisionComponent;
+        protected CollisionComponent2 collisionComponent;
         protected RootComponent rootComponent;
 
         private Vector2 velocity;
@@ -24,7 +24,7 @@ namespace ProjectGameDev.Components
 
         public float MaxVelocity { get; set; } = 4f;
 
-        public Component Floor { get; protected set; }
+        public WorldObject Floor { get; protected set; }
 
         public PhysicsComponent()
         {
@@ -35,7 +35,7 @@ namespace ProjectGameDev.Components
         {
             base.Activate();
 
-            collisionComponent = Owner.GetComponent<CollisionComponent>();
+            collisionComponent = Owner.GetComponent<CollisionComponent2>();
             rootComponent = Owner.GetComponent<RootComponent>();
         }
 
@@ -60,9 +60,27 @@ namespace ProjectGameDev.Components
 
             Decellerate();
 
-            var newLocation = rootComponent.Location + velocity;
-            var collidingObjects = GetCollidingObjects();
+            var newLocationHorizontal = rootComponent.Location + new Vector2(velocity.X, 0);
+            var newLocationVertical = rootComponent.Location + new Vector2(0, velocity.Y);
 
+            var horizontallyColliding = collisionComponent.TestCollision(newLocationHorizontal);
+            var verticallyColliding = collisionComponent.TestCollision(newLocationVertical);
+
+            if (verticallyColliding != null && velocity.Y > 0)
+                Floor = verticallyColliding;
+
+            if (horizontallyColliding != null)
+                velocity.X = 0;
+
+            if (verticallyColliding != null)
+                velocity.Y = 0;
+
+            rootComponent.Location += velocity;
+
+            //var newLocation = rootComponent.Location + velocity;
+            //var collidingObjects = GetCollidingObjects();
+
+            /*
             foreach (var obj in collidingObjects)
             {
                 if (obj.TopHit)
@@ -103,8 +121,10 @@ namespace ProjectGameDev.Components
             }
 
             rootComponent.Location += velocity;
+            */
         }
 
+        /*
         private List<HitInfo> GetCollidingObjects()
         {
             var result = new List<HitInfo>();
@@ -123,6 +143,7 @@ namespace ProjectGameDev.Components
             }
             return result;
         }
+        */
 
         private Vector2 ClampVector(ref Vector2 vector, float max)
         {
