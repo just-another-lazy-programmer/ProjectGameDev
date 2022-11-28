@@ -4,6 +4,7 @@ using ProjectGameDev.Animations.Hero;
 using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Components;
 using ProjectGameDev.Engine;
+using ProjectGameDev.Levels;
 using ProjectGameDev.Utility;
 using System;
 using System.Collections.Generic;

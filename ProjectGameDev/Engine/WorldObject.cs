@@ -20,7 +20,6 @@ namespace ProjectGameDev.Engine
 
         protected static Texture2D LoadTexture(string texture)
         {
-            // dependency injection? nah..
             return GlobalEngine.LoadTexture(texture);
         }
 

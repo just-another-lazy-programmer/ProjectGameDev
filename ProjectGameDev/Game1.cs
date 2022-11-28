@@ -28,6 +28,10 @@ namespace ProjectGameDev
             //_graphics.IsFullScreen = true;
             //_graphics.ApplyChanges();
 
+            _graphics.PreferredBackBufferHeight = 16 * 45;
+            _graphics.PreferredBackBufferWidth = 16 * 80;
+            _graphics.ApplyChanges();
+
             base.Initialize();
         }
 

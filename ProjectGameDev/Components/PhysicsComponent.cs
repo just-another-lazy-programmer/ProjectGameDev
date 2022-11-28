@@ -49,6 +49,11 @@ namespace ProjectGameDev.Components
             this.acceleration = acceleration;
         }
 
+        public void RemoveFloor()
+        {
+            this.Floor = null;
+        }
+
         public override void Tick(GameTime gameTime)
         {
             Floor = null;

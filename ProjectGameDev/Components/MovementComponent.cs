@@ -75,6 +75,7 @@ namespace ProjectGameDev.Components
             if (state.IsKeyDown(Keys.Space) && physicsComponent.Floor != null)
             {
                 physicsComponent.Impulse(new Vector2(0, -5));
+                physicsComponent.RemoveFloor();
                 MovementState = MovementState.Jumping;
             }
 
@@ -120,9 +121,12 @@ namespace ProjectGameDev.Components
                 case MovementState.Jumping:
                     {
                         if (physicsComponent.Velocity.Y > 0)
-                        {
                             MovementState = MovementState.Falling;
-                        }
+
+                        // In case the jump failed
+                        if (physicsComponent.Floor != null)
+                            MovementState = MovementState.Idle;
+
                         break;
                     }
             }
