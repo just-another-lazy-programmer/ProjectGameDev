@@ -14,13 +14,14 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Characters
 {
-    internal class Hero : WorldObject, Engine.IDrawable, IPhysics, ICollision
+    internal class Hero : WorldObject, Engine.IDrawable, IPhysics, ICollision, IReplicate
     {
         public RootComponent RootComponent { get; protected set; }
         public MovementComponent CharacterMovement { get; protected set; }
         public AnimationComponent AnimationComponent { get; protected set; }
         public PhysicsComponent PhysicsComponent { get; protected set; }
         public CollisionComponent2 CollisionComponent { get; protected set; }
+        public NetworkComponent NetworkComponent { get; set; }
 
         public DrawLayer DrawLayer => DrawLayer.DebugTop;
 
@@ -35,6 +36,7 @@ namespace ProjectGameDev.Characters
             AnimationComponent = CreateDefaultComponent<AnimationComponent>();
             PhysicsComponent = CreateDefaultComponent<PhysicsComponent>();
             CollisionComponent = CreateDefaultComponent<CollisionComponent2>();
+            NetworkComponent = CreateDefaultComponent<NetworkComponent>();
 
             AnimationComponent.SetAnimation(AnimationBuilder.GetAnimation<HeroIdleAnimation>());
             AnimationComponent.SetTexture(loadedTexture);

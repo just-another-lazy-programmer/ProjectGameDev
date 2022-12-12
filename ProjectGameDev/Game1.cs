@@ -42,6 +42,10 @@ namespace ProjectGameDev
             // TODO: use this.Content to load your game content here
             //hero = new Hero(Content.Load<Texture2D>("hero"));
             GlobalEngine.LoadLevel(Content, GraphicsDevice);
+            GlobalEngine
+                .ConnectMultiplayer("127.0.0.1", 6571)
+                .GetAwaiter()
+                .GetResult();
         }
 
         protected override void Update(GameTime gameTime)
@@ -56,6 +60,8 @@ namespace ProjectGameDev
             {
                 worldObject.Update(gameTime);
             }
+
+            GlobalEngine.Tick();
 
             base.Update(gameTime);
         }

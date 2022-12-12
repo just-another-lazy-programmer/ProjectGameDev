@@ -23,9 +23,18 @@ namespace ProjectGameDev.Engine.Multiplayer
     {
         protected TcpClient tcpClient;
 
-        public async Task EstablishConnection(string address, ushort port)
+        public bool EstablishConnection(string address, ushort port)
         {
-            tcpClient = new TcpClient(address, port);
+            try
+            {
+                tcpClient = new TcpClient(address, port);
+                return tcpClient.Connected;
+            }
+            catch (Exception ex)
+            {
+                // @todo: exception handling
+                return false;
+            }
         }
 
         public void Dispose()
