@@ -19,6 +19,14 @@ namespace ProjectGameDev.Components
         protected List<Rectangle> collisionRectangles = new();
         protected Point lastImpactPoint = new Point(-1, -1);
         protected Rectangle lastIntersectingRect = new Rectangle();
+        private SimpleSprites simpleSprites;
+
+        public override void RegisterDependencies(DependencyManager dependencyManager)
+        {
+            base.RegisterDependencies(dependencyManager);
+
+            dependencyManager.InjectChecked(ref simpleSprites);
+        }
 
         public override void Activate()
         {
@@ -95,7 +103,7 @@ namespace ProjectGameDev.Components
         {
             foreach (var rectangle in GetCollisionRects(null))
             {
-                SimpleSprites.DrawRectangleOutline(spriteBatch, rectangle, Color.Red, 3);
+                simpleSprites.DrawRectangleOutline(spriteBatch, rectangle, Color.Red, 3);
             }
 
             //if (lastImpactPoint != new Point(-1, -1))
@@ -104,7 +112,7 @@ namespace ProjectGameDev.Components
             if (lastIntersectingRect != Rectangle.Empty)
             {
                 //SimpleSprites.DrawRectangle(spriteBatch, lastIntersectingRect, Color.White);
-                SimpleSprites.DrawPoint(spriteBatch, lastIntersectingRect.Center, Color.White, 10);
+                simpleSprites.DrawPoint(spriteBatch, lastIntersectingRect.Center, Color.White, 10);
             }
         }
 

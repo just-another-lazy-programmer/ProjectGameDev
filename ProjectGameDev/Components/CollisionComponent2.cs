@@ -13,10 +13,18 @@ namespace ProjectGameDev.Components
     {
         public Hitbox Hitbox { get; set; }
         protected RootComponent rootComponent;
+        protected World world;
 
         public CollisionComponent2()
         {
             Hitbox = new Hitbox();
+        }
+
+        public override void RegisterDependencies(DependencyManager dependencyManager)
+        {
+            base.RegisterDependencies(dependencyManager);
+
+            dependencyManager.InjectChecked(ref world);
         }
 
         public override void Activate()
@@ -29,7 +37,7 @@ namespace ProjectGameDev.Components
 
         public WorldObject TestCollision(Vector2 location)
         {
-            var objects = GlobalEngine.LoadedLevel.GetObjects();
+            var objects = world.LoadedLevel.GetObjects();
 
             foreach (var obj in objects)
             {

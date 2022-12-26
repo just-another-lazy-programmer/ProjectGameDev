@@ -11,8 +11,14 @@ namespace ProjectGameDev.Levels
     internal class Level
     {
         protected List<WorldObject> objects = new();
+        protected readonly DependencyManager dependencyManager;
 
-        public virtual void Load(ContentManager contentManager) 
+        public Level(DependencyManager dependencyManager)
+        {
+            this.dependencyManager = dependencyManager;
+        }
+
+        public virtual void Load() 
         {
         }
 

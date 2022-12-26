@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -25,9 +26,10 @@ namespace ProjectGameDev.Engine
             //component.Activate();
         }
 
-        protected static Texture2D LoadTexture(string texture)
+        protected Texture2D LoadTexture(string texture)
         {
-            return GlobalEngine.LoadTexture(texture);
+            //return GlobalEngine.LoadTexture(texture);
+            return DependencyManager.GetDependencyChecked<ContentManager>().Load<Texture2D>(texture);
         }
 
         public T CreateDefaultComponent<T>() where T : Component, new()

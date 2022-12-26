@@ -25,12 +25,14 @@ namespace ProjectGameDev.Objects
         protected Texture2D texture;
         protected Point size;
 
+        private SimpleSprites simpleSprites;
+
         public DebugRectangle(DependencyManager dependencyManager, Vector2 location, Point size) : base(dependencyManager)
         {
             RootComponent = CreateDefaultComponent<RootComponent>();
             CollisionComponent = CreateDefaultComponent<CollisionComponent2>();
 
-            texture = new Texture2D(GlobalEngine.GraphicsDevice, 1, 1);
+            texture = new Texture2D(dependencyManager.GetDependencyChecked<GraphicsDevice>(), 1, 1);
             texture.SetData(new[] { Color.White });
             Color = Color.GreenYellow;
 
@@ -39,6 +41,8 @@ namespace ProjectGameDev.Objects
             CollisionComponent.AddHitbox(0, 0, size.X, size.Y);
             //RootComponent.Move(new Vector2(50, 400));
             RootComponent.Move(location);
+
+            dependencyManager.InjectChecked(ref simpleSprites);
 
             this.size = size;
         }
@@ -52,11 +56,11 @@ namespace ProjectGameDev.Objects
 
             if (IsOutline)
             {
-                SimpleSprites.DrawRectangleOutline(spriteBatch, rectangle, Color, 2);
+                simpleSprites.DrawRectangleOutline(spriteBatch, rectangle, Color, 2);
             }
             else
             {
-                SimpleSprites.DrawRectangle(spriteBatch, rectangle, Color);
+                simpleSprites.DrawRectangle(spriteBatch, rectangle, Color);
             }
         }
     }

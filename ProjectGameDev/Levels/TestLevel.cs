@@ -8,14 +8,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProjectGameDev.Components;
+using ProjectGameDev.Engine;
 
 namespace ProjectGameDev.Levels
 {
     internal class TestLevel : Level
     {
-        public override void Load(ContentManager contentManager)
+        public TestLevel(DependencyManager dependencyManager) : base(dependencyManager) { }
+
+        public override void Load()
         {
-            var dependencyManager = new Engine.DependencyManager();
+            //var dependencyManager = new Engine.DependencyManager();
             AddObject(new Hero(dependencyManager));
             //AddObject(new Hero());
             //objects[1].GetComponent<MovementComponent>().Teleport(new Vector2(40, 40));

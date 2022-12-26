@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Engine;
 using ProjectGameDev.Objects;
 using System;
@@ -14,13 +15,16 @@ namespace ProjectGameDev.Levels
     {
         Random rng = new Random();
 
-        public override void Load(ContentManager contentManager)
+        public TestMenuLevel(DependencyManager dependencyManager) : base(dependencyManager) { }
+
+        public override void Load()
         {
-            base.Load(contentManager);
+            base.Load();
+            GlobalEngine.BackgroundColor = Color.Black; // @todo: remove
+            dependencyManager.GetDependencyChecked<World>().BackgroundColor = Color.Black;
 
-            GlobalEngine.BackgroundColor = Color.Black;
-
-            var bounds = GlobalEngine.GraphicsDevice.PresentationParameters.Bounds;
+            //var bounds = GlobalEngine.GraphicsDevice.PresentationParameters.Bounds;
+            var bounds = dependencyManager.GetDependencyChecked<GraphicsDevice>().PresentationParameters.Bounds;
             const int size = 40;
             var middle = new Vector2(bounds.Size.X / 2, bounds.Size.Y / 2);
             var radius = size * 5;
@@ -41,7 +45,7 @@ namespace ProjectGameDev.Levels
         public async void AddRect(int delayMs, Vector2 location, Point size, bool isOutline)
         {
             await Task.Delay(delayMs);
-            var rect = new DebugRectangle(new DependencyManager(), location, size);
+            var rect = new DebugRectangle(dependencyManager, location, size);
             var bytes = new byte[3];
             rng.NextBytes(bytes);
             //rect.Color = new Color(bytes[0], bytes[1], bytes[2]);

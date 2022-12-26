@@ -14,7 +14,7 @@ namespace ProjectGameDev.Utility
     {
         static Texture2D _pointTexture;
 
-        private static void MakeTexture(SpriteBatch spriteBatch)
+        private void MakeTexture(SpriteBatch spriteBatch)
         {
             if (_pointTexture == null)
             {
@@ -23,7 +23,7 @@ namespace ProjectGameDev.Utility
             }
         }
 
-        public static void DrawRectangleOutline(SpriteBatch spriteBatch, Rectangle rectangle, Color color, int lineWidth)
+        public void DrawRectangleOutline(SpriteBatch spriteBatch, Rectangle rectangle, Color color, int lineWidth)
         {
             MakeTexture(spriteBatch);
 
@@ -33,14 +33,14 @@ namespace ProjectGameDev.Utility
             spriteBatch.Draw(_pointTexture, new Rectangle(rectangle.X, rectangle.Y + rectangle.Height, rectangle.Width + lineWidth, lineWidth), color);
         }
 
-        public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color)
+        public void DrawRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color)
         {
             MakeTexture(spriteBatch);
 
             spriteBatch.Draw(_pointTexture, rectangle, color);
         }
 
-        public static void DrawPoint(SpriteBatch spriteBatch, Point point, Color color, int pointSize)
+        public void DrawPoint(SpriteBatch spriteBatch, Point point, Color color, int pointSize)
         {
             MakeTexture(spriteBatch);
 
