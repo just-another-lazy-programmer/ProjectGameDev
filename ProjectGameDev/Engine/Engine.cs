@@ -16,9 +16,8 @@ namespace ProjectGameDev.Engine
 {
     internal class Engine
     {
-        public Color BackgroundColor { get; set; }
-        private DependencyManager dependencyManager;
-        private World world;
+        private readonly DependencyManager dependencyManager;
+        private readonly World world;
 
         public Engine(DependencyManager dependencyManager)
         {
@@ -45,9 +44,9 @@ namespace ProjectGameDev.Engine
             }
         }
 
-        public async Task ConnectMultiplayer(string host, ushort port)
+        public void ConnectMultiplayer(string host, ushort port)
         {
-            await dependencyManager.GetDependencyChecked<MultiplayerManager>().EstablishConnection(host, port);
+            dependencyManager.GetDependencyChecked<MultiplayerManager>().EstablishConnection(host, port);
         }
     }
 }

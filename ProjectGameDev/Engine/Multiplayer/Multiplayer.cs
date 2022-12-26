@@ -21,7 +21,7 @@ namespace ProjectGameDev.Engine.Multiplayer
             
         }
 
-        public async Task EstablishConnection(string server, ushort port)
+        public void EstablishConnection(string server, ushort port)
         {
             if (ActiveConnection != null)
             {

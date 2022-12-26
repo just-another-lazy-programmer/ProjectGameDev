@@ -30,7 +30,7 @@ namespace ProjectGameDev.Engine.Multiplayer
                 tcpClient = new TcpClient(address, port);
                 return tcpClient.Connected;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // @todo: exception handling
                 return false;
