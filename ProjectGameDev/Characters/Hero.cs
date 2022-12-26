@@ -21,14 +21,14 @@ namespace ProjectGameDev.Characters
         public AnimationComponent AnimationComponent { get; protected set; }
         public PhysicsComponent PhysicsComponent { get; protected set; }
         public CollisionComponent2 CollisionComponent { get; protected set; }
-        public NetworkComponent NetworkComponent { get; set; }
+        public ReplicationComponent NetworkComponent { get; set; }
 
         public DrawLayer DrawLayer => DrawLayer.DebugTop;
 
         private const double scale = 0.2;
         private const string textureAssetName = "hero";
 
-        public Hero()
+        public Hero(DependencyManager dependencyManager) : base(dependencyManager)
         {
             var loadedTexture = LoadTexture(textureAssetName);
             RootComponent = CreateDefaultComponent<RootComponent>();
@@ -36,7 +36,7 @@ namespace ProjectGameDev.Characters
             AnimationComponent = CreateDefaultComponent<AnimationComponent>();
             PhysicsComponent = CreateDefaultComponent<PhysicsComponent>();
             CollisionComponent = CreateDefaultComponent<CollisionComponent2>();
-            NetworkComponent = CreateDefaultComponent<NetworkComponent>();
+            NetworkComponent = CreateDefaultComponent<ReplicationComponent>();
 
             AnimationComponent.SetAnimation(AnimationBuilder.GetAnimation<HeroIdleAnimation>());
             AnimationComponent.SetTexture(loadedTexture);

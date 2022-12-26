@@ -25,7 +25,7 @@ namespace ProjectGameDev.Objects
         protected Texture2D texture;
         protected Point size;
 
-        public DebugRectangle(Vector2 location, Point size)
+        public DebugRectangle(DependencyManager dependencyManager, Vector2 location, Point size) : base(dependencyManager)
         {
             RootComponent = CreateDefaultComponent<RootComponent>();
             CollisionComponent = CreateDefaultComponent<CollisionComponent2>();

@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Components
 {
-    internal class NetworkComponent : Component
+    internal class ReplicationComponent : Component
     {
         public ReplicatedMovement ReplicatedMovement { get; set; }
         public bool ShouldReplicateMovement { get; set; }
+        public ulong ReplicationId { get; private set; }
 
         public void Pull()
         {

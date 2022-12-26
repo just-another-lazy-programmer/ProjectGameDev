@@ -8,9 +8,16 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Engine
 {
-    internal class WorldObject
+    internal abstract class WorldObject
     {
         private readonly List<Component> components = new();
+        protected DependencyManager DependencyManager { get; private set; }
+
+        public WorldObject(DependencyManager dependencyManager)
+        {
+            DependencyManager = dependencyManager;
+        }
+
         public void AddComponent(Component component)
         {
             components.Add(component);
@@ -28,6 +35,7 @@ namespace ProjectGameDev.Engine
             var component = new T();
             component.SetOwner(this);
             components.Add(component);
+            component.RegisterDependencies(DependencyManager);
             return component;
         }
 

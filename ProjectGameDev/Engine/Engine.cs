@@ -36,7 +36,7 @@ namespace ProjectGameDev.Engine
             {
                 if (obj is IReplicate replicate)
                 {
-                   replicate.NetworkComponent. 
+                   //replicate.NetworkComponent. 
                 }
             }
         }

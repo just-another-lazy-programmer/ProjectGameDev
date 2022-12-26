@@ -9,6 +9,6 @@ namespace ProjectGameDev.ComponentInterfaces
 {
     internal interface IReplicate
     {
-        public NetworkComponent NetworkComponent { get; }
+        public ReplicationComponent NetworkComponent { get; }
     }
 }

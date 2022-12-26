@@ -41,7 +41,7 @@ namespace ProjectGameDev.Levels
         public async void AddRect(int delayMs, Vector2 location, Point size, bool isOutline)
         {
             await Task.Delay(delayMs);
-            var rect = new DebugRectangle(location, size);
+            var rect = new DebugRectangle(new DependencyManager(), location, size);
             var bytes = new byte[3];
             rng.NextBytes(bytes);
             //rect.Color = new Color(bytes[0], bytes[1], bytes[2]);
