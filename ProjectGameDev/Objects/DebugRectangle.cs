@@ -42,7 +42,7 @@ namespace ProjectGameDev.Objects
             //RootComponent.Move(new Vector2(50, 400));
             RootComponent.Move(location);
 
-            dependencyManager.InjectChecked(ref simpleSprites);
+            dependencyManager.Inject(ref simpleSprites);
 
             this.size = size;
         }

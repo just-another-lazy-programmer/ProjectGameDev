@@ -23,6 +23,8 @@ namespace ProjectGameDev.Characters
         public CollisionComponent2 CollisionComponent { get; protected set; }
         public ReplicationComponent NetworkComponent { get; set; }
 
+        private AnimationBuilder animationBuilder;
+
         public DrawLayer DrawLayer => DrawLayer.DebugTop;
 
         private const double scale = 0.2;
@@ -30,7 +32,10 @@ namespace ProjectGameDev.Characters
 
         public Hero(DependencyManager dependencyManager) : base(dependencyManager)
         {
+            dependencyManager.Inject(ref animationBuilder);
             var loadedTexture = LoadTexture(textureAssetName);
+
+            // Create components
             RootComponent = CreateDefaultComponent<RootComponent>();
             CharacterMovement = CreateDefaultComponent<MovementComponent>();
             AnimationComponent = CreateDefaultComponent<AnimationComponent>();
@@ -38,19 +43,22 @@ namespace ProjectGameDev.Characters
             CollisionComponent = CreateDefaultComponent<CollisionComponent2>();
             NetworkComponent = CreateDefaultComponent<ReplicationComponent>();
 
-            AnimationComponent.SetAnimation(AnimationBuilder.GetAnimation<HeroIdleAnimation>());
+            // Setup AnimationComponent
+            AnimationComponent.SetAnimation(animationBuilder.GetAnimation<HeroIdleAnimation>());
             AnimationComponent.SetTexture(loadedTexture);
 
-            CharacterMovement.OnState(MovementState.Idle, AnimationBuilder.GetAnimation<HeroIdleAnimation>());
-            CharacterMovement.OnState(MovementState.Running, AnimationBuilder.GetAnimation<HeroWalkingAnimation>());
-            CharacterMovement.OnState(MovementState.Jumping, AnimationBuilder.GetAnimation<HeroJumpingAnimation>());
-
-            //CollisionComponent.AddHitbox(0, 0, (int)(loadedTexture.Bounds.Width * scale), (int)(loadedTexture.Bounds.Height * scale));
-            var source = AnimationBuilder.GetAnimation<HeroIdleAnimation>().CurrentFrame.SourceRectangle;
-            CollisionComponent.AddHitbox(0, 0, (int)(source.Width*scale), (int)(source.Height*scale));
-
+            // Setup Character Movement
+            CharacterMovement.OnState(MovementState.Idle, animationBuilder.GetAnimation<HeroIdleAnimation>());
+            CharacterMovement.OnState(MovementState.Running, animationBuilder.GetAnimation<HeroWalkingAnimation>());
+            CharacterMovement.OnState(MovementState.Jumping, animationBuilder.GetAnimation<HeroJumpingAnimation>());
             CharacterMovement.Speed = 10;
 
+            // Setup collisions
+            //CollisionComponent.AddHitbox(0, 0, (int)(loadedTexture.Bounds.Width * scale), (int)(loadedTexture.Bounds.Height * scale));
+            var source = animationBuilder.GetAnimation<HeroIdleAnimation>().CurrentFrame.SourceRectangle;
+            CollisionComponent.AddHitbox(0, 0, (int)(source.Width*scale), (int)(source.Height*scale));
+
+            // Active components
             ActivateComponents();
 
             CharacterMovement.Teleport(new Vector2(10, 200));

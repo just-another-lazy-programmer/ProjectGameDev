@@ -13,14 +13,18 @@ namespace ProjectGameDev.Levels
 {
     internal class TestMenuLevel : Level
     {
-        Random rng = new Random();
+        private readonly Random rng = new Random();
+        private readonly World world;
 
-        public TestMenuLevel(DependencyManager dependencyManager) : base(dependencyManager) { }
+        public TestMenuLevel(DependencyManager dependencyManager) : base(dependencyManager) 
+        {
+            dependencyManager.InjectChecked(ref world);
+        }
 
         public override void Load()
         {
             base.Load();
-            GlobalEngine.BackgroundColor = Color.Black; // @todo: remove
+            world.BackgroundColor = Color.Black; // @todo: remove
             dependencyManager.GetDependencyChecked<World>().BackgroundColor = Color.Black;
 
             //var bounds = GlobalEngine.GraphicsDevice.PresentationParameters.Bounds;

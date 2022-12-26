@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Components
 {
+    /// <summary>
+    /// This class is deprecated and should be removed in the future
+    /// Keeping it in for now until we're sure none of its functionality is needed
+    /// </summary>
     internal class CollisionComponent : Component
     {
         protected RootComponent rootComponent;
@@ -25,7 +29,7 @@ namespace ProjectGameDev.Components
         {
             base.RegisterDependencies(dependencyManager);
 
-            dependencyManager.InjectChecked(ref simpleSprites);
+            dependencyManager.Inject(ref simpleSprites);
         }
 
         public override void Activate()

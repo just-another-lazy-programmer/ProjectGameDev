@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Engine
 {
-    internal class World
+    public class World
     {
         public Level LoadedLevel { get; set; }
         public Color BackgroundColor { get; set; }

@@ -8,7 +8,7 @@ using ProjectGameDev.Engine;
 
 namespace ProjectGameDev.Levels
 {
-    internal class Level
+    public class Level
     {
         protected List<WorldObject> objects = new();
         protected readonly DependencyManager dependencyManager;

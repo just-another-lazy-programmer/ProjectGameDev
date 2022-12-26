@@ -14,7 +14,7 @@ namespace ProjectGameDev.Engine
     /// Dependencies must be unique per Type, only one dependency of each class may exist at a time
     /// Dependencies share their state between classes
     /// </summary>
-    internal class DependencyManager
+    public class DependencyManager
     {
         private readonly Dictionary<Type, object> dependencies = new();
 
@@ -27,6 +27,9 @@ namespace ProjectGameDev.Engine
         // For custom ctors inject the dependency
         public void RegisterDependency<T>(T dependency)
         {
+            if (dependency is null)
+                throw new ArgumentNullException($"Dependencies may not be registered as null! (Dependency type {typeof(T)})");
+
             dependencies.Add(typeof(T), dependency);
         }
 
@@ -34,6 +37,10 @@ namespace ProjectGameDev.Engine
         // The generic version is preferred though
         public void RegisterDependency(object dependency)
         {
+            // Dependencies being null here is extra dangerous because it means we cannot deduce its type
+            if (dependency is null)
+                throw new ArgumentNullException($"Dependencies may not be registered as null!");
+
             dependencies.Add(dependency.GetType(), dependency);
         }
 
@@ -63,6 +70,20 @@ namespace ProjectGameDev.Engine
 
         // Even more alternative syntax so we can directly inject into a field
         // Doesn't work with properties though since we can't access those with ref
+        public void Inject<T>(ref T dependencyProperty) where T : new()
+        {
+            if (dependencies.TryGetValue(typeof(T), out object dependency))
+            {
+                dependencyProperty = (T)dependency;
+            }
+            else
+            {
+                var newDependency = new T();
+                dependencies.Add(typeof(T), newDependency);
+                dependencyProperty = newDependency;
+            }
+        }
+
         public void InjectChecked<T>(ref T dependencyProperty)
         {
             if (dependencies.TryGetValue(typeof(T), out object dependency))

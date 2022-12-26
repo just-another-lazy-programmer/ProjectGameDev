@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Engine
 {
-    internal class Component
+    public class Component
     {
         public bool IsActive { get; private set; }
         public bool WantsTick { get; protected set; }

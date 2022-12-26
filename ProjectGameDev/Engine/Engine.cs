@@ -14,37 +14,29 @@ using ProjectGameDev.Utility;
 
 namespace ProjectGameDev.Engine
 {
-    // This is deprecated and should be replaced with a non-static class
-    internal static class GlobalEngine
+    internal class Engine
     {
-        public static Level LoadedLevel { get; private set; }
-        public static ContentManager ContentManager { get; private set; }
-        public static GraphicsDevice GraphicsDevice { get; private set; }
-        public static MultiplayerManager MultiplayerManager { get; private set; } = new();
-        public static Color BackgroundColor { get; set; }
+        public Color BackgroundColor { get; set; }
+        private DependencyManager dependencyManager;
+        private World world;
 
-        static public void LoadLevel(ContentManager contentManager, GraphicsDevice graphicsDevice)
+        public Engine(DependencyManager dependencyManager)
         {
-            ContentManager = contentManager;
-            GraphicsDevice = graphicsDevice;
-
-            var dependencyManager = new DependencyManager();
-            dependencyManager.RegisterDependency(contentManager);
-            dependencyManager.RegisterDependency(graphicsDevice);
-            dependencyManager.RegisterDependency(MultiplayerManager);
-            dependencyManager.RegisterDependency(new SimpleSprites());
-
-            LoadedLevel = new TestLevel(dependencyManager);
-
-            // @TODO: Clean up
-            dependencyManager.RegisterDependency(new World() { LoadedLevel = LoadedLevel, BackgroundColor = BackgroundColor });
-
-            LoadedLevel.Load();
+            this.dependencyManager = dependencyManager;
+            dependencyManager.Inject(ref world);
         }
 
-        static public void Tick()
+        public void LoadLevel()
         {
-            foreach (var obj in LoadedLevel.GetObjects())
+            var level = new TestLevel(dependencyManager);
+            level.Load();
+
+            world.LoadedLevel = level;
+        }
+
+        public void Tick()
+        {
+            foreach (var obj in world.LoadedLevel.GetObjects())
             {
                 if (obj is IReplicate replicate)
                 {
@@ -53,14 +45,9 @@ namespace ProjectGameDev.Engine
             }
         }
 
-        static public async Task ConnectMultiplayer(string host, ushort port)
+        public async Task ConnectMultiplayer(string host, ushort port)
         {
-            await MultiplayerManager.EstablishConnection(host, port);
-        }
-
-        static public Texture2D LoadTexture(string name)
-        {
-            return ContentManager.Load<Texture2D>(name);
+            await dependencyManager.GetDependencyChecked<MultiplayerManager>().EstablishConnection(host, port);
         }
     }
 }

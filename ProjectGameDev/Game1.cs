@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ProjectGameDev.Characters;
@@ -11,14 +12,25 @@ namespace ProjectGameDev
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        private readonly GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+
+        private readonly DependencyManager dependencyManager;
+        private readonly Engine.Engine engine;
+        private readonly World world;
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            dependencyManager = new DependencyManager();
+            world = new World();
+
+            dependencyManager.RegisterDependency(Content);
+            dependencyManager.RegisterDependency(world);
+
+            engine = new Engine.Engine(dependencyManager);
         }
 
         protected override void Initialize()
@@ -28,24 +40,29 @@ namespace ProjectGameDev
             //_graphics.IsFullScreen = true;
             //_graphics.ApplyChanges();
 
-            _graphics.PreferredBackBufferHeight = 16 * 45;
-            _graphics.PreferredBackBufferWidth = 16 * 80;
-            _graphics.ApplyChanges();
+            graphics.PreferredBackBufferHeight = 16 * 45;
+            graphics.PreferredBackBufferWidth = 16 * 80;
+            graphics.ApplyChanges();
+
+            dependencyManager.RegisterDependency(GraphicsDevice);
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
             //hero = new Hero(Content.Load<Texture2D>("hero"));
+            /*
             GlobalEngine.LoadLevel(Content, GraphicsDevice);
             GlobalEngine
                 .ConnectMultiplayer("127.0.0.1", 6571)
                 .GetAwaiter()
                 .GetResult();
+            */
+            engine.LoadLevel();
         }
 
         protected override void Update(GameTime gameTime)
@@ -56,23 +73,23 @@ namespace ProjectGameDev
             // TODO: Add your update logic here
             //hero.Update(gameTime);
 
-            foreach (var worldObject in GlobalEngine.LoadedLevel.GetObjects())
+            foreach (var worldObject in world.LoadedLevel.GetObjects())
             {
                 worldObject.Update(gameTime);
             }
 
-            GlobalEngine.Tick();
+            engine.Tick();
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(GlobalEngine.BackgroundColor);
+            GraphicsDevice.Clear(engine.BackgroundColor);
 
             // TODO: Add your drawing code here
 
-            _spriteBatch.Begin();
+            spriteBatch.Begin();
             /*
             var source = new Rectangle(2940, 0, 319, 486);
             var destination = new Rectangle(0, 0, (int)(319*0.3), (int)(486*0.3));
@@ -81,7 +98,7 @@ namespace ProjectGameDev
 
             SortedDictionary<DrawLayer, List<Engine.IDrawable>> objects = new();
 
-            foreach (var worldObject in GlobalEngine.LoadedLevel.GetObjects())
+            foreach (var worldObject in world.LoadedLevel.GetObjects())
             {
                 if (worldObject is Engine.IDrawable drawable)
                 {
@@ -94,9 +111,9 @@ namespace ProjectGameDev
 
             foreach (var layer in objects)
                 foreach (var obj in layer.Value)
-                    obj.Draw(_spriteBatch);
+                    obj.Draw(spriteBatch);
 
-            _spriteBatch.End();
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

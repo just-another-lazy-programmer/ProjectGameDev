@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Engine
 {
-    internal abstract class WorldObject
+    public abstract class WorldObject
     {
         private readonly List<Component> components = new();
         protected DependencyManager DependencyManager { get; private set; }

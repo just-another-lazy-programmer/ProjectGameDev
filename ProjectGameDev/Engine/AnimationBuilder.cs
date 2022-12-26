@@ -9,11 +9,10 @@ namespace ProjectGameDev.Engine
 {
     internal class AnimationBuilder
     {
-        private static readonly Dictionary<Type, Animation> cachedAnimations = new();
+        private readonly Dictionary<Type, Animation> cachedAnimations = new();
 
-        public static Animation GetAnimation<T>() where T : IAnimationBuilder, new()
+        public Animation GetAnimation<T>() where T : IAnimationBuilder, new()
         {
-            // overkill? nah!
             var type = typeof(T);
 
             if (cachedAnimations.ContainsKey(type))
@@ -25,7 +24,7 @@ namespace ProjectGameDev.Engine
             return animation;
         }
 
-        public static void PurgeCache()
+        public void PurgeCache()
         {
             cachedAnimations.Clear();
         }
