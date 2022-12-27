@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ProjectGameDev.Characters;
-using ProjectGameDev.Engine;
+using ProjectGameDev.Core;
 using ProjectGameDev.Utility;
 using System.Collections.Generic;
 using System.Security.AccessControl;
@@ -16,7 +16,7 @@ namespace ProjectGameDev
         private SpriteBatch spriteBatch;
 
         private readonly DependencyManager dependencyManager;
-        private readonly Engine.Engine engine;
+        private readonly Core.Engine engine;
         private readonly World world;
 
         public Game1()
@@ -27,10 +27,11 @@ namespace ProjectGameDev
             dependencyManager = new DependencyManager();
             world = new World();
 
+            // We want the ContentManager and World to be accessible to all classes
             dependencyManager.RegisterDependency(Content);
             dependencyManager.RegisterDependency(world);
 
-            engine = new Engine.Engine(dependencyManager);
+            engine = new Core.Engine(dependencyManager);
         }
 
         protected override void Initialize()
@@ -73,12 +74,7 @@ namespace ProjectGameDev
             // TODO: Add your update logic here
             //hero.Update(gameTime);
 
-            foreach (var worldObject in world.LoadedLevel.GetObjects())
-            {
-                worldObject.Update(gameTime);
-            }
-
-            engine.Tick();
+            engine.Tick(gameTime);
 
             base.Update(gameTime);
         }
@@ -87,32 +83,8 @@ namespace ProjectGameDev
         {
             GraphicsDevice.Clear(world.BackgroundColor);
 
-            // TODO: Add your drawing code here
-
             spriteBatch.Begin();
-            /*
-            var source = new Rectangle(2940, 0, 319, 486);
-            var destination = new Rectangle(0, 0, (int)(319*0.3), (int)(486*0.3));
-            _spriteBatch.Draw(hero, destination, source, Color.White);
-            */
-
-            SortedDictionary<DrawLayer, List<Engine.IDrawable>> objects = new();
-
-            foreach (var worldObject in world.LoadedLevel.GetObjects())
-            {
-                if (worldObject is Engine.IDrawable drawable)
-                {
-                    if (!objects.ContainsKey(drawable.DrawLayer))
-                        objects.Add(drawable.DrawLayer, new());
-
-                    objects[drawable.DrawLayer].Add(drawable);
-                }
-            }
-
-            foreach (var layer in objects)
-                foreach (var obj in layer.Value)
-                    obj.Draw(spriteBatch);
-
+            engine.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

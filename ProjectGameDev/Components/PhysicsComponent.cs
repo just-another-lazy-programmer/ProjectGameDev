@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using ProjectGameDev.ComponentInterfaces;
-using ProjectGameDev.Engine;
+using ProjectGameDev.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Animations.Hero;
 using ProjectGameDev.ComponentInterfaces;
-using ProjectGameDev.Engine;
+using ProjectGameDev.Core;
 using ProjectGameDev.Utility;
 using SharpDX.Direct2D1.Effects;
 using System;

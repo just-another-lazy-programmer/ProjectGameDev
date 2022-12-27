@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.ComponentInterfaces;
-using ProjectGameDev.Engine;
+using ProjectGameDev.Core;
 using ProjectGameDev.Utility;
 using SharpDX.Direct3D9;
 using System;

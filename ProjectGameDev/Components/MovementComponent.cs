@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using ProjectGameDev.Animations.Hero;
 using ProjectGameDev.ComponentInterfaces;
-using ProjectGameDev.Engine;
+using ProjectGameDev.Core;
 using ProjectGameDev.Utility;
 using System;
 using System.Collections.Generic;

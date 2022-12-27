@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Animations.Hero;
 using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Components;
-using ProjectGameDev.Engine;
+using ProjectGameDev.Core;
 using ProjectGameDev.Levels;
 using ProjectGameDev.Utility;
 using System;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Characters
 {
-    internal class Hero : WorldObject, Engine.IDrawable, IPhysics, ICollision, IReplicate
+    internal class Hero : WorldObject, Core.IDrawable, IPhysics, ICollision, IReplicate
     {
         public RootComponent RootComponent { get; protected set; }
         public MovementComponent CharacterMovement { get; protected set; }

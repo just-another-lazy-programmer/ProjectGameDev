@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using ProjectGameDev.Engine;
+using ProjectGameDev.Core;
+using ProjectGameDev.Core.Level;
 using ProjectGameDev.Objects;
 using System;
 using System.Collections.Generic;
