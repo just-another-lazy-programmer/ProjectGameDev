@@ -20,7 +20,7 @@ namespace ProjectGameDev.Levels.TestLevel
         public override void Load()
         {
             var loader = new LevelLoader(dependencyManager);
-            loader.LoadTileMap("MossyTileSet", "Map1.tmj");
+            loader.LoadTileMap("MossyTileSet", "Map1.tmj", this);
             //var dependencyManager = new Engine.DependencyManager();
             AddObject(new Hero(dependencyManager));
             //AddObject(new Hero());

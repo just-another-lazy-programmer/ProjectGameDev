@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using ProjectGameDev.Core.Level.Model;
+using ProjectGameDev.Utility;
 
 namespace ProjectGameDev.Core.Level
 {
@@ -22,10 +23,49 @@ namespace ProjectGameDev.Core.Level
             dependencyManager.InjectChecked(ref contentManager);
         }
 
-        public void LoadTileMap(string tileset, string tilemap)
+        public void LoadTileMap(string tileset, string tilemap, Level level)
         {
             // @TODO: is this cross-platform?
             var map = ReadTileMap(ReadFile(Path.Combine(tilemapsDirectory, tilemap)));
+            CreateObjectsForLevel(map, level);
+        }
+
+        private void CreateObjectsForLevel(TileMap tilemap, Level level)
+        {
+            foreach (var layer in tilemap.Layers)
+            {
+                foreach (var gid in layer.Data)
+                {
+                    if (gid == 0) continue;
+
+                    var tileset = FindTilesetForGid(tilemap, gid);
+                    var location = LevelUtils.GetLocationInSetFromGID(
+                        gid,
+                        tileset.FirstGID,
+                        tilemap.TileWidth,
+                        tilemap.Width
+                    );
+                }
+            }
+        }
+
+        private TileSet FindTilesetForGid(TileMap tilemap, int gid)
+        {
+            TileSet found = null;
+
+            foreach (var tileset in tilemap.TileSets)
+            {
+                if (found == null && tileset.FirstGID <= gid)
+                {
+                    found = tileset;
+                }
+                else if (found != null && tileset.FirstGID > found.FirstGID && tileset.FirstGID <= gid)
+                {
+                    found = tileset;
+                }
+            }
+
+            return found;
         }
 
         private string ReadFile(string path)
