@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.IO;
+using ProjectGameDev.Core.Level.Model;
 
 namespace ProjectGameDev.Core.Level
 {
@@ -24,7 +25,7 @@ namespace ProjectGameDev.Core.Level
         public void LoadTileMap(string tileset, string tilemap)
         {
             // @TODO: is this cross-platform?
-            ReadTileMap(ReadFile(Path.Combine(tilemapsDirectory, tilemap)));
+            var map = ReadTileMap(ReadFile(Path.Combine(tilemapsDirectory, tilemap)));
         }
 
         private string ReadFile(string path)
@@ -33,20 +34,33 @@ namespace ProjectGameDev.Core.Level
             return File.ReadAllText(path);
         }
 
-        private void ReadTileMap(string tilemap)
+        private TileMap ReadTileMap(string tilemap)
         {
             var json = JObject.Parse(tilemap);
 
-            var height = (int)json["height"];
-            var width = (int)json["width"];
+            // This looks horrible but it's just mapping the json to the C# classes
+            // So it's fine
 
-            var tileheight = (int)json["tileheight"];
-            var tilewidth = (int)json["tilewidth"];
+            return new TileMap
+            {
+                Height = (int)json["height"],
+                Width = (int)json["width"],
 
-            var layers = (JArray)json["layers"];
-            var tilesets = (JArray)json["tilesets"];
+                TileHeight = (int)json["tileheight"],
+                TileWidth = (int)json["tilewidth"],
 
-
+                Layers = ((JArray)json["layers"]).Select(l => new Layer
+                {
+                    Data = ((JArray)l["data"]).Select(d => (int)d).ToList(),
+                    Height = (int)l["height"],
+                    Width = (int)l["width"]
+                }).ToList(),
+                TileSets = ((JArray)json["tilesets"]).Select(t => new TileSet
+                {
+                    FirstGID = (int)t["firstgid"],
+                    Source = (string)t["source"]
+                }).ToList()
+            };
         }
     }
 }

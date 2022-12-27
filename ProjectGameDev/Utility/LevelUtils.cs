@@ -9,6 +9,7 @@ namespace ProjectGameDev.Utility
 {
     internal static class LevelUtils
     {
+        // Source: ChatGPT
         public static Point GetLocationInSetFromGID(int gid, int firstgid, int tilesize, int tilesPerRow)
         {
             // Subtract the firstgid of the tileset to get the index of the tile within the set

@@ -8,5 +8,7 @@ namespace ProjectGameDev.Core.Level.Model
 {
     internal class TileSet
     {
+        public int FirstGID { get; set; }
+        public string Source { get; set; }
     }
 }
