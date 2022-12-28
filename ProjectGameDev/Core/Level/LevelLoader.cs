@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using System.IO;
 using ProjectGameDev.Core.Level.Model;
 using ProjectGameDev.Utility;
+using Microsoft.Xna.Framework.Input;
+using ProjectGameDev.Objects;
 
 namespace ProjectGameDev.Core.Level
 {
@@ -23,28 +25,44 @@ namespace ProjectGameDev.Core.Level
             dependencyManager.InjectChecked(ref contentManager);
         }
 
-        public void LoadTileMap(string tileset, string tilemap, Level level)
+        public void LoadTileMap(string tileset, string tilemap, Level level, float scaleFactor)
         {
             // @TODO: is this cross-platform?
             var map = ReadTileMap(ReadFile(Path.Combine(tilemapsDirectory, tilemap)));
-            CreateObjectsForLevel(map, level);
+            CreateObjectsForLevel(map, level, scaleFactor);
         }
 
-        private void CreateObjectsForLevel(TileMap tilemap, Level level)
+        private void CreateObjectsForLevel(TileMap tilemap, Level level, float scaleFactor)
         {
             foreach (var layer in tilemap.Layers)
             {
-                foreach (var gid in layer.Data)
+                for (int i = 0; i < layer.Data.Count; i++)
                 {
+                    var gid = layer.Data[i];
                     if (gid == 0) continue;
 
                     var tileset = FindTilesetForGid(tilemap, gid);
-                    var location = LevelUtils.GetLocationInSetFromGID(
+
+                    if (tileset == null)
+                        throw new Exception($"Failed to find TileSet for a GID that wasn't 0 ({gid})");
+
+                    var sourceLocation = LevelUtils.GetLocationInSetFromGID(
                         gid,
                         tileset.FirstGID,
                         tilemap.TileWidth,
                         tilemap.Width
                     );
+
+                    var destinationLocationX = (i % tilemap.Width)*(tilemap.TileWidth*scaleFactor);
+                    var destinationLocationY = (i / tilemap.Width)*(tilemap.TileHeight*scaleFactor);
+
+                    var debugTile = new DebugRectangle(
+                        level.GetDependencyManager(),
+                        new Microsoft.Xna.Framework.Vector2(destinationLocationX, destinationLocationY),
+                        new Microsoft.Xna.Framework.Point((int)(tilemap.TileWidth*scaleFactor), (int)(tilemap.TileHeight*scaleFactor))
+                    );
+
+                    level.AddObject(debugTile);
                 }
             }
         }

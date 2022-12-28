@@ -7,11 +7,17 @@ using ProjectGameDev.Core;
 using ProjectGameDev.Utility;
 using System.Collections.Generic;
 using System.Security.AccessControl;
+using Serilog;
+using System.IO;
+using System;
+using Serilog.Core;
 
 namespace ProjectGameDev
 {
     public class Game1 : Game
     {
+        public const string GameName = "ProjectGameDev";
+
         private readonly GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
@@ -34,6 +40,13 @@ namespace ProjectGameDev
             engine = new Core.Engine(dependencyManager);
         }
 
+        // We want the Crash Handler to be able to access the logger
+        public Logger GetLogger()
+        {
+            // This better not throw lol
+            return dependencyManager.GetDependencyChecked<Logger>();
+        }
+
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -46,6 +59,25 @@ namespace ProjectGameDev
             graphics.ApplyChanges();
 
             dependencyManager.RegisterDependency(GraphicsDevice);
+
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string appRoot = Path.Combine(appData, GameName);
+
+            var newLogger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .MinimumLevel.Debug()
+                .WriteTo.File(
+                    Path.Combine(appRoot, "Logs/log-.log"),
+                    restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug,
+                    rollingInterval: RollingInterval.Day,
+                    rollOnFileSizeLimit: true,
+                    outputTemplate: "{Timestamp} [{Level}] {Message}{NewLine}{Exception}"
+                )
+                .CreateLogger();
+
+            newLogger.Debug("Started!");
+
+            dependencyManager.RegisterDependency(newLogger);
 
             base.Initialize();
         }

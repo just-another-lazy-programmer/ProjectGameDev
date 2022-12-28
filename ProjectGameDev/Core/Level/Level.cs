@@ -22,6 +22,11 @@ namespace ProjectGameDev.Core.Level
         {
         }
 
+        public DependencyManager GetDependencyManager()
+        {
+            return dependencyManager;
+        }
+
         public void AddObject(WorldObject worldObject)
         {
             objects.Add(worldObject);
