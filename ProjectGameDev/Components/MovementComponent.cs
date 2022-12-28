@@ -67,7 +67,8 @@ namespace ProjectGameDev.Components
 
         private void UpdatePhysics(Vector2 direction)
         {
-            physicsComponent.SetAcceleration(direction * Speed);
+            var inAirMultiplier = physicsComponent.Floor != null ? 1f : 0.5f;
+            physicsComponent.SetAcceleration(direction * Speed * inAirMultiplier);
         }
 
         public override void Tick(GameTime gameTime)

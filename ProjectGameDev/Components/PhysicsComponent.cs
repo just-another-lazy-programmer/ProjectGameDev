@@ -22,7 +22,8 @@ namespace ProjectGameDev.Components
         public Vector2 Velocity { get { return velocity; } }
         public Vector2 Acceleration { get { return acceleration; } }
 
-        public float MaxVelocity { get; set; } = 4f;
+        public float MaxVelocityX { get; set; } = 4f;
+        public float MaxVelocityY { get; set; } = 14f;
 
         public WorldObject Floor { get; protected set; }
 
@@ -58,10 +59,11 @@ namespace ProjectGameDev.Components
         {
             Floor = null;
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            acceleration += new Vector2(0, 7);
+            acceleration += new Vector2(0, 10);
             velocity += acceleration * deltaTime;
 
-            ClampVector(ref velocity, MaxVelocity);
+            //ClampVector(ref velocity, MaxVelocity);
+            ClampVelocity();
 
             Decellerate();
 
@@ -150,6 +152,7 @@ namespace ProjectGameDev.Components
         }
         */
 
+        /*
         private Vector2 ClampVector(ref Vector2 vector, float max)
         {
             var length = vector.Length();
@@ -162,6 +165,13 @@ namespace ProjectGameDev.Components
             }
 
             return vector;
+        }
+        */
+
+        public void ClampVelocity()
+        {
+            velocity.X = Math.Clamp(velocity.X, -MaxVelocityX, MaxVelocityX);
+            velocity.Y = Math.Clamp(velocity.Y, -MaxVelocityY, MaxVelocityY);
         }
 
         private void Decellerate()
