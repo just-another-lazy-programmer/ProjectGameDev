@@ -60,6 +60,7 @@ namespace ProjectGameDev
 
             dependencyManager.RegisterDependency(GraphicsDevice);
 
+            // @todo: consider moving over to Program.cs
             string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string appRoot = Path.Combine(appData, GameName);
 

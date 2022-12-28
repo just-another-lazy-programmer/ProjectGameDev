@@ -31,11 +31,20 @@ namespace ProjectGameDev.Components
         protected bool facingRight = true;
         protected MovementState lastState;
 
+        protected InputManager inputManager;
+
         public Dictionary<MovementState, Animation> Animations { get; protected set; } = new(); 
 
         public MovementComponent()
         {
             WantsTick = true;
+        }
+
+        public override void RegisterDependencies(DependencyManager dependencyManager)
+        {
+            base.RegisterDependencies(dependencyManager);
+
+            dependencyManager.Inject(ref inputManager);
         }
 
         public override void Activate()
@@ -66,13 +75,13 @@ namespace ProjectGameDev.Components
             var state = Keyboard.GetState();
             var direction = new Vector2();
 
-            if (state.IsKeyDown(Keys.Left))
+            if (state.IsKeyDown(inputManager.GetKeyForAction(InputAction.MoveLeft)))
                 direction.X -= 1;
 
-            if (state.IsKeyDown(Keys.Right))
+            if (state.IsKeyDown(inputManager.GetKeyForAction(InputAction.MoveRight)))
                 direction.X += 1;
 
-            if (state.IsKeyDown(Keys.Space) && physicsComponent.Floor != null)
+            if (state.IsKeyDown(inputManager.GetKeyForAction(InputAction.Jump)) && physicsComponent.Floor != null)
             {
                 physicsComponent.Impulse(new Vector2(0, -5));
                 physicsComponent.RemoveFloor();
