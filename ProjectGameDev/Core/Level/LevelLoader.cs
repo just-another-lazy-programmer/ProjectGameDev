@@ -12,6 +12,8 @@ using ProjectGameDev.Core.Level.Model;
 using ProjectGameDev.Utility;
 using Microsoft.Xna.Framework.Input;
 using ProjectGameDev.Objects;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace ProjectGameDev.Core.Level
 {
@@ -19,6 +21,7 @@ namespace ProjectGameDev.Core.Level
     {
         private readonly ContentManager contentManager;
         private const string tilemapsDirectory = "./Levels/Tilemaps";
+        private readonly static Dictionary<string, Texture2D> tilesetTextures = new();
 
         public LevelLoader(DependencyManager dependencyManager)
         {
@@ -30,6 +33,16 @@ namespace ProjectGameDev.Core.Level
             // @TODO: is this cross-platform?
             var map = ReadTileMap(ReadFile(Path.Combine(tilemapsDirectory, tilemap)));
             CreateObjectsForLevel(map, level, scaleFactor);
+        }
+
+        private Texture2D GetTexureForTileSet(TileSet tileset)
+        {
+            if (tilesetTextures.TryGetValue(tileset.Source, out Texture2D texture))
+                return texture;
+
+            var newTexture = contentManager.Load<Texture2D>(tileset.Source);
+            tilesetTextures.Add(tileset.Source, newTexture);
+            return newTexture;
         }
 
         private void CreateObjectsForLevel(TileMap tilemap, Level level, float scaleFactor)
@@ -46,25 +59,50 @@ namespace ProjectGameDev.Core.Level
                     if (tileset == null)
                         throw new Exception($"Failed to find TileSet for a GID that wasn't 0 ({gid})");
 
-                    var sourceLocation = LevelUtils.GetLocationInSetFromGID(
+                    var texture = GetTexureForTileSet(tileset);
+
+                    var sourceLocation = GetLocationInSetFromGID(
                         gid,
                         tileset.FirstGID,
                         tilemap.TileWidth,
-                        tilemap.Width
+                        texture.Width / tilemap.TileWidth
                     );
 
                     var destinationLocationX = (i % tilemap.Width)*(tilemap.TileWidth*scaleFactor);
                     var destinationLocationY = (i / tilemap.Width)*(tilemap.TileHeight*scaleFactor);
 
-                    var debugTile = new DebugRectangle(
-                        level.GetDependencyManager(),
-                        new Microsoft.Xna.Framework.Vector2(destinationLocationX, destinationLocationY),
-                        new Microsoft.Xna.Framework.Point((int)(tilemap.TileWidth*scaleFactor), (int)(tilemap.TileHeight*scaleFactor))
+                    var size = new Point(
+                        (int)(tilemap.TileWidth * scaleFactor), 
+                        (int)(tilemap.TileHeight * scaleFactor)
                     );
 
-                    level.AddObject(debugTile);
+                    var newTile = new Tile(
+                        level.GetDependencyManager(),
+                        new Vector2(destinationLocationX, destinationLocationY),
+                        size,
+                        texture,
+                        new Rectangle(sourceLocation, new Point(tilemap.TileWidth, tilemap.TileHeight)) 
+                    );
+
+                    level.AddObject(newTile);
                 }
             }
+        }
+
+        private Point GetLocationInSetFromGID(int gid, int firstgid, int tilesize, int tilesPerRow)
+        {
+            // Subtract the firstgid of the tileset to get the index of the tile within the set
+            int index = gid - firstgid;
+
+            // Calculate the row and column of the tile within the tileset
+            int row = index / tilesPerRow;
+            int col = index % tilesPerRow;
+
+            // Multiply the row and column by the tile size to get the location of the tile in pixels
+            int x = col * tilesize;
+            int y = row * tilesize;
+
+            return new Point(x, y);
         }
 
         private TileSet FindTilesetForGid(TileMap tilemap, int gid)

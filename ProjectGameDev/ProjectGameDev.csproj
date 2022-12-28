@@ -13,8 +13,16 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Levels\TestLevel\Map1.tmj" />
+    <None Remove="Levels\Tilemaps\Attempt1.tmj" />
+    <None Remove="Levels\Tilemaps\Attempt2.tmj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Levels\Tilemaps\Attempt1.tmj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Levels\Tilemaps\Attempt2.tmj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Levels\Tilemaps\Map1.tmj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Core.Level.Model
 {
-    internal struct TileMap
+    internal class TileMap
     {
         public int Height { get; set; }
         public int Width { get; set; }

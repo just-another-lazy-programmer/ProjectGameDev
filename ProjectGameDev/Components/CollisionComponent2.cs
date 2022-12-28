@@ -41,9 +41,9 @@ namespace ProjectGameDev.Components
 
             foreach (var obj in objects)
             {
-                if (obj != Owner && obj is ICollision collision)
+                if (obj != Owner && obj.TryGetComponentFast(out CollisionComponent2 collisionComponent) && collisionComponent.IsActive)
                 {
-                    if (TestCollisionSingle(GetCollisionRects(location), collision.CollisionComponent))
+                    if (TestCollisionSingle(GetCollisionRects(location), collisionComponent))
                         return obj;
                 }
             }

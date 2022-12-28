@@ -12,6 +12,8 @@ namespace ProjectGameDev.Core
     public abstract class WorldObject
     {
         private readonly List<Component> components = new();
+        private readonly Dictionary<Type, Component> defaultComponents = new();
+
         protected DependencyManager DependencyManager { get; private set; }
 
         public WorldObject(DependencyManager dependencyManager)
@@ -38,6 +40,7 @@ namespace ProjectGameDev.Core
             component.SetOwner(this);
             components.Add(component);
             component.RegisterDependencies(DependencyManager);
+            defaultComponents.Add(typeof(T), component);
             return component;
         }
 
@@ -52,6 +55,32 @@ namespace ProjectGameDev.Core
         public T GetComponent<T>() where T : Component
         {
             return components.Find(p => p.GetType() == typeof(T)) as T;
+        }
+
+        public bool HasComponentFast<T>() where T : Component
+        {
+            return defaultComponents.ContainsKey(typeof(T));
+        }
+
+        public bool TryGetComponentFast<T>(out T component) where T : Component
+        {
+            component = null;
+
+            if (defaultComponents.TryGetValue(typeof(T), out Component temp))
+            {
+                component = (T)temp;
+                return true;
+            }
+
+            return false;
+        }
+
+        // Gets component from Dictionary, only works for default components!
+        // Does not check whether component exists!
+
+        public T GetComponentFast<T>() where T : Component
+        {
+            return (T)defaultComponents[typeof(T)];
         }
 
         public List<Component> GetComponents()

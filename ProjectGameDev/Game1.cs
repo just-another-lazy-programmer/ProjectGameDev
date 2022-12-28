@@ -32,12 +32,14 @@ namespace ProjectGameDev
             IsMouseVisible = true;
             dependencyManager = new DependencyManager();
             world = new World();
+            world.BackgroundColor = Color.Gray;
 
             // We want the ContentManager and World to be accessible to all classes
             dependencyManager.RegisterDependency(Content);
             dependencyManager.RegisterDependency(world);
 
             engine = new Core.Engine(dependencyManager);
+            Window.AllowUserResizing = true;
         }
 
         // We want the Crash Handler to be able to access the logger
@@ -54,11 +56,12 @@ namespace ProjectGameDev
             //_graphics.IsFullScreen = true;
             //_graphics.ApplyChanges();
 
-            graphics.PreferredBackBufferHeight = 16 * 45;
-            graphics.PreferredBackBufferWidth = 16 * 80;
+            graphics.PreferredBackBufferHeight = 32 * 20;
+            graphics.PreferredBackBufferWidth = 32 * 30;
             graphics.ApplyChanges();
 
             dependencyManager.RegisterDependency(GraphicsDevice);
+            dependencyManager.RegisterDependency(graphics);
 
             // @todo: consider moving over to Program.cs
             string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

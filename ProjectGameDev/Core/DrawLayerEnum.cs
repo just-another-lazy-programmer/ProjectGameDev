@@ -9,6 +9,7 @@ namespace ProjectGameDev.Core
     internal enum DrawLayer
     {
         Background = 1,
+        Tile = 2,
         MovingObjects = 5,
         Player = 10,
         Debug = 11,

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using ProjectGameDev.Components;
 using ProjectGameDev.Core;
 using ProjectGameDev.Core.Level;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace ProjectGameDev.Levels.TestLevel
 {
@@ -20,7 +21,9 @@ namespace ProjectGameDev.Levels.TestLevel
         public override void Load()
         {
             var loader = new LevelLoader(dependencyManager);
-            loader.LoadTileMap("MossyTileSet", "Map1.tmj", this, 1/32f);
+            //var graphicsDevice = dependencyManager.GetDependencyChecked<GraphicsDevice>();
+            //int height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            loader.LoadTileMap("MossyTileSet", "Attempt2.tmj", this, 1/16f); // 16x16
             //var dependencyManager = new Engine.DependencyManager();
             AddObject(new Hero(dependencyManager));
             //AddObject(new Hero());
