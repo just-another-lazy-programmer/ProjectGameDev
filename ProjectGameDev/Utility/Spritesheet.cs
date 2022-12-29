@@ -22,6 +22,8 @@ namespace ProjectGameDev.Utility
         private int currentPadding = 0;
         private int currentRowPadding = 0;
 
+        private int currentRowSize = int.MaxValue;
+
         public Spritesheet SetPositionX(int x)
         {
             currentPosX = x;
@@ -60,6 +62,12 @@ namespace ProjectGameDev.Utility
             return this;
         }
 
+        public Spritesheet SetRowSize(int rowSize)
+        {
+            currentRowSize = rowSize;
+            return this;
+        }
+
         public Spritesheet SetPadding(int padding)
         {
             currentPadding = padding;
@@ -91,12 +99,20 @@ namespace ProjectGameDev.Utility
             return this;
         }
 
-        public Spritesheet Take(int count)
+        public Spritesheet Take(int count, bool automaticallyJumpToNextRow=true)
         {
             for (int i = 0; i < count; i++)
             {
                 Sprites.Add(new Sprite(new Microsoft.Xna.Framework.Rectangle(currentPosX, currentPosY, currentWidth, currentHeight)));
                 Next();
+
+                if (automaticallyJumpToNextRow)
+                {
+                    if (currentPosX + currentWidth > currentRowSize)
+                    {
+                        NextRow();
+                    }
+                }
             }
 
             return this;

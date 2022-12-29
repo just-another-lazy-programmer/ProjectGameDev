@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,18 @@ namespace ProjectGameDev.Utility
     {
         public Sprite CurrentFrame { get; set; }
         private List<Sprite> frames;
+        private Texture2D texture;
         private int currentIndex;
         private int fps;
         private double secondsElapsed;
         private bool loop;
         private bool finished;
 
-        public Animation(int fps, bool loop)
+        public Animation(int fps, bool loop, Texture2D texture)
         {
             this.fps = fps;
             this.loop = loop;
+            this.texture = texture;
             finished = false;
             frames = new List<Sprite>();
             secondsElapsed = 0;
@@ -48,6 +51,11 @@ namespace ProjectGameDev.Utility
         {
             this.frames.AddRange(frames);
             CurrentFrame = frames[0];
+        }
+
+        public Texture2D GetTexture()
+        {
+            return texture;
         }
 
         public void Update(GameTime gameTime)

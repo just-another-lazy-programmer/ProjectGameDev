@@ -14,9 +14,11 @@ namespace ProjectGameDev.Animations.Hero
 
         public bool Loop => true;
 
-        public Animation Build()
+        public string Texture => "hero";
+
+        public Animation Build(DependencyManager _)
         {
-            var animation = new Animation(FramesPerSecond, Loop);
+            var animation = new Animation(FramesPerSecond, Loop, null);
             var builder = new Spritesheet();
 
             animation.AddFramesBatch(builder

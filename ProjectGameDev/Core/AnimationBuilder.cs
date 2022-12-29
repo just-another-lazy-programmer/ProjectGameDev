@@ -10,6 +10,12 @@ namespace ProjectGameDev.Core
     internal class AnimationBuilder
     {
         private readonly Dictionary<Type, Animation> cachedAnimations = new();
+        private readonly DependencyManager dependencyManager;
+
+        public AnimationBuilder(DependencyManager dependencyManager)
+        {
+            this.dependencyManager = dependencyManager;
+        }
 
         public Animation GetAnimation<T>() where T : IAnimationBuilder, new()
         {
@@ -18,7 +24,7 @@ namespace ProjectGameDev.Core
             if (cachedAnimations.ContainsKey(type))
                 return cachedAnimations[type];
 
-            var animation = new T().Build();
+            var animation = new T().Build(dependencyManager);
             cachedAnimations[type] = animation;
 
             return animation;

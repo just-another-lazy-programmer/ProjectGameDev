@@ -16,7 +16,6 @@ namespace ProjectGameDev.Components
     internal class AnimationComponent : Component
     {
         protected Animation currentAnimation;
-        protected Texture2D currentTexture;
         protected bool shouldFlip;
 
         protected RootComponent rootComponent;
@@ -27,10 +26,9 @@ namespace ProjectGameDev.Components
             shouldFlip = false;
         }
 
-        public AnimationComponent(Texture2D texture, Animation animation) : this()
+        public AnimationComponent(Animation animation) : this()
         {
             currentAnimation = animation;
-            currentTexture = texture;
         }
 
         public override void Activate()
@@ -48,7 +46,7 @@ namespace ProjectGameDev.Components
         public virtual void Draw(SpriteBatch spriteBatch, double scale)
         {
             spriteBatch.Draw(
-                currentTexture,
+                currentAnimation.GetTexture(),
                 new Rectangle(rootComponent.Location.ToPoint(), GetAnimationBoundsScaled(scale)),
                 GetAnimationFrame(),
                 Color.White,
@@ -65,19 +63,9 @@ namespace ProjectGameDev.Components
             currentAnimation.Play();
         }
 
-        public virtual void SetTexture(Texture2D texture)
-        {
-            currentTexture = texture;
-        }
-
         public virtual Rectangle GetAnimationFrame()
         {
             return currentAnimation.CurrentFrame.SourceRectangle;
-        }
-
-        public virtual Texture2D GetTexure()
-        {
-            return currentTexture;
         }
 
         public virtual Point GetAnimationBoundsScaled(double scaleFactor)

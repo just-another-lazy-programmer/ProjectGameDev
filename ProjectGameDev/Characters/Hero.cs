@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Animations.Hero;
+using ProjectGameDev.Animations.Hero2;
 using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Components;
 using ProjectGameDev.Core;
@@ -32,8 +33,7 @@ namespace ProjectGameDev.Characters
 
         public Hero(DependencyManager dependencyManager) : base(dependencyManager)
         {
-            dependencyManager.Inject(ref animationBuilder);
-            var loadedTexture = LoadTexture(textureAssetName);
+            dependencyManager.InjectChecked(ref animationBuilder);
 
             // Create components
             RootComponent = CreateDefaultComponent<RootComponent>();
@@ -45,17 +45,16 @@ namespace ProjectGameDev.Characters
 
             // Setup AnimationComponent
             AnimationComponent.SetAnimation(animationBuilder.GetAnimation<HeroIdleAnimation>());
-            AnimationComponent.SetTexture(loadedTexture);
 
             // Setup Character Movement
-            CharacterMovement.OnState(MovementState.Idle, animationBuilder.GetAnimation<HeroIdleAnimation>());
-            CharacterMovement.OnState(MovementState.Running, animationBuilder.GetAnimation<HeroWalkingAnimation>());
-            CharacterMovement.OnState(MovementState.Jumping, animationBuilder.GetAnimation<HeroJumpingAnimation>());
+            CharacterMovement.OnState(MovementState.Idle, animationBuilder.GetAnimation<Hero2IdleAnimation>());
+            CharacterMovement.OnState(MovementState.Running, animationBuilder.GetAnimation<Hero2IdleAnimation>());
+            CharacterMovement.OnState(MovementState.Jumping, animationBuilder.GetAnimation<Hero2IdleAnimation>());
             CharacterMovement.Speed = 10;
 
             // Setup collisions
             //CollisionComponent.AddHitbox(0, 0, (int)(loadedTexture.Bounds.Width * scale), (int)(loadedTexture.Bounds.Height * scale));
-            var source = animationBuilder.GetAnimation<HeroIdleAnimation>().CurrentFrame.SourceRectangle;
+            var source = animationBuilder.GetAnimation<Hero2IdleAnimation>().CurrentFrame.SourceRectangle;
             CollisionComponent.AddHitbox(0, 0, (int)(source.Width*scale), (int)(source.Height*scale));
 
             // Active components

@@ -38,6 +38,9 @@ namespace ProjectGameDev
             dependencyManager.RegisterDependency(Content);
             dependencyManager.RegisterDependency(world);
 
+            var animationBuilder = new AnimationBuilder(dependencyManager);
+            dependencyManager.RegisterDependency(animationBuilder);
+
             engine = new Core.Engine(dependencyManager);
             Window.AllowUserResizing = true;
         }

@@ -10,7 +10,8 @@ namespace ProjectGameDev.Core
     internal interface IAnimationBuilder
     {
         public int FramesPerSecond { get; }
+        public string Texture { get; }
         public bool Loop { get; }
-        public Animation Build();
+        public Animation Build(DependencyManager dependencyManager);
     }
 }

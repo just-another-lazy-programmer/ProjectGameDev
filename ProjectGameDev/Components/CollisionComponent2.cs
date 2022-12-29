@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Core;
+using ProjectGameDev.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,7 @@ namespace ProjectGameDev.Components
         public Hitbox Hitbox { get; set; }
         protected RootComponent rootComponent;
         protected World world;
+        protected SimpleSprites simpleSprites;
 
         public CollisionComponent2()
         {
@@ -25,6 +28,7 @@ namespace ProjectGameDev.Components
             base.RegisterDependencies(dependencyManager);
 
             dependencyManager.InjectChecked(ref world);
+            dependencyManager.Inject(ref simpleSprites);
         }
 
         public override void Activate()
@@ -80,6 +84,14 @@ namespace ProjectGameDev.Components
             var location = myLocation ?? rootComponent.Location;
             return Hitbox.Rectangles.Select(r => new Rectangle(
                 r.X+(int)location.X, r.Y+(int)location.Y, r.Width, r.Height));
+        }
+
+        public void DebugDraw(SpriteBatch spriteBatch)
+        {
+            foreach (var rectangle in GetCollisionRects(null))
+            {
+                simpleSprites.DrawRectangleOutline(spriteBatch, rectangle, Color.Red, 3);
+            }
         }
     }
 

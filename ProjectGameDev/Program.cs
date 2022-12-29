@@ -3,6 +3,9 @@ using System;
 
 using var game = new ProjectGameDev.Game1();
 
+#if DEBUG // <- don't catch exceptions in debug since visual studio already handles them better
+game.Run();
+#else
 try
 {
     game.Run();
@@ -29,3 +32,4 @@ catch (Exception ex)
 #endif
     }
 }
+#endif
