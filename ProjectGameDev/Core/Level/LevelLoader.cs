@@ -61,7 +61,7 @@ namespace ProjectGameDev.Core.Level
 
                     var texture = GetTexureForTileSet(tileset);
 
-                    var sourceLocation = GetLocationInSetFromGID(
+                    var sourceLocation = TextureUtils.GetLocationInSetFromGID(
                         gid,
                         tileset.FirstGID,
                         tilemap.TileWidth,
@@ -87,22 +87,6 @@ namespace ProjectGameDev.Core.Level
                     level.AddObject(newTile);
                 }
             }
-        }
-
-        private Point GetLocationInSetFromGID(int gid, int firstgid, int tilesize, int tilesPerRow)
-        {
-            // Subtract the firstgid of the tileset to get the index of the tile within the set
-            int index = gid - firstgid;
-
-            // Calculate the row and column of the tile within the tileset
-            int row = index / tilesPerRow;
-            int col = index % tilesPerRow;
-
-            // Multiply the row and column by the tile size to get the location of the tile in pixels
-            int x = col * tilesize;
-            int y = row * tilesize;
-
-            return new Point(x, y);
         }
 
         private TileSet FindTilesetForGid(TileMap tilemap, int gid)

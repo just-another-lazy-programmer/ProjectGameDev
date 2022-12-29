@@ -26,6 +26,7 @@ namespace ProjectGameDev.Levels.TestLevel
             loader.LoadTileMap("MossyTileSet", "Attempt2.tmj", this, 1/16f); // 16x16
             //var dependencyManager = new Engine.DependencyManager();
             AddObject(new Hero2(dependencyManager));
+            AddObject(new MovingPlatform(dependencyManager, new Vector2(500, 450)));
             //AddObject(new Hero());
             //objects[1].GetComponent<MovementComponent>().Teleport(new Vector2(40, 40));
             //AddObject(new DebugRectangle(dependencyManager, new Vector2(0, 400), new Point(800, 100)));
