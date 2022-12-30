@@ -20,7 +20,8 @@ namespace ProjectGameDev.Characters
         public AnimationComponent AnimationComponent { get; protected set; }
         public PhysicsComponent PhysicsComponent { get; protected set; }
         public CollisionComponent2 CollisionComponent { get; protected set; }
-        public ReplicationComponent NetworkComponent { get; set; }
+        public ReplicationComponent NetworkComponent { get; protected set; }
+        public HealthComponent HealthComponent { get; protected set; }
 
         private AnimationBuilder animationBuilder;
 
@@ -43,8 +44,9 @@ namespace ProjectGameDev.Characters
             PhysicsComponent = CreateDefaultComponent<PhysicsComponent>();
             CollisionComponent = CreateDefaultComponent<CollisionComponent2>();
             NetworkComponent = CreateDefaultComponent<ReplicationComponent>();
+            HealthComponent = CreateDefaultComponent<HealthComponent>();
 
-            // Setup AnimationComponent
+            // Setup Animation Component
             AnimationComponent.SetAnimation(animationBuilder.GetAnimation<Hero2IdleAnimation>());
 
             // Setup Character Movement
@@ -54,15 +56,16 @@ namespace ProjectGameDev.Characters
             CharacterMovement.Speed = 10;
 
             // Setup collisions
-            //CollisionComponent.AddHitbox(0, 0, (int)(loadedTexture.Bounds.Width * scale), (int)(loadedTexture.Bounds.Height * scale));
-            //var source = animationBuilder.GetAnimation<Hero2IdleAnimation>().CurrentFrame.SourceRectangle;
-            //CollisionComponent.AddHitbox(0, 0, (int)(source.Width * scale), (int)(source.Height * scale));
             CollisionComponent.AddHitbox(35, 25, 30, 55);
+            CollisionComponent.ShouldTrigger = true;
 
-            // Active components
+            // Health Component
+            HealthComponent.MaxHealth = 100;
+
+            // Activate components
             ActivateComponents();
 
-            CharacterMovement.Teleport(new Microsoft.Xna.Framework.Vector2(10, 200));
+            CharacterMovement.Teleport(new Vector2(10, 200));
         }
 
         public void Draw(SpriteBatch spriteBatch)

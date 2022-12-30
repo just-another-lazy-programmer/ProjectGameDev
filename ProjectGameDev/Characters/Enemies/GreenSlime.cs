@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Animations.GreenSlime;
 using ProjectGameDev.Components;
 using ProjectGameDev.Core;
@@ -10,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDrawable = ProjectGameDev.Core.IDrawable;
 
 namespace ProjectGameDev.Characters.Enemies
 {
@@ -20,6 +22,7 @@ namespace ProjectGameDev.Characters.Enemies
         protected AnimationComponent animationComponent;
         protected PhysicsComponent physicsComponent;
         protected CollisionComponent2 collisionComponent;
+        protected TriggerComponent triggerComponent;
         protected const double scale = 0.2;
         protected CooldownManager cooldownManager;
 
@@ -28,10 +31,12 @@ namespace ProjectGameDev.Characters.Enemies
             dependencyManager.InjectChecked(ref animationBuilder);
             dependencyManager.Inject(ref cooldownManager);
 
+            var hitbox = new Rectangle(10, 0, 52, 45);
+
             CreateDefaultComponent<RootComponent>();
 
             collisionComponent = CreateDefaultComponent<CollisionComponent2>();
-            collisionComponent.AddHitbox(10, 0, 52, 45);
+            collisionComponent.AddHitbox(hitbox);
             collisionComponent.IgnoreHitbox = true; // <- we only want trigger
 
             animationComponent = CreateDefaultComponent<AnimationComponent>();
@@ -39,7 +44,24 @@ namespace ProjectGameDev.Characters.Enemies
 
             physicsComponent = CreateDefaultComponent<PhysicsComponent>();
 
+            triggerComponent = CreateDefaultComponent<TriggerComponent>();
+            triggerComponent.AddHitbox(hitbox);
+            triggerComponent.CooldownTime = 2;
+
+            triggerComponent.OnCollisionEvent += TriggerComponent_OnCollisionEvent;
+
             ActivateComponents();
+        }
+
+        private void TriggerComponent_OnCollisionEvent(object sender, CollisionEventArgs e)
+        {
+            var objectHit = e.ObjectHit;
+            
+            if (objectHit.TryGetComponentFast(out HealthComponent healthComponent))
+            {
+                healthComponent.TakeDamage(this, 30);
+                Debug.WriteLine("Took damage!");
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)

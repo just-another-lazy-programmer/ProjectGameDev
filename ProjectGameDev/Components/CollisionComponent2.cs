@@ -17,7 +17,10 @@ namespace ProjectGameDev.Components
         public bool IgnoreHitbox { get; set; } = false;
         protected World world;
 
-        public CollisionComponent2() : base() { }
+        public CollisionComponent2() : base() 
+        {
+            WantsTick = true;        
+        }
 
         public override void RegisterDependencies(DependencyManager dependencyManager)
         {
@@ -29,6 +32,16 @@ namespace ProjectGameDev.Components
         public override void Activate()
         {
             base.Activate();
+        }
+
+        public override void Tick(GameTime gameTime)
+        {
+            base.Tick(gameTime);
+
+            if (ShouldTrigger)
+            {
+                TriggerObjects();
+            }
         }
 
         public WorldObject TestCollision(Vector2 location)

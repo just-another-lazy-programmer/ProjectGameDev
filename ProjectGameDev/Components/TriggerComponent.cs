@@ -1,4 +1,5 @@
 ﻿using ProjectGameDev.Core;
+using ProjectGameDev.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,28 @@ namespace ProjectGameDev.Components
         public float CooldownTime { get; set; } = 5;
         public bool IsCooldownGlobal { get; set; } = true;
 
-        
+        protected CooldownManager cooldownManager;
+
+        public override void RegisterDependencies(DependencyManager dependencyManager)
+        {
+            base.RegisterDependencies(dependencyManager);
+
+            dependencyManager.Inject(ref cooldownManager);
+        }
 
         public void ProcessHitEvent(WorldObject objectHit)
         {
-            OnCollisionEvent?.Invoke(this, new CollisionEventArgs
+            object key = IsCooldownGlobal ? null : objectHit;
+
+            if (!cooldownManager.IsOnCooldown(this, key, CooldownTime))
             {
-                ObjectHit = objectHit
-            });
+                OnCollisionEvent?.Invoke(this, new CollisionEventArgs
+                {
+                    ObjectHit = objectHit
+                });
+
+                cooldownManager.SetCooldown(this, key);
+            }
         }
     }
 

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Utility
 {
-    internal class CooldownManager
+    public class CooldownManager
     {
         private readonly Dictionary<CooldownRequester, DateTime> cooldowns = new();
 
-        public bool ProcessCooldown(CooldownRequester requester, float cooldownLength, bool isInitiallyOnCooldown= false)
+        public bool IsOnCooldown(CooldownRequester requester, float cooldownLength, bool isInitiallyOnCooldown= false)
         {
             if (cooldowns.TryGetValue(requester, out DateTime cooldownStart))
             {
@@ -24,7 +24,7 @@ namespace ProjectGameDev.Utility
 
         public bool IsOnCooldown(object self, object key, float cooldownLength, bool isInitiallyOnCooldown=false)
         {
-            return ProcessCooldown(new CooldownRequester(self, key), cooldownLength, isInitiallyOnCooldown);
+            return IsOnCooldown(new CooldownRequester(self, key), cooldownLength, isInitiallyOnCooldown);
         }
 
         public void SetCooldown(object self, object key)
@@ -38,7 +38,7 @@ namespace ProjectGameDev.Utility
         }
     }
 
-    internal struct CooldownRequester : IEquatable<CooldownRequester>
+    public struct CooldownRequester : IEquatable<CooldownRequester>
     {
         public object Self { get; set; }
         public object Key { get; set; }
