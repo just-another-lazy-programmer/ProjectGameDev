@@ -62,6 +62,13 @@ namespace ProjectGameDev.Utility
             return this;
         }
 
+        public Spritesheet SetSize(int size)
+        {
+            currentWidth = size;
+            currentHeight = size;
+            return this;
+        }
+
         public Spritesheet SetRowSize(int rowSize)
         {
             currentRowSize = rowSize;

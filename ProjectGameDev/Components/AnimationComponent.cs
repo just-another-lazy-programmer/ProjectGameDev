@@ -43,13 +43,16 @@ namespace ProjectGameDev.Components
             shouldFlip = newFlip;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, double scale)
+        public virtual void Draw(SpriteBatch spriteBatch, double scale, Color? color=null)
         {
+            if (!color.HasValue)
+                color = Color.White;
+
             spriteBatch.Draw(
                 currentAnimation.GetTexture(),
                 new Rectangle(rootComponent.Location.ToPoint(), GetAnimationBoundsScaled(scale)),
                 GetAnimationFrame(),
-                Color.White,
+                color.Value,
                 0,
                 Vector2.Zero,
                 GetSpriteEffects(),

@@ -11,32 +11,23 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Components
 {
-    internal class CollisionComponent2 : Component
+    public class CollisionComponent2 : HitboxComponent
     {
-        public Hitbox Hitbox { get; set; }
-        protected RootComponent rootComponent;
+        public bool ShouldTrigger { get; set; }
         protected World world;
-        protected SimpleSprites simpleSprites;
 
-        public CollisionComponent2()
-        {
-            Hitbox = new Hitbox();
-        }
+        public CollisionComponent2() : base() { }
 
         public override void RegisterDependencies(DependencyManager dependencyManager)
         {
             base.RegisterDependencies(dependencyManager);
 
             dependencyManager.InjectChecked(ref world);
-            dependencyManager.Inject(ref simpleSprites);
         }
 
         public override void Activate()
         {
             base.Activate();
-
-            rootComponent = Owner.GetComponent<RootComponent>();
-
         }
 
         public WorldObject TestCollision(Vector2 location)
@@ -55,7 +46,23 @@ namespace ProjectGameDev.Components
             return null;
         }
 
-        public bool TestCollisionSingle(IEnumerable<Rectangle> rectangles, CollisionComponent2 other)
+        public void TriggerObjects()
+        {
+            var objects = world.LoadedLevel.GetObjects();
+
+            foreach (var obj in objects)
+            {
+                if (obj != Owner && obj.TryGetComponentFast(out TriggerComponent triggerComponent) && triggerComponent.IsActive)
+                {
+                    if (TestCollisionSingle(GetCollisionRects(null), triggerComponent))
+                    {
+                        triggerComponent.ProcessHitEvent(Owner);
+                    }
+                }
+            }
+        }
+
+        public static bool TestCollisionSingle(IEnumerable<Rectangle> rectangles, HitboxComponent other)
         {
             foreach (var rect in other.GetCollisionRects())
             {
@@ -67,41 +74,6 @@ namespace ProjectGameDev.Components
             }
 
             return false;
-        }
-
-        public void AddHitbox(int x, int y, int width, int height)
-        {
-            AddHitbox(new Rectangle(x, y, width, height));
-        }
-
-        public void AddHitbox(Rectangle rectangle)
-        {
-            Hitbox.Rectangles.Add(rectangle);
-        }
-
-        public IEnumerable<Rectangle> GetCollisionRects(Vector2? myLocation=null)
-        {
-            var location = myLocation ?? rootComponent.Location;
-            return Hitbox.Rectangles.Select(r => new Rectangle(
-                r.X+(int)location.X, r.Y+(int)location.Y, r.Width, r.Height));
-        }
-
-        public void DebugDraw(SpriteBatch spriteBatch)
-        {
-            foreach (var rectangle in GetCollisionRects(null))
-            {
-                simpleSprites.DrawRectangleOutline(spriteBatch, rectangle, Color.Red, 3);
-            }
-        }
-    }
-
-    internal struct Hitbox
-    {
-        public List<Rectangle> Rectangles { get; set; }
-
-        public Hitbox()
-        {
-            Rectangles = new();
         }
     }
 }

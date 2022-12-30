@@ -19,6 +19,8 @@ namespace ProjectGameDev.Components
     /// </summary>
     internal class CollisionComponent : Component
     {
+        public bool IsTrigger { get; set; }
+
         protected RootComponent rootComponent;
         protected List<Rectangle> collisionRectangles = new();
         protected Point lastImpactPoint = new Point(-1, -1);

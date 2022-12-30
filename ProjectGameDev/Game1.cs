@@ -190,7 +190,7 @@ namespace ProjectGameDev
             spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
-            GraphicsDevice.Clear(world.BackgroundColor);
+            GraphicsDevice.Clear(Color.Black);
 
             //renderTargetDestination = GraphicsDevice.Viewport.Bounds;
 

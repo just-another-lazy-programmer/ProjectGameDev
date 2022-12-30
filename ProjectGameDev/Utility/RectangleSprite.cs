@@ -10,7 +10,7 @@ namespace ProjectGameDev.Utility
 {
     // class from https://stackoverflow.com/questions/13893959/how-to-draw-the-border-of-a-square
     // used for debugging
-    class SimpleSprites
+    public class SimpleSprites
     {
         static Texture2D _pointTexture;
 

@@ -11,6 +11,7 @@ using ProjectGameDev.Components;
 using ProjectGameDev.Core;
 using ProjectGameDev.Core.Level;
 using Microsoft.Xna.Framework.Graphics;
+using ProjectGameDev.Characters.Enemies;
 
 namespace ProjectGameDev.Levels.TestLevel
 {
@@ -27,8 +28,15 @@ namespace ProjectGameDev.Levels.TestLevel
             //var dependencyManager = new Engine.DependencyManager();
             AddObject(new Hero2(dependencyManager));
             AddObject(new MovingPlatform(dependencyManager, new Vector2(500, 450)));
-            //AddObject(new Hero());
-            //objects[1].GetComponent<MovementComponent>().Teleport(new Vector2(40, 40));
+
+            var slime = new Slime(dependencyManager);
+            slime.GetComponentFast<RootComponent>().Move(new Vector2(500, 400));
+            AddObject(slime);
+
+
+            AddObject(new Hero2(dependencyManager));
+            objects[^1].GetComponent<MovementComponent>().Teleport(new Vector2(140, 140));
+            ((Hero2)objects[^1]).HeroColor = Color.Orange;
             //AddObject(new DebugRectangle(dependencyManager, new Vector2(0, 400), new Point(800, 100)));
             //AddObject(new DebugRectangle(dependencyManager, new Vector2(500, 350), new Point(50, 50)));
             //AddObject(new DebugRectangle(dependencyManager, new Vector2(300, 250), new Point(100, 50)));

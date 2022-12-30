@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Animations.Hero;
 using ProjectGameDev.Animations.Hero2;
 using ProjectGameDev.ComponentInterfaces;
@@ -25,6 +26,8 @@ namespace ProjectGameDev.Characters
 
         private const double scale = 0.2;
         private const string textureAssetName = "hero_idle";
+
+        public Color HeroColor { get; set; } = Color.White;
 
         public DrawLayer DrawLayer => DrawLayer.Player;
 
@@ -64,7 +67,7 @@ namespace ProjectGameDev.Characters
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            AnimationComponent.Draw(spriteBatch, scale);
+            AnimationComponent.Draw(spriteBatch, scale, HeroColor);
             //CollisionComponent.DebugDraw(spriteBatch);
         }
     }

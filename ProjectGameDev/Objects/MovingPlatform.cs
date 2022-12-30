@@ -35,6 +35,7 @@ namespace ProjectGameDev.Objects
             rootComponent = CreateDefaultComponent<RootComponent>();
             collisionComponent = CreateDefaultComponent<CollisionComponent2>();
 
+            // Takes 3 tiles (GIDs 22-24) from tileset
             var textureLocation = TextureUtils.GetLocationInSetFromGID(22, 1, tilesize, 7);
             var textureSize = new Point(tilesize * 3, tilesize);
 

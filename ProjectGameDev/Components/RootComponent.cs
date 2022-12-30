@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Components
 {
-    internal class RootComponent : Component
+    public class RootComponent : Component
     {
         public Vector2 Location { get; set; }
 
