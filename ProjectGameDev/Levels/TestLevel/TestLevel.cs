@@ -29,9 +29,13 @@ namespace ProjectGameDev.Levels.TestLevel
             AddObject(new Hero2(dependencyManager));
             AddObject(new MovingPlatform(dependencyManager, new Vector2(500, 450)));
 
-            var slime = new Slime(dependencyManager);
-            slime.GetComponentFast<RootComponent>().Move(new Vector2(500, 400));
+            var slime = new GreenSlime(dependencyManager);
+            slime.GetComponentFast<RootComponent>().Move(new Vector2(500, 300));
             AddObject(slime);
+
+            var orangeSlime = new OrangeSlime(dependencyManager);
+            orangeSlime.GetComponentFast<RootComponent>().Move(new Vector2(700, 300));
+            AddObject(orangeSlime);
 
 
             AddObject(new Hero2(dependencyManager));

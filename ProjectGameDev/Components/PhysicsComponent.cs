@@ -83,6 +83,7 @@ namespace ProjectGameDev.Components
                 velocity.Y = 0;
 
             rootComponent.Location += velocity;
+            acceleration = Vector2.Zero;
 
             //var newLocation = rootComponent.Location + velocity;
             //var collidingObjects = GetCollidingObjects();

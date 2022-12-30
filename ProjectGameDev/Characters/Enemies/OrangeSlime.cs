@@ -1,19 +1,18 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Animations.GreenSlime;
+using ProjectGameDev.Animations.Slime;
 using ProjectGameDev.Components;
 using ProjectGameDev.Core;
 using ProjectGameDev.Utility;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ProjectGameDev.Characters.Enemies
 {
-    internal class Slime : WorldObject, IDrawable
+    internal class OrangeSlime : WorldObject, IDrawable
     {
         public DrawLayer DrawLayer => DrawLayer.Enemies;
         protected AnimationBuilder animationBuilder;
@@ -23,7 +22,7 @@ namespace ProjectGameDev.Characters.Enemies
         protected const double scale = 0.2;
         protected CooldownManager cooldownManager;
 
-        public Slime(DependencyManager dependencyManager) : base(dependencyManager)
+        public OrangeSlime(DependencyManager dependencyManager) : base(dependencyManager)
         {
             dependencyManager.InjectChecked(ref animationBuilder);
             dependencyManager.Inject(ref cooldownManager);
@@ -31,11 +30,11 @@ namespace ProjectGameDev.Characters.Enemies
             CreateDefaultComponent<RootComponent>();
 
             collisionComponent = CreateDefaultComponent<CollisionComponent2>();
-            collisionComponent.AddHitbox(10, 0, 52, 45);
+            collisionComponent.AddHitbox(10, 10, 80, 55);
             collisionComponent.IgnoreHitbox = true; // <- we only want trigger
 
             animationComponent = CreateDefaultComponent<AnimationComponent>();
-            animationComponent.SetAnimation(animationBuilder.GetAnimation<GreenSlimeIdleAnimation>());
+            animationComponent.SetAnimation(animationBuilder.GetAnimation<OrangeSlimeIdleAnimation>());
 
             physicsComponent = CreateDefaultComponent<PhysicsComponent>();
 
@@ -52,10 +51,10 @@ namespace ProjectGameDev.Characters.Enemies
         {
             base.Update(gameTime);
 
-            if (!cooldownManager.IsOnCooldown(this, null, 5))
+            if (!cooldownManager.IsOnCooldown(this, null, 2))
             {
                 cooldownManager.SetCooldown(this, null);
-                Debug.WriteLine("Yay!");
+                //physicsComponent.Impulse(new Microsoft.Xna.Framework.Vector2(0, -4));
             }
         }
     }
