@@ -14,6 +14,7 @@ namespace ProjectGameDev.Components
     public class CollisionComponent2 : HitboxComponent
     {
         public bool ShouldTrigger { get; set; }
+        public bool IgnoreHitbox { get; set; } = false;
         protected World world;
 
         public CollisionComponent2() : base() { }
@@ -36,7 +37,7 @@ namespace ProjectGameDev.Components
 
             foreach (var obj in objects)
             {
-                if (obj != Owner && obj.TryGetComponentFast(out CollisionComponent2 collisionComponent) && collisionComponent.IsActive)
+                if (obj != Owner && obj.TryGetComponentFast(out CollisionComponent2 collisionComponent) && collisionComponent.IsActive && !collisionComponent.IgnoreHitbox)
                 {
                     if (TestCollisionSingle(GetCollisionRects(location), collisionComponent))
                         return obj;
