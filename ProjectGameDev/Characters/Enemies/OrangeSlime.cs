@@ -54,7 +54,7 @@ namespace ProjectGameDev.Characters.Enemies
             if (!cooldownManager.IsOnCooldown(this, null, 2))
             {
                 cooldownManager.SetCooldown(this, null);
-                //physicsComponent.Impulse(new Microsoft.Xna.Framework.Vector2(0, -4));
+                physicsComponent.Impulse(new Microsoft.Xna.Framework.Vector2(0, -4));
             }
         }
     }

@@ -12,6 +12,7 @@ using ProjectGameDev.Core;
 using ProjectGameDev.Core.Level;
 using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Characters.Enemies;
+using ProjectGameDev.UI.Elements;
 
 namespace ProjectGameDev.Levels.TestLevel
 {
@@ -36,6 +37,9 @@ namespace ProjectGameDev.Levels.TestLevel
             var orangeSlime = new OrangeSlime(dependencyManager);
             orangeSlime.GetComponentFast<RootComponent>().Move(new Vector2(700, 300));
             AddObject(orangeSlime);
+
+            var text = new TextLabel(dependencyManager, new Vector2(50, 50));
+            AddObject(text);
 
 
             AddObject(new Hero2(dependencyManager));
