@@ -38,7 +38,7 @@ namespace ProjectGameDev.Levels.TestLevel
             orangeSlime.GetComponentFast<RootComponent>().Move(new Vector2(700, 300));
             AddObject(orangeSlime);
 
-            var text = new TextLabel(dependencyManager, new Vector2(50, 50));
+            var text = new TextLabel(dependencyManager, new Vector2(50, 50), "Hello world!");
             AddObject(text);
 
 

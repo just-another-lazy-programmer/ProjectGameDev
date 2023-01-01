@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.UI.Core
 {
-    internal class UIElement : WorldObject
+    public class UIElement : WorldObject
     {
         public UIElement(DependencyManager dependencyManager) : base(dependencyManager)
         {

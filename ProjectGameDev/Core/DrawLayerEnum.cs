@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Core
 {
-    internal enum DrawLayer
+    public enum DrawLayer
     {
         Background = 1,
         Tile = 2,
