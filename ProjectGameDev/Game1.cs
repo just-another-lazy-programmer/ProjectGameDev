@@ -11,6 +11,9 @@ using Serilog;
 using System.IO;
 using System;
 using Serilog.Core;
+using ProjectGameDev.Core.Game;
+using ProjectGameDev.UI.Services;
+using ProjectGameDev.Core.Game.States;
 
 namespace ProjectGameDev
 {
@@ -30,7 +33,8 @@ namespace ProjectGameDev
         private readonly Point gameResolution = new(32 * 30, 32 * 20);
         private RenderTarget2D renderTarget;
         private Rectangle renderTargetDestination;
-
+        private MouseService mouseService;
+        private CooldownManager cooldownManager;
 
         public Game1()
         {
@@ -47,6 +51,11 @@ namespace ProjectGameDev
 
             var animationBuilder = new AnimationBuilder(dependencyManager);
             dependencyManager.RegisterDependency(animationBuilder);
+
+            mouseService = new MouseService();
+            dependencyManager.RegisterDependency(mouseService);
+
+            dependencyManager.Inject(ref cooldownManager);
 
             engine = new Core.Engine(dependencyManager);
             //Window.AllowUserResizing = true;
@@ -143,7 +152,11 @@ namespace ProjectGameDev
                 .GetAwaiter()
                 .GetResult();
             */
-            engine.LoadLevel();
+            //engine.LoadLevel();
+
+            var gameManager = new GameManager(dependencyManager);
+            dependencyManager.RegisterDependency(gameManager);
+            gameManager.TransitionTo<MenuState>();
         }
 
         protected override void Update(GameTime gameTime)
@@ -152,7 +165,13 @@ namespace ProjectGameDev
                 Exit();
 
             if (Keyboard.GetState().IsKeyDown(Keys.F))
-                ToggleFullScreen();
+            {
+                if (!cooldownManager.IsOnCooldown(this, null, 1))
+                {
+                    ToggleFullScreen();
+                    cooldownManager.SetCooldown(this, null);
+                }
+            }
 
             // TODO: Add your update logic here
             //hero.Update(gameTime);
@@ -178,6 +197,7 @@ namespace ProjectGameDev
             graphics.ApplyChanges();
 
             renderTargetDestination = GetRenderTargetDestination(gameResolution, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            mouseService.UpdateScaleFactor(gameResolution, renderTargetDestination);
         }
 
         protected override void Draw(GameTime gameTime)

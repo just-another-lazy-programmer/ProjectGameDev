@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.UI.Core
 {
-    internal class UIContainer
+    public class UIContainer
     {
         protected List<UIElement> elements = new();
         protected readonly DependencyManager dependencyManager;
@@ -25,6 +25,11 @@ namespace ProjectGameDev.UI.Core
         public void AddElement(UIElement element)
         {
             elements.Add(element);
+        }
+
+        public virtual void Load()
+        {
+
         }
 
         public List<UIElement> GetElements()

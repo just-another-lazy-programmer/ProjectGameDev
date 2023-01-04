@@ -36,11 +36,23 @@ namespace ProjectGameDev.Core
 
         public void Tick(GameTime gameTime)
         {
-            foreach (var worldObject in world.LoadedLevel.GetObjects())
+            if (world.LoadedLevel != null)
             {
-                worldObject.Update(gameTime);
+                foreach (var worldObject in world.LoadedLevel.GetObjects())
+                {
+                    worldObject.Update(gameTime);
+                }
             }
 
+            if (world.ActiveScreen != null)
+            {
+                foreach (var element in world.ActiveScreen.GetElements())
+                {
+                    element.Update(gameTime);
+                }
+            }
+
+            /*
             foreach (var obj in world.LoadedLevel.GetObjects())
             {
                 if (obj is IReplicate replicate)
@@ -48,6 +60,7 @@ namespace ProjectGameDev.Core
                    //replicate.NetworkComponent. 
                 }
             }
+            */
         }
 
         public void ConnectMultiplayer(string host, ushort port)
@@ -57,19 +70,40 @@ namespace ProjectGameDev.Core
 
         internal void Draw(SpriteBatch spriteBatch)
         {
+
             SortedDictionary<DrawLayer, List<IDrawable>> objects = new();
 
-            foreach (var worldObject in world.LoadedLevel.GetObjects())
+            if (world.LoadedLevel != null)
             {
-                if (worldObject is IDrawable drawable)
+                // add world objects
+                foreach (var worldObject in world.LoadedLevel.GetObjects())
                 {
-                    if (!objects.ContainsKey(drawable.DrawLayer))
-                        objects.Add(drawable.DrawLayer, new());
+                    if (worldObject is IDrawable drawable)
+                    {
+                        if (!objects.ContainsKey(drawable.DrawLayer))
+                            objects.Add(drawable.DrawLayer, new());
 
-                    objects[drawable.DrawLayer].Add(drawable);
+                        objects[drawable.DrawLayer].Add(drawable);
+                    }
                 }
             }
 
+            if (world.ActiveScreen != null)
+            {
+                // add ui elements
+                foreach (var element in world.ActiveScreen.GetElements())
+                {
+                    if (element is IDrawable drawable)
+                    {
+                        if (!objects.ContainsKey(drawable.DrawLayer))
+                            objects.Add(drawable.DrawLayer, new());
+
+                        objects[drawable.DrawLayer].Add(drawable);
+                    }
+                }
+            }
+
+            // draw all layers
             foreach (var layer in objects)
                 foreach (var obj in layer.Value)
                     obj.Draw(spriteBatch);

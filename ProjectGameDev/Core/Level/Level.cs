@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
 using ProjectGameDev.Core;
+using ProjectGameDev.UI.Core;
 
 namespace ProjectGameDev.Core.Level
 {
     public class Level
     {
         protected List<WorldObject> objects = new();
+
         protected readonly DependencyManager dependencyManager;
 
         public Level(DependencyManager dependencyManager)
