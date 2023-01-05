@@ -5,7 +5,9 @@ using ProjectGameDev.Animations.Hero2;
 using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Components;
 using ProjectGameDev.Core;
+using ProjectGameDev.Utility;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,9 +26,14 @@ namespace ProjectGameDev.Characters
         public HealthComponent HealthComponent { get; protected set; }
 
         private AnimationBuilder animationBuilder;
+        private CooldownManager cooldownManager;
 
         private const double scale = 0.2;
         private const string textureAssetName = "hero_idle";
+
+        private bool redFrameRequested = false;
+        private bool inRedFrame = false;
+        private object redFrameKey = new();
 
         public Color HeroColor { get; set; } = Color.White;
 
@@ -35,6 +42,8 @@ namespace ProjectGameDev.Characters
         public Hero2(DependencyManager dependencyManager) : base(dependencyManager)
         {
             dependencyManager.InjectChecked(ref animationBuilder);
+            dependencyManager.Inject(ref cooldownManager);
+
             var loadedTexture = LoadTexture(textureAssetName);
 
             // Create components
@@ -61,6 +70,7 @@ namespace ProjectGameDev.Characters
 
             // Health Component
             HealthComponent.MaxHealth = 100;
+            HealthComponent.OnHealthChangedEvent += HealthComponent_OnHealthChangedEvent;
 
             // Activate components
             ActivateComponents();
@@ -68,9 +78,30 @@ namespace ProjectGameDev.Characters
             CharacterMovement.Teleport(new Vector2(10, 200));
         }
 
+        private void HealthComponent_OnHealthChangedEvent(object sender, HealthChangeEventArgs e)
+        {
+            if (e.IsDamage)
+            {
+                redFrameRequested = true;
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            AnimationComponent.Draw(spriteBatch, scale, HeroColor);
+            if (redFrameRequested)
+            {
+                inRedFrame = true;
+                redFrameRequested = false;
+                cooldownManager.SetCooldown(this, redFrameKey);
+            }
+
+            if (inRedFrame && !cooldownManager.IsOnCooldown(this, redFrameKey, 0.2f))
+            {
+                inRedFrame = false;
+            }
+
+            var color = inRedFrame ? Color.Red : HeroColor;
+            AnimationComponent.Draw(spriteBatch, scale, color);
             //CollisionComponent.DebugDraw(spriteBatch);
         }
     }

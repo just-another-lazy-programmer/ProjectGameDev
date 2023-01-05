@@ -26,10 +26,11 @@ namespace ProjectGameDev.Components
         public void TakeDamage(WorldObject damageCauser, float amount)
         {
             Health -= amount;
+            Health = Math.Max(0, Health); // Clamp health
 
-            OnHealthChangedEvent?.Invoke(this, new HealthChangeEventArgs(damageCauser, true, amount));
+            OnHealthChangedEvent?.Invoke(this, new HealthChangeEventArgs(damageCauser, true, amount, Health));
 
-            if (Health < 0)
+            if (Health <= 0)
             {
                 OnDeathEvent?.Invoke(this, new DeathEventArgs(damageCauser));
             }
@@ -39,7 +40,7 @@ namespace ProjectGameDev.Components
         {
             Health += amount;
 
-            OnHealthChangedEvent?.Invoke(this, new HealthChangeEventArgs(causer, false, amount));
+            OnHealthChangedEvent?.Invoke(this, new HealthChangeEventArgs(causer, false, amount, Health));
         }
     }
 
@@ -48,12 +49,14 @@ namespace ProjectGameDev.Components
         public WorldObject Causer { get; set; }
         public bool IsDamage { get; set; }
         public float Amount { get; set; }
+        public float CurrentHealth { get; set; }
 
-        public HealthChangeEventArgs(WorldObject causer, bool isDamage, float amount)
+        public HealthChangeEventArgs(WorldObject causer, bool isDamage, float amount, float health)
         {
             Causer = causer;
             IsDamage = isDamage;
             Amount = amount;
+            CurrentHealth = health;
         }
     }
 

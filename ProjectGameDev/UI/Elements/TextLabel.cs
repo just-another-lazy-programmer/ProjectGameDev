@@ -51,6 +51,12 @@ namespace ProjectGameDev.UI.Elements
             CalculateOffsetForAlignment();
         }
 
+        public void SetText(string newText)
+        {
+            text = newText;
+            CalculateOffsetForAlignment();
+        }
+
         private void CalculateOffsetForAlignment()
         {
             var size = GetActualSize();

@@ -38,13 +38,10 @@ namespace ProjectGameDev.Levels.TestLevel
             orangeSlime.GetComponentFast<RootComponent>().Move(new Vector2(700, 300));
             AddObject(orangeSlime);
 
-            var text = new TextLabel(dependencyManager, new Vector2(50, 50), "Hello world!");
-            AddObject(text);
 
-
-            AddObject(new Hero2(dependencyManager));
-            objects[^1].GetComponent<MovementComponent>().Teleport(new Vector2(140, 140));
-            ((Hero2)objects[^1]).HeroColor = Color.Orange;
+            //AddObject(new Hero2(dependencyManager));
+            //objects[^1].GetComponent<MovementComponent>().Teleport(new Vector2(140, 140));
+            //((Hero2)objects[^1]).HeroColor = Color.Orange;
             //AddObject(new DebugRectangle(dependencyManager, new Vector2(0, 400), new Point(800, 100)));
             //AddObject(new DebugRectangle(dependencyManager, new Vector2(500, 350), new Point(50, 50)));
             //AddObject(new DebugRectangle(dependencyManager, new Vector2(300, 250), new Point(100, 50)));

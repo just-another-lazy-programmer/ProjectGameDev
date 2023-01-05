@@ -34,6 +34,11 @@ namespace ProjectGameDev.Core.Level
             objects.Add(worldObject);
         }
 
+        public T GetObject<T>()
+        {
+            return objects.OfType<T>().Take(1).SingleOrDefault();
+        }
+
         public List<WorldObject> GetObjects()
         {
             return objects;

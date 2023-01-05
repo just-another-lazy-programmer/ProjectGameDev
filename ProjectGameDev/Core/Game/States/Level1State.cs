@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using ProjectGameDev.Levels.TestLevel;
+using ProjectGameDev.UI.Screens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,10 @@ namespace ProjectGameDev.Core.Game.States
             var level = new TestLevel(dependencyManager);
             level.Load();
             world.LoadedLevel = level;
+
+            var hud = new HUD(dependencyManager);
+            hud.Load();
+            world.ActiveScreen = hud;
 
             world.BackgroundColor = Color.Gray;
         }
