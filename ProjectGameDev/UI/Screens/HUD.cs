@@ -18,6 +18,7 @@ namespace ProjectGameDev.UI.Screens
         protected readonly World world;
         protected readonly GameManager gameManager;
         protected TextLabel textLabel;
+        protected HealthBar healthBar;
         protected Hero2 player;
 
         public HUD(DependencyManager dependencyManager) : base(dependencyManager)
@@ -39,6 +40,7 @@ namespace ProjectGameDev.UI.Screens
         private void HealthComponent_OnHealthChangedEvent(object sender, ProjectGameDev.Components.HealthChangeEventArgs e)
         {
             textLabel.SetText($"Health: {e.CurrentHealth}");
+            healthBar.SetHealth(e.CurrentHealth);
         }
 
         public override void Load()
@@ -46,12 +48,10 @@ namespace ProjectGameDev.UI.Screens
             base.Load();
 
             textLabel = new TextLabel(dependencyManager, new Vector2(20, 30), $"Health: {player.HealthComponent.MaxHealth}");
-            AddElement(textLabel);
-        }
+            healthBar = new HealthBar(dependencyManager, new Vector2(15, 30), new Point(130, 10), player.HealthComponent.MaxHealth);
 
-        public void UpdateHealth(float health)
-        {
-            textLabel.SetText($"Health: {health}");
+            //AddElement(textLabel);
+            AddElement(healthBar);
         }
     }
 }

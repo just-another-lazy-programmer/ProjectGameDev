@@ -19,7 +19,7 @@ namespace ProjectGameDev.Characters.Enemies
 
         private readonly AnimationBuilder animationBuilder;
 
-        private const double scale = 1f;
+        private const double scale = 2f;
 
         public Undead(DependencyManager dependencyManager) : base(dependencyManager)
         {
@@ -29,6 +29,7 @@ namespace ProjectGameDev.Characters.Enemies
 
             animationComponent = CreateDefaultComponent<AnimationComponent>();
             animationComponent.SetAnimation(animationBuilder.GetAnimation<UndeadIdleAnimation>());
+            animationComponent.SetFlip(true);
 
             ActivateComponents();
         }
