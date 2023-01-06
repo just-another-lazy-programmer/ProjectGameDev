@@ -31,7 +31,7 @@ namespace ProjectGameDev.UI.Services
             offsetX = destination.X;
             offsetY = destination.Y;
 
-            Debug.WriteLine($"sx: {scaleFactorX}, sy: {scaleFactorY}, ox: {offsetX}, oy: {offsetY}");
+            //Debug.WriteLine($"sx: {scaleFactorX}, sy: {scaleFactorY}, ox: {offsetX}, oy: {offsetY}");
         }
     }
 }

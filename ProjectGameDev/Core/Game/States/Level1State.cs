@@ -35,6 +35,7 @@ namespace ProjectGameDev.Core.Game.States
             base.OnStateLeft();
 
             world.LoadedLevel = null;
+            world.ActiveScreen = null;
         }
     }
 }

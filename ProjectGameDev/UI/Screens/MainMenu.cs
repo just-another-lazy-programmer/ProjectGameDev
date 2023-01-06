@@ -37,10 +37,10 @@ namespace ProjectGameDev.UI.Screens
             world.BackgroundColor = Color.Black;
             var middle = new Vector2(windowWidth / 2, windowHeight / 2);
 
-            var title = new TextLabel(dependencyManager, middle+new Vector2(0, -100), "Hello world!", HorizontalTextAlignment.Center, VerticalTextAlignment.Center);
+            var title = new TextLabel(dependencyManager, middle+new Vector2(0, -100), "Project GameDev", HorizontalTextAlignment.Center, VerticalTextAlignment.Center, "TitleFont");
             AddElement(title);
 
-            var button1 = new Button(dependencyManager, middle, new Point(100, 50), "Button1", HorizontalAlignment.Center, VerticalAlignment.Center, textColor: Color.Black);
+            var button1 = new Button(dependencyManager, middle, new Point(100, 50), "Play", HorizontalAlignment.Center, VerticalAlignment.Center, textColor: Color.Black);
             AddElement(button1);
 
             button1.MouseComponent.OnClickEvent += OnStartClick;

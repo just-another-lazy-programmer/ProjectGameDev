@@ -9,7 +9,7 @@ using ProjectGameDev.UI.Core;
 
 namespace ProjectGameDev.Core.Level
 {
-    public class Level
+    public abstract class Level
     {
         protected List<WorldObject> objects = new();
 

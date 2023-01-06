@@ -46,6 +46,7 @@ namespace ProjectGameDev.Components
 
         public WorldObject TestCollision(Vector2 location)
         {
+            if (world.LoadedLevel == null) return null;
             var objects = world.LoadedLevel.GetObjects();
 
             foreach (var obj in objects)
