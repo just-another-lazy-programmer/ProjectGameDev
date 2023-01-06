@@ -15,6 +15,7 @@ namespace ProjectGameDev.Components
 {
     internal class AnimationComponent : Component
     {
+        public event EventHandler OnAnimationFinishedEvent;
         protected Animation currentAnimation;
         protected bool shouldFlip;
 
@@ -83,6 +84,11 @@ namespace ProjectGameDev.Components
             
 
             currentAnimation.Update(gameTime);
+
+            if (currentAnimation.Finished)
+            {
+                OnAnimationFinishedEvent?.Invoke(this, new EventArgs());
+            }
             /*
             var velocity = physicsComponent.Velocity;
 
