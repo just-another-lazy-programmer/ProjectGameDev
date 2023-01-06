@@ -25,15 +25,18 @@ namespace ProjectGameDev.Characters
         public ReplicationComponent NetworkComponent { get; protected set; }
         public HealthComponent HealthComponent { get; protected set; }
 
-        private AnimationBuilder animationBuilder;
-        private CooldownManager cooldownManager;
+        private readonly AnimationBuilder animationBuilder;
+        private readonly CooldownManager cooldownManager;
+        private readonly GraphicsDevice graphicsDevice;
 
         private const double scale = 0.2;
         private const string textureAssetName = "hero_idle";
 
+        private const float redFrameLength = 0.2f;
+
         private bool redFrameRequested = false;
         private bool inRedFrame = false;
-        private object redFrameKey = new();
+        private readonly object redFrameKey = new();
 
         public Color HeroColor { get; set; } = Color.White;
 
@@ -41,12 +44,15 @@ namespace ProjectGameDev.Characters
 
         public Hero2(DependencyManager dependencyManager) : base(dependencyManager)
         {
+            // Register Dependencies
             dependencyManager.InjectChecked(ref animationBuilder);
+            dependencyManager.InjectChecked(ref graphicsDevice);
             dependencyManager.Inject(ref cooldownManager);
 
+            // Load textures
             var loadedTexture = LoadTexture(textureAssetName);
 
-            // Create components
+            // Create Components
             RootComponent = CreateDefaultComponent<RootComponent>();
             CharacterMovement = CreateDefaultComponent<MovementComponent>();
             AnimationComponent = CreateDefaultComponent<AnimationComponent>();
@@ -64,18 +70,28 @@ namespace ProjectGameDev.Characters
             CharacterMovement.OnState(MovementState.Jumping, animationBuilder.GetAnimation<Hero2JumpingAnimation>());
             CharacterMovement.Speed = 10;
 
-            // Setup collisions
+            // Setup Collisions
             CollisionComponent.AddHitbox(35, 25, 30, 55);
             CollisionComponent.ShouldTrigger = true;
 
-            // Health Component
+            // Setup Health Component
             HealthComponent.MaxHealth = 100;
             HealthComponent.OnHealthChangedEvent += HealthComponent_OnHealthChangedEvent;
 
-            // Activate components
+            // Activate Components
             ActivateComponents();
 
             CharacterMovement.Teleport(new Vector2(10, 200));
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            if (RootComponent.Location.Y > graphicsDevice.PresentationParameters.BackBufferHeight)
+            {
+                HealthComponent.TakeDamage(this, HealthComponent.MaxHealth);
+            }
         }
 
         private void HealthComponent_OnHealthChangedEvent(object sender, HealthChangeEventArgs e)
@@ -95,7 +111,7 @@ namespace ProjectGameDev.Characters
                 cooldownManager.SetCooldown(this, redFrameKey);
             }
 
-            if (inRedFrame && !cooldownManager.IsOnCooldown(this, redFrameKey, 0.2f))
+            if (inRedFrame && !cooldownManager.IsOnCooldown(this, redFrameKey, redFrameLength))
             {
                 inRedFrame = false;
             }

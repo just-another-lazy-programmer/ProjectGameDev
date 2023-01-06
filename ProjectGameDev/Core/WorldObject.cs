@@ -48,7 +48,8 @@ namespace ProjectGameDev.Core
         {
             foreach (var component in components)
             {
-                component.Activate();
+                if (!component.IsActive)
+                    component.Activate();
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Core;
+using ProjectGameDev.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,10 @@ namespace ProjectGameDev.Components
     {
         protected CollisionComponent2 collisionComponent;
         protected RootComponent rootComponent;
+
+        protected WorldObject movingObjectFloor;
+        protected RootComponent movingObjectFloorRoot;
+        protected float lastMovingObjectLocationX;
 
         private Vector2 velocity;
         private Vector2 acceleration;
@@ -81,6 +86,33 @@ namespace ProjectGameDev.Components
 
             if (verticallyColliding != null)
                 velocity.Y = 0;
+
+            if (Floor != null && movingObjectFloor == null)
+            {
+                if (Floor.HasComponentFast<MovingPlatformComponent>())
+                {
+                    movingObjectFloor = Floor;
+                    if (movingObjectFloor.TryGetComponentFast(out RootComponent rootComponent))
+                    {
+                        lastMovingObjectLocationX = rootComponent.Location.X;
+                        movingObjectFloorRoot = rootComponent;
+                    }
+                }
+            }
+
+            if (movingObjectFloor != null)
+            {
+                if (Floor != null)
+                {
+                    this.rootComponent.Location += new Vector2(movingObjectFloorRoot.Location.X - lastMovingObjectLocationX, 0);
+                    lastMovingObjectLocationX = movingObjectFloorRoot.Location.X;
+                }
+                else
+                {
+                    movingObjectFloor = null;
+                    movingObjectFloorRoot = null;
+                }
+            }
 
             rootComponent.Location += velocity;
             acceleration = Vector2.Zero;

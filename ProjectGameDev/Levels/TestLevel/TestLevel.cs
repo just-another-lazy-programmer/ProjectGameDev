@@ -28,15 +28,21 @@ namespace ProjectGameDev.Levels.TestLevel
             loader.LoadTileMap("MossyTileSet", "Attempt2.tmj", this, 1/16f); // 16x16
             //var dependencyManager = new Engine.DependencyManager();
             AddObject(new Hero2(dependencyManager));
-            AddObject(new MovingPlatform(dependencyManager, new Vector2(500, 450)));
+            //AddObject(new Platform(dependencyManager, new Vector2(500, 450)));
+            var platform = new MovingPlatform(dependencyManager, new Vector2(500, 450), 45, 70);
+            AddObject(platform);
 
             var slime = new GreenSlime(dependencyManager);
-            slime.GetComponentFast<RootComponent>().Move(new Vector2(500, 300));
+            slime.GetComponentFast<RootComponent>().Move(new Vector2(530, 300));
             AddObject(slime);
 
             var orangeSlime = new OrangeSlime(dependencyManager);
             orangeSlime.GetComponentFast<RootComponent>().Move(new Vector2(700, 300));
             AddObject(orangeSlime);
+
+            var undead = new Undead(dependencyManager);
+            undead.GetComponentFast<RootComponent>().Move(new Vector2(800, 300));
+            AddObject(undead);
 
 
             //AddObject(new Hero2(dependencyManager));
