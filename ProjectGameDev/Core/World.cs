@@ -14,5 +14,11 @@ namespace ProjectGameDev.Core
         public Level.Level LoadedLevel { get; set; }
         public UIContainer ActiveScreen { get; set; }
         public Color BackgroundColor { get; set; }
+
+        public void Update(GameTime gameTime)
+        {
+            LoadedLevel?.Update(gameTime);
+            ActiveScreen?.Update(gameTime);
+        }
     }
 }

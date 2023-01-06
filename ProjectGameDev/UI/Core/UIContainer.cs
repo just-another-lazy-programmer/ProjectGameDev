@@ -1,4 +1,5 @@
-﻿using ProjectGameDev.Core;
+﻿using Microsoft.Xna.Framework;
+using ProjectGameDev.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,9 +28,14 @@ namespace ProjectGameDev.UI.Core
             elements.Add(element);
         }
 
-        public virtual void Load()
-        {
+        public virtual void Load() { }
 
+        public virtual void Update(GameTime gameTime)
+        {
+            foreach (var element in GetElements())
+            {
+                element.Update(gameTime);
+            }
         }
 
         public List<UIElement> GetElements()

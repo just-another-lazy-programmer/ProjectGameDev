@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using ProjectGameDev.Core;
 using ProjectGameDev.UI.Core;
@@ -22,6 +23,14 @@ namespace ProjectGameDev.Core.Level
 
         public virtual void Load()
         {
+        }
+
+        public virtual void Update(GameTime gameTime)
+        {
+            foreach (var worldObject in GetObjects())
+            {
+                worldObject.Update(gameTime);
+            }
         }
 
         public DependencyManager GetDependencyManager()

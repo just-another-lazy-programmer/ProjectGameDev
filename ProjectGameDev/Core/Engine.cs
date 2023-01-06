@@ -36,21 +36,7 @@ namespace ProjectGameDev.Core
 
         public void Tick(GameTime gameTime)
         {
-            if (world.LoadedLevel != null)
-            {
-                foreach (var worldObject in world.LoadedLevel.GetObjects())
-                {
-                    worldObject.Update(gameTime);
-                }
-            }
-
-            if (world.ActiveScreen != null)
-            {
-                foreach (var element in world.ActiveScreen.GetElements())
-                {
-                    element.Update(gameTime);
-                }
-            }
+            world.Update(gameTime);
 
             /*
             foreach (var obj in world.LoadedLevel.GetObjects())

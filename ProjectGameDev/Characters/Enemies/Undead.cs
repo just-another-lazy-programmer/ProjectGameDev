@@ -16,6 +16,7 @@ namespace ProjectGameDev.Characters.Enemies
 
         private readonly AnimationComponent animationComponent;
         private readonly RootComponent rootComponent;
+        public HealthComponent HealthComponent { get; private set; }
 
         private readonly AnimationBuilder animationBuilder;
 
@@ -30,6 +31,9 @@ namespace ProjectGameDev.Characters.Enemies
             animationComponent = CreateDefaultComponent<AnimationComponent>();
             animationComponent.SetAnimation(animationBuilder.GetAnimation<UndeadIdleAnimation>());
             animationComponent.SetFlip(true);
+
+            HealthComponent = CreateDefaultComponent<HealthComponent>();
+            HealthComponent.MaxHealth = 4;
 
             ActivateComponents();
         }
