@@ -33,7 +33,7 @@ namespace ProjectGameDev.Levels.TestLevel
             AddObject(platform);
 
             var slime = new GreenSlime(dependencyManager);
-            slime.GetComponentFast<RootComponent>().Move(new Vector2(530, 300));
+            slime.GetComponentFast<RootComponent>().Move(new Vector2(530, 400));
             AddObject(slime);
 
             var orangeSlime = new OrangeSlime(dependencyManager);
