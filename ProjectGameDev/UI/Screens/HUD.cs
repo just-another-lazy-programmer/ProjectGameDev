@@ -45,7 +45,7 @@ namespace ProjectGameDev.UI.Screens
 
         private void Undead_OnDeathEvent(object sender, DeathEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
         private void Undead_OnHealthChangedEvent1(object sender, HealthChangeEventArgs e)

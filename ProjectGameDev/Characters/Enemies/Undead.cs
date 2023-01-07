@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Animations.Undead;
 using ProjectGameDev.Components;
 using ProjectGameDev.Core;
+using ProjectGameDev.Core.Game;
+using ProjectGameDev.Core.Game.States;
 using ProjectGameDev.Utility;
 using System;
 using System.Collections.Generic;
@@ -27,6 +29,7 @@ namespace ProjectGameDev.Characters.Enemies
         public HealthComponent HealthComponent { get; private set; }
 
         private readonly AnimationBuilder animationBuilder;
+        private readonly GameManager gameManager;
         private readonly World world;
 
         private const double scale = 2f;
@@ -45,6 +48,7 @@ namespace ProjectGameDev.Characters.Enemies
         {
             dependencyManager.InjectChecked(ref animationBuilder);
             dependencyManager.InjectChecked(ref world);
+            dependencyManager.InjectChecked(ref gameManager);
             dependencyManager.Inject(ref cooldownManager);
             dependencyManager.Inject(ref timerManager);
 
@@ -63,11 +67,20 @@ namespace ProjectGameDev.Characters.Enemies
             animationComponent.OnAnimationFinishedEvent += AnimationComponent_OnAnimationFinishedEvent;
 
             HealthComponent = CreateDefaultComponent<HealthComponent>();
-            HealthComponent.MaxHealth = 4;
+            HealthComponent.MaxHealth = 3;
+
+            HealthComponent.OnDeathEvent += HealthComponent_OnDeathEvent;
 
             //DelayedTestSummon();
 
             ActivateComponents();
+        }
+
+        private void HealthComponent_OnDeathEvent(object sender, DeathEventArgs e)
+        {
+            state = UndeadState.Dying;
+            animationComponent.ClearBindings();
+            animationComponent.SetAnimation(animationBuilder.GetAnimation<UndeadDeathAnimation>());
         }
 
         private void TriggerComponent_OnCollisionEvent(object sender, CollisionEventArgs e)
@@ -122,6 +135,19 @@ namespace ProjectGameDev.Characters.Enemies
 
                 //DelayedTestSummon();
             }
+            else if (state == UndeadState.Dying)
+            {
+                timerManager.Delay(2, () =>
+                {
+                    foreach (var obj in world.LoadedLevel.GetObjects())
+                    {
+                        if (obj is UndeadSummon summon)
+                            summon.Destroy();
+                    }
+                    gameManager.TransitionTo<VictoryState>();
+                    Destroy();
+                });
+            }
         }
 
         private void Summon() // @todo: set on cooldown, states?
@@ -165,16 +191,20 @@ namespace ProjectGameDev.Characters.Enemies
         public void Damage(float durationSeconds)
         {
             HealthComponent.TakeDamage(player, 1);
-            state = UndeadState.Stunned;
-            animationComponent.ClearBindings();
-            animationComponent.SetAnimation(animationBuilder.GetAnimation<UndeadIdleAnimation>());
 
-            redFrameRequested = true;
-
-            timerManager.Delay(durationSeconds, () =>
+            if (HealthComponent.Health > 0)
             {
-                state = UndeadState.Idle;
-            });
+                state = UndeadState.Stunned;
+                animationComponent.ClearBindings();
+                animationComponent.SetAnimation(animationBuilder.GetAnimation<UndeadIdleAnimation>());
+
+                redFrameRequested = true;
+
+                timerManager.Delay(durationSeconds, () =>
+                {
+                    state = UndeadState.Idle;
+                });
+            }
         }
 
         public override void Update(GameTime gameTime)
