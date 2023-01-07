@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using ProjectGameDev.Levels.TestLevel;
+using ProjectGameDev.Levels.Level1;
 using ProjectGameDev.UI.Screens;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace ProjectGameDev.Core.Game.States
 
             dependencyManager.InjectChecked(ref world);
 
-            var level = new TestLevel(dependencyManager);
+            var level = new Level1(dependencyManager);
             level.Load();
             world.LoadedLevel = level;
 

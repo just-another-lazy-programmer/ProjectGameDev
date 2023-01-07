@@ -48,7 +48,7 @@ namespace ProjectGameDev.UI.Screens
 
         private void OnStartClick(object sender, EventArgs e)
         {
-            gameManager.TransitionTo<Level1State>();
+            gameManager.TransitionTo<Level2State>();
         }
     }
 }

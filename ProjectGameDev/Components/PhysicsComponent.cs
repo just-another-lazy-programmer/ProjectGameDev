@@ -87,6 +87,12 @@ namespace ProjectGameDev.Components
             if (verticallyColliding != null)
                 velocity.Y = 0;
 
+            // Push away when touching moving objects
+            if (horizontallyColliding != null && horizontallyColliding.TryGetComponentFast(out MovingPlatformComponent movingPlatformComp))
+            {
+                velocity += movingPlatformComp.Velocity*2f;
+            }
+
             if (Floor != null && movingObjectFloor == null)
             {
                 if (Floor.HasComponentFast<MovingPlatformComponent>())

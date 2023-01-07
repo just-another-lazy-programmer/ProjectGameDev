@@ -96,7 +96,8 @@ namespace ProjectGameDev.Characters.Enemies
 
         private void StartMovingToPlayer()
         {
-            var player = world.LoadedLevel.GetObject<Hero2>();
+            var player = world.LoadedLevel?.GetObject<Hero2>();
+            if (player == null) return;
             direction = player.RootComponent.Location - rootComponent.Location;
             direction.Normalize();
         }

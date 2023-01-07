@@ -13,12 +13,19 @@ using ProjectGameDev.Core.Level;
 using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Characters.Enemies;
 using ProjectGameDev.UI.Elements;
+using ProjectGameDev.Core.Game;
+using ProjectGameDev.Core.Game.States;
 
-namespace ProjectGameDev.Levels.TestLevel
+namespace ProjectGameDev.Levels.Level1
 {
-    internal class TestLevel : Level
+    internal class Level1 : Level
     {
-        public TestLevel(DependencyManager dependencyManager) : base(dependencyManager) { }
+        protected GameManager gameManager;
+
+        public Level1(DependencyManager dependencyManager) : base(dependencyManager) 
+        {
+            dependencyManager.InjectChecked(ref gameManager);
+        }
 
         // @NOTE: Platforms are added manually because we don't want to align them to the grid
 
@@ -29,7 +36,7 @@ namespace ProjectGameDev.Levels.TestLevel
             var loader = new LevelLoader(dependencyManager);
             //var graphicsDevice = dependencyManager.GetDependencyChecked<GraphicsDevice>();
             //int height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            loader.LoadTileMap("MossyTileSet", "Attempt2.tmj", this, 1/16f); // 16x16
+            loader.LoadTileMap("Attempt2.tmj", this, 1/16f); // 16x16
             //var dependencyManager = new Engine.DependencyManager();
             AddObject(new Hero2(dependencyManager));
             //AddObject(new Platform(dependencyManager, new Vector2(500, 450)));
@@ -59,7 +66,10 @@ namespace ProjectGameDev.Levels.TestLevel
             AddObject(new Platform(dependencyManager, new Vector2(140, 230)));
             AddObject(new Platform(dependencyManager, new Vector2(360, 220)));
             AddObject(new Platform(dependencyManager, new Vector2(590, 240)));
-            AddObject(new Platform(dependencyManager, new Vector2(800, 240)));
+            
+            var finish = new DestinationPlatform(dependencyManager, new Vector2(800, 240));
+            finish.TriggerComponent.OnCollisionEvent += Finish_OnCollisionEvent;
+            AddObject(finish);
 
             //var undead = new Undead(dependencyManager);
             //undead.GetComponentFast<RootComponent>().Move(new Vector2(800, 300));
@@ -72,6 +82,11 @@ namespace ProjectGameDev.Levels.TestLevel
             //AddObject(new DebugRectangle(dependencyManager, new Vector2(0, 400), new Point(800, 100)));
             //AddObject(new DebugRectangle(dependencyManager, new Vector2(500, 350), new Point(50, 50)));
             //AddObject(new DebugRectangle(dependencyManager, new Vector2(300, 250), new Point(100, 50)));
+        }
+
+        private void Finish_OnCollisionEvent(object sender, CollisionEventArgs e)
+        {
+            gameManager.TransitionTo<Level2State>();
         }
     }
 }

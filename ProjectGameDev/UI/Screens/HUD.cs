@@ -43,17 +43,18 @@ namespace ProjectGameDev.UI.Screens
             }
         }
 
-        private void Undead_OnDeathEvent(object sender, ProjectGameDev.Components.DeathEventArgs e)
+        private void Undead_OnDeathEvent(object sender, DeathEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        private void Undead_OnHealthChangedEvent1(object sender, ProjectGameDev.Components.HealthChangeEventArgs e)
+        private void Undead_OnHealthChangedEvent1(object sender, HealthChangeEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            bossHealthBar.SetHealth(e.CurrentHealth);
         }
 
-        private void Player_OnDeathEvent(object sender, ProjectGameDev.Components.DeathEventArgs e)
+        private void Player_OnDeathEvent(object sender, DeathEventArgs e)
         {
             gameManager.TransitionTo<GameOverState>();
         }

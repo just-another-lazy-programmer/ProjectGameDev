@@ -54,7 +54,7 @@ namespace ProjectGameDev.Objects
 
         public DrawLayer DrawLayer => DrawLayer.MovingObjects;
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
                 texture,

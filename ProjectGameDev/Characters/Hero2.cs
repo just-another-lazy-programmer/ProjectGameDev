@@ -75,7 +75,7 @@ namespace ProjectGameDev.Characters
             CollisionComponent.ShouldTrigger = true;
 
             // Setup Health Component
-            HealthComponent.MaxHealth = 50;
+            HealthComponent.MaxHealth = 100;
             HealthComponent.OnHealthChangedEvent += HealthComponent_OnHealthChangedEvent;
 
             // Activate Components

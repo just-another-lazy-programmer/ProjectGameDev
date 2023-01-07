@@ -45,6 +45,11 @@ namespace ProjectGameDev.Components
             boundFrames.Add(frame, callback);
         }
 
+        public void ClearBindings()
+        {
+            boundFrames.Clear();
+        }
+
         public void RemoveBinding(int frame)
         {
             boundFrames.Remove(frame);

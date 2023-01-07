@@ -28,7 +28,7 @@ namespace ProjectGameDev.Core.Level
             dependencyManager.InjectChecked(ref contentManager);
         }
 
-        public void LoadTileMap(string tileset, string tilemap, Level level, float scaleFactor)
+        public void LoadTileMap(string tilemap, Level level, float scaleFactor)
         {
             // @TODO: is this cross-platform?
             var map = ReadTileMap(ReadFile(Path.Combine(tilemapsDirectory, tilemap)));

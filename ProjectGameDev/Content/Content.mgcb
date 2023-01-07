@@ -92,6 +92,18 @@
 /processorParam:TextureFormat=Color
 /build:hero2.png
 
+#begin Misc/#1 - Transparent Icons.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Misc/#1 - Transparent Icons.png;Misc/icons_0
+
 #begin Mossy - BackgroundDecoration.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -194,6 +206,18 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:TitleFont.spritefont
+
+#begin Undead/attacking.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Undead/attacking.png
 
 #begin Undead/idle.png
 /importer:TextureImporter

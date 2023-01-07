@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Core.Level;
 using ProjectGameDev.Core.Multiplayer;
-using ProjectGameDev.Levels.TestLevel;
+using ProjectGameDev.Levels.Level1;
 using ProjectGameDev.Utility;
 
 namespace ProjectGameDev.Core
@@ -28,7 +28,7 @@ namespace ProjectGameDev.Core
 
         public void LoadLevel()
         {
-            var level = new TestLevel(dependencyManager);
+            var level = new Level1(dependencyManager);
             level.Load();
 
             world.LoadedLevel = level;
