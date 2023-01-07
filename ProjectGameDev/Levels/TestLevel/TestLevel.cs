@@ -22,6 +22,8 @@ namespace ProjectGameDev.Levels.TestLevel
 
         public override void Load()
         {
+            AddObject(new Background(dependencyManager, "Backgrounds/background_0"));
+
             var loader = new LevelLoader(dependencyManager);
             //var graphicsDevice = dependencyManager.GetDependencyChecked<GraphicsDevice>();
             //int height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
