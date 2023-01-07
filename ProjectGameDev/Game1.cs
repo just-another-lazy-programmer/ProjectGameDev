@@ -61,7 +61,11 @@ namespace ProjectGameDev
             //Window.AllowUserResizing = true;
         }
 
-        // We want the Crash Handler to be able to access the logger
+        public void SetLogger(Logger logger)
+        {
+            dependencyManager.RegisterDependency(logger);
+        }
+
         public Logger GetLogger()
         {
             // This better not throw lol
@@ -115,26 +119,6 @@ namespace ProjectGameDev
 
             dependencyManager.RegisterDependency(GraphicsDevice);
             dependencyManager.RegisterDependency(graphics);
-
-            // @todo: consider moving over to Program.cs
-            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string appRoot = Path.Combine(appData, GameName);
-
-            var newLogger = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .MinimumLevel.Debug()
-                .WriteTo.File(
-                    Path.Combine(appRoot, "Logs/log-.log"),
-                    restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug,
-                    rollingInterval: RollingInterval.Day,
-                    rollOnFileSizeLimit: true,
-                    outputTemplate: "{Timestamp} [{Level}] {Message}{NewLine}{Exception}"
-                )
-                .CreateLogger();
-
-            newLogger.Debug("Started!");
-
-            dependencyManager.RegisterDependency(newLogger);
 
             base.Initialize();
         }
