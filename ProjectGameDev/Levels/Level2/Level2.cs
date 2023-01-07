@@ -31,7 +31,9 @@ namespace ProjectGameDev.Levels.Level2
             //int height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             loader.LoadTileMap("Level2.tmj", this, 1 / 16f);
 
-            AddObject(new Hero2(dependencyManager));
+            var hero = new Hero2(dependencyManager);
+            hero.CharacterMovement.Teleport(new Vector2(10, 350));
+            AddObject(hero);
 
             // Layer 1 platforms
 

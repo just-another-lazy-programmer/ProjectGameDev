@@ -11,6 +11,7 @@ namespace ProjectGameDev.Core.Game
     {
         public GameState State { get; protected set; }
         private readonly DependencyManager dependencyManager;
+        public GameState PreviousState { get; protected set; }
 
         public GameManager(DependencyManager dependencyManager)
         {
@@ -20,6 +21,7 @@ namespace ProjectGameDev.Core.Game
         public void TransitionTo(GameState state)
         {
             State?.OnStateLeft();
+            PreviousState = State;
 
             state.SetContext(this, dependencyManager);
 

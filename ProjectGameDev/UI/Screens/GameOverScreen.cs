@@ -5,6 +5,7 @@ using ProjectGameDev.Core.Game;
 using ProjectGameDev.Core.Game.States;
 using ProjectGameDev.UI.Core;
 using ProjectGameDev.UI.Elements;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,13 +43,22 @@ namespace ProjectGameDev.UI.Screens
             var title = new TextLabel(dependencyManager, middle + new Vector2(0, -100), "You died!", HorizontalTextAlignment.Center, VerticalTextAlignment.Center, "TitleFont");
             AddElement(title);
 
-            var button1 = new Button(dependencyManager, middle, new Point(100, 50), "To Menu", HorizontalAlignment.Center, VerticalAlignment.Center, textColor: Color.Black);
-            AddElement(button1);
+            var menuButton = new Button(dependencyManager, middle + new Vector2(0, -25), new Point(100, 40), "To Menu", HorizontalAlignment.Center, VerticalAlignment.Center, textColor: Color.Black);
+            AddElement(menuButton);
 
-            button1.MouseComponent.OnClickEvent += MouseComponent_OnClickEvent;
+            var retryButton = new Button(dependencyManager, middle + new Vector2(0, 25), new Point(100, 40), "Retry", HorizontalAlignment.Center, VerticalAlignment.Center, textColor: Color.Black);
+            AddElement(retryButton);
+
+            menuButton.MouseComponent.OnClickEvent += OnMenuButtonClick;
+            retryButton.MouseComponent.OnClickEvent += OnRetryButtonClick;
         }
 
-        private void MouseComponent_OnClickEvent(object sender, EventArgs e)
+        private void OnRetryButtonClick(object sender, EventArgs e)
+        {
+            gameManager.TransitionTo(gameManager.PreviousState);
+        }
+
+        private void OnMenuButtonClick(object sender, EventArgs e)
         {
             gameManager.TransitionTo<MenuState>();
         }

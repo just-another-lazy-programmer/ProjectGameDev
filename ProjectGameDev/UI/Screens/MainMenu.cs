@@ -40,7 +40,7 @@ namespace ProjectGameDev.UI.Screens
             var title = new TextLabel(dependencyManager, middle+new Vector2(0, -100), "Project GameDev", HorizontalTextAlignment.Center, VerticalTextAlignment.Center, "TitleFont");
             AddElement(title);
 
-            var button1 = new Button(dependencyManager, middle, new Point(100, 50), "Play", HorizontalAlignment.Center, VerticalAlignment.Center, textColor: Color.Black);
+            var button1 = new Button(dependencyManager, middle, new Point(100, 40), "Play", HorizontalAlignment.Center, VerticalAlignment.Center, textColor: Color.Black);
             AddElement(button1);
 
             button1.MouseComponent.OnClickEvent += OnStartClick;
@@ -48,7 +48,7 @@ namespace ProjectGameDev.UI.Screens
 
         private void OnStartClick(object sender, EventArgs e)
         {
-            gameManager.TransitionTo<Level2State>();
+            gameManager.TransitionTo<Level1State>();
         }
     }
 }

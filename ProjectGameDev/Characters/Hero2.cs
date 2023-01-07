@@ -81,7 +81,7 @@ namespace ProjectGameDev.Characters
             // Activate Components
             ActivateComponents();
 
-            CharacterMovement.Teleport(new Vector2(10, 200));
+            //CharacterMovement.Teleport(new Vector2(10, 200));
         }
 
         public override void Update(GameTime gameTime)

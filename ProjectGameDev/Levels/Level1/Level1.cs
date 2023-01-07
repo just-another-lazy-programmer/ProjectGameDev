@@ -38,7 +38,9 @@ namespace ProjectGameDev.Levels.Level1
             //int height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             loader.LoadTileMap("Attempt2.tmj", this, 1/16f); // 16x16
             //var dependencyManager = new Engine.DependencyManager();
-            AddObject(new Hero2(dependencyManager));
+            var hero = new Hero2(dependencyManager);
+            hero.CharacterMovement.Teleport(new Vector2(10, 400));
+            AddObject(hero);
             //AddObject(new Platform(dependencyManager, new Vector2(500, 450)));
             var platform = new MovingPlatform(dependencyManager, new Vector2(500, 460), 45, 70);
             AddObject(platform);
@@ -57,7 +59,7 @@ namespace ProjectGameDev.Levels.Level1
 
             AddObject(new Platform(dependencyManager, new Vector2(740, 410)));
             AddObject(new Platform(dependencyManager, new Vector2(550, 370)));
-            AddObject(new MovingPlatform(dependencyManager, new Vector2(295, 350), 50, 60));
+            AddObject(new MovingPlatform(dependencyManager, new Vector2(310, 350), 50, 65));
             AddObject(new Platform(dependencyManager, new Vector2(140, 370)));
             AddObject(new Platform(dependencyManager, new Vector2(10, 300)));
 

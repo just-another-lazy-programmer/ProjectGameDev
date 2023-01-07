@@ -139,11 +139,6 @@ namespace ProjectGameDev.Characters.Enemies
             {
                 timerManager.Delay(2, () =>
                 {
-                    foreach (var obj in world.LoadedLevel.GetObjects())
-                    {
-                        if (obj is UndeadSummon summon)
-                            summon.Destroy();
-                    }
                     gameManager.TransitionTo<VictoryState>();
                     Destroy();
                 });
