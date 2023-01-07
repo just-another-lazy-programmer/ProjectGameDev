@@ -1,15 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ProjectGameDev.Animations.Hero;
-using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Core;
 using ProjectGameDev.Utility;
-using SharpDX.Direct2D1.Effects;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectGameDev.Components
 {
@@ -18,6 +12,8 @@ namespace ProjectGameDev.Components
         public event EventHandler OnAnimationFinishedEvent;
         protected Animation currentAnimation;
         protected bool shouldFlip;
+
+        private readonly Dictionary<int, Action> boundFrames = new();
 
         protected RootComponent rootComponent;
 
@@ -42,6 +38,16 @@ namespace ProjectGameDev.Components
         public void SetFlip(bool newFlip)
         {
             shouldFlip = newFlip;
+        }
+
+        public void BindFrame(int frame, Action callback)
+        {
+            boundFrames.Add(frame, callback);
+        }
+
+        public void RemoveBinding(int frame)
+        {
+            boundFrames.Remove(frame);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch, double scale, Color? color=null)
@@ -84,6 +90,11 @@ namespace ProjectGameDev.Components
             
 
             currentAnimation.Update(gameTime);
+
+            if (boundFrames.TryGetValue(currentAnimation.CurrentIndex, out var callback))
+            {
+                callback();
+            }
 
             if (currentAnimation.Finished)
             {

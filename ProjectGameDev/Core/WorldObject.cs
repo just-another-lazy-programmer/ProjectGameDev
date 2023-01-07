@@ -14,11 +14,15 @@ namespace ProjectGameDev.Core
         private readonly List<Component> components = new();
         private readonly Dictionary<Type, Component> defaultComponents = new();
 
+        private readonly World world;
+
         protected DependencyManager DependencyManager { get; private set; }
 
         public WorldObject(DependencyManager dependencyManager)
         {
             DependencyManager = dependencyManager;
+
+            dependencyManager.InjectChecked(ref world);
         }
 
         public void AddComponent(Component component)
@@ -87,6 +91,11 @@ namespace ProjectGameDev.Core
         public List<Component> GetComponents()
         {
             return components;
+        }
+
+        public virtual void Destroy()
+        {
+            world.LoadedLevel?.RemoveObject(this);
         }
 
         public virtual void Update(GameTime gameTime)

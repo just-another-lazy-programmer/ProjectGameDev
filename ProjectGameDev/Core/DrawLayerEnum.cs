@@ -12,6 +12,7 @@ namespace ProjectGameDev.Core
         Tile = 2,
         MovingObjects = 5,
         Enemies = 6,
+        EnemiesTop = 7,
         Player = 10,
         Debug = 11,
         MenuBackground = 15,

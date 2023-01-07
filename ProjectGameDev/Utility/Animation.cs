@@ -13,7 +13,7 @@ namespace ProjectGameDev.Utility
         public Sprite CurrentFrame { get; set; }
         private List<Sprite> frames;
         private Texture2D texture;
-        private int currentIndex;
+        public int CurrentIndex { get; private set; }
         private int fps;
         private double secondsElapsed;
         private bool loop;
@@ -31,7 +31,7 @@ namespace ProjectGameDev.Utility
 
         public void Play()
         {
-            currentIndex = 0;
+            CurrentIndex = 0;
             Finished = false;
         }
 
@@ -62,25 +62,25 @@ namespace ProjectGameDev.Utility
         {
             secondsElapsed += gameTime.ElapsedGameTime.TotalSeconds;
 
-            CurrentFrame = frames[currentIndex];
+            CurrentFrame = frames[CurrentIndex];
 
             if (secondsElapsed >= 1d / fps)
             {
                 if (!Finished)
                 {
-                    currentIndex++;
+                    CurrentIndex++;
                 }
                 secondsElapsed = 0;
             }
 
-            if (currentIndex >= frames.Count)
+            if (CurrentIndex >= frames.Count)
             {
                 if (loop)
-                    currentIndex = 0;
+                    CurrentIndex = 0;
                 else
                 {
                     Finished = true;
-                    currentIndex = frames.Count - 1;
+                    CurrentIndex = frames.Count - 1;
                 }
             }
         }

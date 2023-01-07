@@ -19,13 +19,16 @@ namespace ProjectGameDev.Characters.Enemies
         public HealthComponent HealthComponent { get; private set; }
 
         private readonly AnimationBuilder animationBuilder;
+        private readonly World world;
         private bool isSummoning = false;
 
         private const double scale = 2f;
+        private float lifespan = 2f;
 
         public Undead(DependencyManager dependencyManager) : base(dependencyManager)
         {
             dependencyManager.InjectChecked(ref animationBuilder);
+            dependencyManager.InjectChecked(ref world);
 
             rootComponent = CreateDefaultComponent<RootComponent>();
 
@@ -64,6 +67,18 @@ namespace ProjectGameDev.Characters.Enemies
         {
             isSummoning = true;
             animationComponent.SetAnimation(animationBuilder.GetAnimation<UndeadSummonAnimation>());
+            const int frameBound = 2;
+            animationComponent.BindFrame(frameBound, () =>
+            {
+                SpawnSummon();
+                animationComponent.RemoveBinding(frameBound);
+            });
+        }
+
+        private void SpawnSummon()
+        {
+            var summon = new UndeadSummon(DependencyManager, rootComponent.Location + new Microsoft.Xna.Framework.Vector2(0, 0));
+            world.LoadedLevel?.AddObjectSafe(summon);
         }
 
         public void Draw(SpriteBatch spriteBatch)
