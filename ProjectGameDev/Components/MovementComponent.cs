@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using ProjectGameDev.Animations.Hero;
 using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Core;
 using ProjectGameDev.Utility;
