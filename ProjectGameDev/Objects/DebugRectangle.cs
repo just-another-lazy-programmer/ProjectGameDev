@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Components;
 using ProjectGameDev.Core;
 using ProjectGameDev.Utility;
@@ -13,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ProjectGameDev.Objects
 {
-    internal class DebugRectangle : WorldObject, ICollision, Core.IDrawable
+    internal class DebugRectangle : WorldObject, Core.IDrawable
     {
         public RootComponent RootComponent { get; protected set; }
         public CollisionComponent2 CollisionComponent { get; protected set; }

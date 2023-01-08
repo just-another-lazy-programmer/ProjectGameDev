@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.Animations.Hero2;
-using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Components;
 using ProjectGameDev.Core;
 using ProjectGameDev.Utility;

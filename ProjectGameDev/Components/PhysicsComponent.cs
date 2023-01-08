@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using ProjectGameDev.ComponentInterfaces;
 using ProjectGameDev.Core;
 using ProjectGameDev.Objects;
 using System;
