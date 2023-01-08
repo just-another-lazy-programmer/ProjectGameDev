@@ -20,7 +20,6 @@ namespace ProjectGameDev.Characters
         public AnimationComponent AnimationComponent { get; protected set; }
         public PhysicsComponent PhysicsComponent { get; protected set; }
         public CollisionComponent2 CollisionComponent { get; protected set; }
-        public ReplicationComponent NetworkComponent { get; protected set; }
         public HealthComponent HealthComponent { get; protected set; }
 
         private readonly AnimationBuilder animationBuilder;
@@ -56,7 +55,6 @@ namespace ProjectGameDev.Characters
             AnimationComponent = CreateDefaultComponent<AnimationComponent>();
             PhysicsComponent = CreateDefaultComponent<PhysicsComponent>();
             CollisionComponent = CreateDefaultComponent<CollisionComponent2>();
-            NetworkComponent = CreateDefaultComponent<ReplicationComponent>();
             HealthComponent = CreateDefaultComponent<HealthComponent>();
 
             // Setup Animation Component
@@ -78,8 +76,6 @@ namespace ProjectGameDev.Characters
 
             // Activate Components
             ActivateComponents();
-
-            //CharacterMovement.Teleport(new Vector2(10, 200));
         }
 
         public override void Update(GameTime gameTime)
@@ -116,7 +112,6 @@ namespace ProjectGameDev.Characters
 
             var color = inRedFrame ? Color.Red : HeroColor;
             AnimationComponent.Draw(spriteBatch, scale, color);
-            //CollisionComponent.DebugDraw(spriteBatch);
         }
     }
 }

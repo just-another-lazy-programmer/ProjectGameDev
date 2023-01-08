@@ -51,11 +51,6 @@ namespace ProjectGameDev.Objects
                 isMovingRight = false;
             else if (!isMovingRight && newX < LocationLeft)
                 isMovingRight = true;
-
-            /*
-            isMovingRight = (isMovingRight && newX > LocationRight) || 
-                            (!isMovingRight && newX < LocationLeft);
-            */
         }
     }
 }

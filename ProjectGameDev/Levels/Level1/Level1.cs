@@ -34,14 +34,10 @@ namespace ProjectGameDev.Levels.Level1
             AddObject(new Background(dependencyManager, "Backgrounds/background_0"));
 
             var loader = new LevelLoader(dependencyManager);
-            //var graphicsDevice = dependencyManager.GetDependencyChecked<GraphicsDevice>();
-            //int height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             loader.LoadTileMap("Attempt2.tmj", this, 1/16f); // 16x16
-            //var dependencyManager = new Engine.DependencyManager();
             var hero = new Hero2(dependencyManager);
             hero.CharacterMovement.Teleport(new Vector2(10, 400));
             AddObject(hero);
-            //AddObject(new Platform(dependencyManager, new Vector2(500, 450)));
             var platform = new MovingPlatform(dependencyManager, new Vector2(500, 460), 45, 70);
             AddObject(platform);
 
@@ -72,18 +68,6 @@ namespace ProjectGameDev.Levels.Level1
             var finish = new DestinationPlatform(dependencyManager, new Vector2(800, 240));
             finish.TriggerComponent.OnCollisionEvent += Finish_OnCollisionEvent;
             AddObject(finish);
-
-            //var undead = new Undead(dependencyManager);
-            //undead.GetComponentFast<RootComponent>().Move(new Vector2(800, 300));
-            //AddObject(undead);
-
-
-            //AddObject(new Hero2(dependencyManager));
-            //objects[^1].GetComponent<MovementComponent>().Teleport(new Vector2(140, 140));
-            //((Hero2)objects[^1]).HeroColor = Color.Orange;
-            //AddObject(new DebugRectangle(dependencyManager, new Vector2(0, 400), new Point(800, 100)));
-            //AddObject(new DebugRectangle(dependencyManager, new Vector2(500, 350), new Point(50, 50)));
-            //AddObject(new DebugRectangle(dependencyManager, new Vector2(300, 250), new Point(100, 50)));
         }
 
         private void Finish_OnCollisionEvent(object sender, CollisionEventArgs e)

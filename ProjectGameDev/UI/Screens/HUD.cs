@@ -39,13 +39,7 @@ namespace ProjectGameDev.UI.Screens
             if (undeadBoss != null)
             {
                 undeadBoss.HealthComponent.OnHealthChangedEvent += Undead_OnHealthChangedEvent1;
-                undeadBoss.HealthComponent.OnDeathEvent += Undead_OnDeathEvent;
             }
-        }
-
-        private void Undead_OnDeathEvent(object sender, DeathEventArgs e)
-        {
-            
         }
 
         private void Undead_OnHealthChangedEvent1(object sender, HealthChangeEventArgs e)

@@ -66,7 +66,6 @@ namespace ProjectGameDev.Characters.Enemies
         public void Draw(SpriteBatch spriteBatch)
         {
             animationComponent.Draw(spriteBatch, scale);
-            //collisionComponent.DebugDraw(spriteBatch);
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)

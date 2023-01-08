@@ -27,8 +27,6 @@ namespace ProjectGameDev.Levels.Level2
             AddObject(new Background(dependencyManager, "Backgrounds/background_0"));
 
             var loader = new LevelLoader(dependencyManager);
-            //var graphicsDevice = dependencyManager.GetDependencyChecked<GraphicsDevice>();
-            //int height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             loader.LoadTileMap("Level2.tmj", this, 1 / 16f);
 
             var hero = new Hero2(dependencyManager);

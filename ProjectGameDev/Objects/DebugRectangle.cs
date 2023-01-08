@@ -38,7 +38,6 @@ namespace ProjectGameDev.Objects
             ActivateComponents();
 
             CollisionComponent.AddHitbox(0, 0, size.X, size.Y);
-            //RootComponent.Move(new Vector2(50, 400));
             RootComponent.Move(location);
 
             dependencyManager.Inject(ref simpleSprites);
@@ -48,9 +47,6 @@ namespace ProjectGameDev.Objects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(texture, new Rectangle((int)RootComponent.Location.X, (int)RootComponent.Location.Y, size.X, size.Y), Color);
-            //CollisionComponent.DebugDraw(spriteBatch);
-
             var rectangle = new Rectangle((int)RootComponent.Location.X, (int)RootComponent.Location.Y, size.X, size.Y);
 
             if (IsOutline)

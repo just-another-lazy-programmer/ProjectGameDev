@@ -121,90 +121,7 @@ namespace ProjectGameDev.Components
 
             rootComponent.Location += velocity;
             acceleration = Vector2.Zero;
-
-            //var newLocation = rootComponent.Location + velocity;
-            //var collidingObjects = GetCollidingObjects();
-
-            /*
-            foreach (var obj in collidingObjects)
-            {
-                if (obj.TopHit)
-                {
-                    if (velocity.Y > 0)
-                    {
-                        acceleration.Y = 0;
-                        velocity.Y = 0;
-                    }
-
-                    Floor = obj.ComponentHit;
-                }
-                else if (obj.BottomHit)
-                {
-                    if (velocity.Y < 0)
-                    {
-                        acceleration.Y = 0;
-                        velocity.Y = 0;
-                    }
-                }
-                else if (obj.LeftHit)
-                {
-                    if (velocity.X > 0)
-                    {
-                        acceleration.X = 0;
-                        velocity.X = 0;
-                    }
-                }
-
-                else if (obj.RightHit)
-                {
-                    if (velocity.X < 0)
-                    {
-                        acceleration.X = 0;
-                        velocity.X = 0;
-                    }
-                }
-            }
-
-            rootComponent.Location += velocity;
-            */
         }
-
-        /*
-        private List<HitInfo> GetCollidingObjects()
-        {
-            var result = new List<HitInfo>();
-            foreach (var worldObject in GlobalEngine.LoadedLevel.GetObjects())
-            {
-                if (worldObject != Owner && worldObject is ICollision collision)
-                {
-                    var doesCollide = collisionComponent.TestCollision(
-                        collision.CollisionComponent,
-                        out HitInfo hitInfo,
-                        rootComponent.Location);
-
-                    if (doesCollide)
-                        result.Add(hitInfo);
-                }
-            }
-            return result;
-        }
-        */
-
-        /*
-        private Vector2 ClampVector(ref Vector2 vector, float max)
-        {
-            var length = vector.Length();
-
-            if (length > max)
-            {
-                var ratio = max / length;
-                vector.X *= ratio;
-                vector.Y *= ratio;
-            }
-
-            return vector;
-        }
-        */
 
         public void ClampVelocity()
         {
@@ -214,9 +131,6 @@ namespace ProjectGameDev.Components
 
         private void Decellerate()
         {
-            //if (acceleration.X == 0 && acceleration.Y == 0)
-            //    velocity *= 0.9f;
-
             if (acceleration.X == 0)
                 velocity.X *= 0.9f;
         }

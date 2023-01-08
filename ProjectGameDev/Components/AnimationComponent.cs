@@ -105,14 +105,6 @@ namespace ProjectGameDev.Components
             {
                 OnAnimationFinishedEvent?.Invoke(this, new EventArgs());
             }
-            /*
-            var velocity = physicsComponent.Velocity;
-
-            if (velocity.X > 0 && shouldFlip)
-                shouldFlip = false;
-            else if (velocity.X < 0 && !shouldFlip)
-                shouldFlip = true;
-            */
 
             base.Tick(gameTime);
         }

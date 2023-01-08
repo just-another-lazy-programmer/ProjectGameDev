@@ -132,8 +132,6 @@ namespace ProjectGameDev.Characters.Enemies
             {
                 state = UndeadState.Idle;
                 animationComponent.SetAnimation(animationBuilder.GetAnimation<UndeadIdleAnimation>());
-
-                //DelayedTestSummon();
             }
             else if (state == UndeadState.Dying)
             {
@@ -180,7 +178,6 @@ namespace ProjectGameDev.Characters.Enemies
             var color = inRedFrame ? Color.Red : Color.White;
 
             animationComponent.Draw(spriteBatch, scale, color);
-            //triggerComponent.DebugDraw(spriteBatch);
         }
 
         public void Damage(float durationSeconds)
