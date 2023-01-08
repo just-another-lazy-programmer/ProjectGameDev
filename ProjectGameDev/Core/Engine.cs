@@ -19,11 +19,13 @@ namespace ProjectGameDev.Core
     {
         private readonly DependencyManager dependencyManager;
         private readonly World world;
+        private readonly SoundManager soundManager;
 
         public Engine(DependencyManager dependencyManager)
         {
             this.dependencyManager = dependencyManager;
             dependencyManager.Inject(ref world);
+            dependencyManager.InjectChecked(ref soundManager);
         }
 
         public void LoadLevel()
@@ -37,16 +39,7 @@ namespace ProjectGameDev.Core
         public void Tick(GameTime gameTime)
         {
             world.Update(gameTime);
-
-            /*
-            foreach (var obj in world.LoadedLevel.GetObjects())
-            {
-                if (obj is IReplicate replicate)
-                {
-                   //replicate.NetworkComponent. 
-                }
-            }
-            */
+            soundManager.Update();
         }
 
         public void ConnectMultiplayer(string host, ushort port)

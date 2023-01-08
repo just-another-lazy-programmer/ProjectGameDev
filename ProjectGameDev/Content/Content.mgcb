@@ -176,6 +176,24 @@
 /processorParam:TextureFormat=Color
 /build:Mossy - TileSet.png;MossyTileSet.png
 
+#begin Music/Game/Ether Vox.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Game/Ether Vox.mp3
+
+#begin Music/Game/Night Vigil.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Game/Night Vigil.mp3
+
+#begin Music/Game/The Builder.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Game/The Builder.mp3
+
 #begin orange_slime.png
 /importer:TextureImporter
 /processor:TextureProcessor

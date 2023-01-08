@@ -55,6 +55,8 @@ namespace ProjectGameDev
             mouseService = new MouseService();
             dependencyManager.RegisterDependency(mouseService);
 
+            dependencyManager.RegisterDependency(new SoundManager(dependencyManager));
+
             dependencyManager.Inject(ref cooldownManager);
 
             engine = new Core.Engine(dependencyManager);
