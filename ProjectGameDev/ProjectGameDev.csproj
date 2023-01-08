@@ -38,9 +38,6 @@
     <PackageReference Include="Serilog" Version="2.12.1-dev-01635" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameServer\GameServer.csproj" />
-  </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
     <Exec Command="dotnet tool restore" />

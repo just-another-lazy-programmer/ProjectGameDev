@@ -8,8 +8,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ProjectGameDev.ComponentInterfaces;
-using ProjectGameDev.Core.Level;
-using ProjectGameDev.Core.Multiplayer;
 using ProjectGameDev.Levels.Level1;
 using ProjectGameDev.Utility;
 
@@ -40,11 +38,6 @@ namespace ProjectGameDev.Core
         {
             world.Update(gameTime);
             soundManager.Update();
-        }
-
-        public void ConnectMultiplayer(string host, ushort port)
-        {
-            dependencyManager.GetDependencyChecked<MultiplayerManager>().EstablishConnection(host, port);
         }
 
         internal void Draw(SpriteBatch spriteBatch)
