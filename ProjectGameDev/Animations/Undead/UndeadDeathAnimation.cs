@@ -12,7 +12,7 @@ namespace ProjectGameDev.Animations.Undead
 {
     internal class UndeadDeathAnimation : IAnimationBuilder
     {
-        public int FramesPerSecond => 5;
+        public int FramesPerSecond => 6;
 
         public string Texture => "Undead/death";
 
@@ -34,7 +34,7 @@ namespace ProjectGameDev.Animations.Undead
             animation.AddFramesBatch(builder
                 .SetSize(width, height)
                 .SetRowSize(width * 10)
-                .Take(13)
+                .Take(19)
 
                 .ToList()
             );
